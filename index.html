@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,19 +10,21 @@
         /* ===================== ТЕМЫ (LIGHT/DARK) ===================== */
         /* LIGHT Theme (По умолчанию) */
         :root {
-            --primary: #5B21B6; /* Основной акцент (Фиолетовый) */
+            --primary: #5B21B6;
+            /* Основной акцент (Фиолетовый) */
             --primary-light: #7C3AED;
-            --bg-color: #F8FAFC; 
-            --card-bg: #FFFFFF; 
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
             --text-main: #1E293B;
             --text-secondary: #64748B;
-            
+
             --header-bg-blur: rgba(255, 255, 255, 0.85);
             --sheet-bg-blur: rgba(255, 255, 255, 0.9);
-            --img-bg-color: #F1F5F9; /* Светлый фон для изображений */
+            --img-bg-color: #F1F5F9;
+            /* Светлый фон для изображений */
 
             --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
-            --header-border: 1px solid rgba(0,0,0,0.05);
+            --header-border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         /* DARK Theme (УЛУЧШЕННАЯ ПАЛИТРА) */
@@ -34,13 +37,14 @@
             --text-secondary: #AAAAAA;
 
             --header-bg-blur: rgba(31, 31, 31, 0.85);
-            --sheet-bg-blur: rgba(44, 44, 44, 0.9); 
-            --img-bg-color: #FFFFFF; /* <-- ФОН КАРТИНКИ СДЕЛАН БЕЛЫМ В ТЕМНОЙ ТЕМЕ */
+            --sheet-bg-blur: rgba(44, 44, 44, 0.9);
+            --img-bg-color: #FFFFFF;
+            /* <-- ФОН КАРТИНКИ СДЕЛАН БЕЛЫМ В ТЕМНОЙ ТЕМЕ */
 
             --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-            --header-border: 1px solid rgba(255,255,255,0.1);
+            --header-border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         /* ===================== ОБЩИЕ СТИЛИ ===================== */
         * {
             box-sizing: border-box;
@@ -54,9 +58,9 @@
             margin: 0;
             padding: 0;
             padding-bottom: 160px;
-            transition: background-color 0.3s, color 0.3s; 
+            transition: background-color 0.3s, color 0.3s;
         }
-        
+
         /* ===================== HEADER И АНИМАЦИЯ ===================== */
         header {
             background: var(--header-bg-blur);
@@ -77,7 +81,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            position: relative; 
+            position: relative;
         }
 
         .brand {
@@ -90,9 +94,18 @@
 
         /* Анимация для названия магазина */
         @keyframes pulseText {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; color: var(--primary); }
-            100% { opacity: 0.8; }
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+                color: var(--primary);
+            }
+
+            100% {
+                opacity: 0.8;
+            }
         }
 
         .brand h1 {
@@ -155,15 +168,15 @@
             font-size: 14px;
         }
 
-        #theme-switch:checked + .slider {
+        #theme-switch:checked+.slider {
             background-color: var(--primary);
         }
 
-        #theme-switch:checked + .slider::before {
+        #theme-switch:checked+.slider::before {
             transform: translateX(30px);
             content: '🌙';
         }
-        
+
         /* ===================== ТОВАРЫ И КАРТОЧКИ ===================== */
         .container {
             padding: 20px;
@@ -181,8 +194,8 @@
             display: flex;
             gap: 16px;
             box-shadow: var(--shadow-card);
-            transition: background-color 0.3s, box-shadow 0.3s; 
-            border: 1px solid rgba(255,255,255,0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .card-img-container {
@@ -191,7 +204,8 @@
             border-radius: 16px;
             overflow: hidden;
             flex-shrink: 0;
-            background-color: var(--img-bg-color); /* ИСПОЛЬЗУЕМ ПЕРЕМЕННУЮ ДЛЯ ФОНА КАРТИНКИ */
+            background-color: var(--img-bg-color);
+            /* ИСПОЛЬЗУЕМ ПЕРЕМЕННУЮ ДЛЯ ФОНА КАРТИНКИ */
         }
 
         .card-img {
@@ -238,10 +252,10 @@
         .counter {
             display: flex;
             align-items: center;
-            background: var(--bg-color); 
+            background: var(--bg-color);
             border-radius: 12px;
-            padding: 2px; 
-            gap: 4px; 
+            padding: 2px;
+            gap: 4px;
             transition: background-color 0.3s;
         }
 
@@ -258,7 +272,7 @@
             font-weight: 600;
             color: var(--primary);
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             transition: background 0.2s;
         }
 
@@ -272,7 +286,7 @@
             min-width: 20px;
             text-align: center;
         }
-        
+
         .btn-add-initial {
             background: var(--primary);
             color: white;
@@ -285,7 +299,7 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-        
+
         .btn-add-initial:active {
             background: var(--primary-light);
         }
@@ -298,13 +312,13 @@
             transform: translateX(-50%);
             width: calc(100% - 32px);
             max-width: 500px;
-            background: var(--sheet-bg-blur); 
+            background: var(--sheet-bg-blur);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
             padding: 20px;
-            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
             display: flex;
             flex-direction: column;
@@ -339,7 +353,7 @@
             cursor: pointer;
             transition: transform 0.1s, background 0.3s;
         }
-        
+
         .pay-card:active {
             transform: scale(0.99);
         }
@@ -360,7 +374,7 @@
 
         .copy-icon {
             font-size: 12px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 4px 8px;
             border-radius: 6px;
         }
@@ -371,6 +385,28 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+        
+        /* НОВАЯ КНОПКА ОПЛАТЫ CLICK */
+        .btn-pay-click {
+            width: 100%;
+            padding: 14px 20px;
+            background: #087bff; /* Используем основной цвет */
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 1); /* Тень в цвет кнопки */
+        }
+
+        .btn-pay-click:active {
+            background: var(--primary-light);
+            transform: scale(0.99);
+        }
+        /* КОНЕЦ НОВОЙ КНОПКИ ОПЛАТЫ CLICK */
 
         /* Уведомление */
         .toast {
@@ -384,7 +420,7 @@
             border-radius: 50px;
             font-size: 14px;
             font-weight: 500;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 200;
             display: flex;
@@ -395,15 +431,15 @@
         .toast.visible {
             transform: translateX(-50%) translateY(0);
         }
-
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="header-inner">
             <div class="toggle-placeholder"></div>
-            
+
             <div class="brand">
                 <h1>Офис Маркет</h1>
                 <span>Самообслуживание 🛒</span>
@@ -417,14 +453,14 @@
     </header>
 
     <div class="container" id="products-list">
-        </div>
+    </div>
 
     <div class="bottom-sheet">
         <div class="total-row">
             <span class="total-label">К оплате:</span>
             <span class="total-amount" id="total-price">0 сум</span>
         </div>
-        
+
         <div class="pay-card" onclick="copyCard()">
             <div class="card-hint">Нажмите чтобы скопировать</div>
             <div class="card-row">
@@ -432,7 +468,11 @@
                 <span class="copy-icon">COPY</span>
             </div>
         </div>
-    </div>
+
+        <button class="btn-pay-click" onclick="goToClickPayment()">
+            Оплатить через CLICK
+        </button>
+        </div>
 
     <div class="toast" id="toast">
         <span>✅</span> Номер карты скопирован!
@@ -440,18 +480,41 @@
 
     <script>
         // ===================== ДАННЫЕ И ЛОГИКА ТОВАРОВ =====================
-       const products = [
-            { id: 1, name: "Coca-Cola", desc: "Классическая, 0.5л", price: 7000, img: "https://static.insales-cdn.com/images/products/1/2841/938208025/import_files_2c_2c09f318027f11eb80c4ac1f6bba4f3f_3cb23a2e942411ee815a0cc47a206601.jpg" },
-            { id: 2, name: "Coca-Cola Zero", desc: "Без сахара, 0.5л", price: 7000, img: "https://ir.ozone.ru/s3/multimedia-1-5/w500/7010250449.jpg" },
-            { id: 3, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, img: "data:image/jpeg;base64,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" },
-            { id: 4, name: "Bonaqua", desc: "Газированная вода, 1.5л", price: 6000, img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
-            { id: 5, name: "Pepsi Zero", desc: "Без сахара, 1.5л", price: 12000, img: "data:image/jpeg;base64,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" },
-            { id: 6, name: "Fanta Апельсин", desc: "0.5л", price: 7000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyuotFv_lKAbgv-Le9vq4LBO2no2n1kdxkYf1SFwP8_KDsCj0D-fRLaphqRgBxDI956Ic&usqp=CAU" },
+        const products = [
+            // *** НАПИТКИ ***
+            { id: 1, name: "Coca-Cola", desc: "0.5л", price: 7000, img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
+            { id: 2, name: "Coca-Cola Zero", desc: "0.5л", price: 7000, img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
+            { id: 3, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
+            { id: 4, name: "Bonaqua", desc: "Газированная, 1.5л", price: 6500, img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
+            { id: 5, name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
+            { id: 6, name: "Pepsi Zero", desc: "1.5л", price: 12000, img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
 
+            // *** СЛАДОСТИ ***
+            { id: 7, name: "Twix", desc: "72г", price: 13000, img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
+            { id: 8, name: "KitKat", desc: "64г", price: 13000, img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
+            { id: 9, name: "Snickers", desc: "80г", price: 13000, img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
+            { id: 10, name: "Haribo Goldbears", desc: "80г", price: 15000, img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
+            { id: 11, name: "Haribo Mix", desc: "80г", price: 15000, img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
+
+            // *** КОФЕ ***
+            { id: 12, name: "MacCoffee Cappuccino", desc: "25г", price: 5000, img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
+
+            // *** ПРОТЕИНОВЫЕ БАТОНЧИКИ ***
+            { id: 13, name: "Bombbar Батончики", desc: "Ассорти 40г", price: 18000, img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
+            { id: 14, name: "Bombbar Батончики", desc: "Ассорти №4 60г", price: 22000, img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
+            { id: 15, name: "Primekraft Батончики", desc: "40г", price: 10000, img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
+
+            // *** БЫТОВЫЕ ТОВАРЫ ***
+            { id: 16, name: "Салфетки влажные", desc: "15 шт, 1 пачка", price: 3000, img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" },
+
+            // *** ТАБАЧНЫЕ ***
+            { id: 17, name: "Esse Exchange", desc: "1 пачка", price: 27000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" }
         ];
 
-        let cart = {}; 
-        
+
+
+        let cart = {};
+
         // Форматирование цены: 7000 -> 7 000
         const formatPrice = (price) => {
             return price.toLocaleString('ru-RU');
@@ -465,7 +528,7 @@
                 const count = cart[item.id] || 0;
                 const card = document.createElement('div');
                 card.className = 'card';
-                
+
                 let controlsHtml = '';
                 if (count === 0) {
                     controlsHtml = `<button class="btn-add-initial" onclick="updateQty(${item.id}, 1)">В корзину</button>`;
@@ -532,22 +595,28 @@
                 .catch(err => {
                     // Копирование заблокировано/не удалось (это ваша проблема на мобильном устройстве)
                     console.error('Ошибка копирования:', err);
-                    
+
                     // УВЕДОМЛЕНИЕ О ПРОБЛЕМЕ: показываем тост с ошибкой
                     toast.innerText = '❌ Не удалось скопировать (Ошибка безопасности)';
                     toast.classList.add('visible');
-                    setTimeout(() => toast.classList.remove('visible'), 3000); 
-                    
+                    setTimeout(() => toast.classList.remove('visible'), 3000);
+
                     // Дополнительный совет: можно использовать старый метод копирования как запасной вариант
                     // Fallback logic for insecure contexts (e.g., using document.execCommand)
                 });
         };
-        
+
+        // НОВАЯ ФУНКЦИЯ ДЛЯ ПЕРЕХОДА К ОПЛАТЕ CLICK
+        const goToClickPayment = () => {
+            const clickUrl = "https://my.click.uz/clickp2p/072AD10D6D8360BD748F5056048D30108169A9C8B8A0B919786749B7D2DF8F0D";
+            window.location.href = clickUrl;
+        };
+
         // ===================== ЛОГИКА ТЕМНОЙ ТЕМЫ =====================
         const toggleTheme = () => {
             const body = document.body;
             const isChecked = document.getElementById('theme-switch').checked;
-            
+
             if (isChecked) {
                 body.classList.add('dark-mode');
                 localStorage.setItem('theme', 'dark');
@@ -560,14 +629,14 @@
         // Загрузка сохраненной темы при открытии
         const loadTheme = () => {
             const savedTheme = localStorage.getItem('theme');
-            
+
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('theme-switch').checked = true;
-            } 
+            }
             else if (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                 document.body.classList.add('dark-mode');
-                 document.getElementById('theme-switch').checked = true;
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-switch').checked = true;
             }
         };
 
@@ -576,4 +645,5 @@
         render();
     </script>
 </body>
+
 </html>
