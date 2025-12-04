@@ -8,6 +8,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Требуется для пуша в репозиторий
+      pages: write    # Требуется для развертывания на GitHub Pages (если используется новый метод)
+      id-token: write # Требуется для нового метода OIDC (рекомендуется)
+      
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
