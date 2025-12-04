@@ -57,7 +57,7 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 160px;
+            padding-bottom: 220px; /* УВЕЛИЧЕННЫЙ ОТСТУП */
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -185,6 +185,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            padding-bottom: 40px; /* Обеспечивает видимость последнего товара над блоком оплаты */
         }
 
         .card {
@@ -331,6 +332,38 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        /* Группировка суммы и кнопки копирования */
+        .total-amount-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Кнопка копирования суммы */
+        .btn-copy-total {
+            background: rgba(91, 33, 182, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .btn-copy-total:active {
+            background: var(--primary-light);
+            color: white;
+        }
+
 
         .total-label {
             font-size: 14px;
@@ -390,7 +423,7 @@
         .btn-pay-click {
             width: 100%;
             padding: 14px 20px;
-            background: #087bff; /* Используем основной цвет */
+            background: #087BFF; /* Используем основной цвет */
             color: white;
             border: none;
             border-radius: 16px;
@@ -399,7 +432,7 @@
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 1); /* Тень в цвет кнопки */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 1); /* Тень в цвет кнопки */
         }
 
         .btn-pay-click:active {
@@ -458,7 +491,10 @@
     <div class="bottom-sheet">
         <div class="total-row">
             <span class="total-label">К оплате:</span>
-            <span class="total-amount" id="total-price">0 сум</span>
+            <span class="total-amount-group">
+                <span class="total-amount" id="total-price">0 сум</span>
+                <button class="btn-copy-total" onclick="copyTotal()">📋</button>
+            </span>
         </div>
 
         <div class="pay-card" onclick="copyCard()">
@@ -472,7 +508,7 @@
         <button class="btn-pay-click" onclick="goToClickPayment()">
             Оплатить через CLICK
         </button>
-        </div>
+    </div>
 
     <div class="toast" id="toast">
         <span>✅</span> Номер карты скопирован!
@@ -514,6 +550,7 @@
 
 
         let cart = {};
+        let currentTotal = 0; // Новая переменная для хранения чистой суммы
 
         // Форматирование цены: 7000 -> 7 000
         const formatPrice = (price) => {
@@ -577,10 +614,12 @@
                     total += p.price * cart[p.id];
                 }
             });
+            
+            currentTotal = total; // Сохраняем чистую сумму
             document.getElementById('total-price').innerText = formatPrice(total) + " сум";
         };
 
-        // НАДЕЖНАЯ ФУНКЦИЯ КОПИРОВАНИЯ
+        // НАДЕЖНАЯ ФУНКЦИЯ КОПИРОВАНИЯ КАРТЫ
         const copyCard = () => {
             const num = "9860350147582349";
             const toast = document.getElementById('toast');
@@ -593,20 +632,36 @@
                     setTimeout(() => toast.classList.remove('visible'), 2500);
                 })
                 .catch(err => {
-                    // Копирование заблокировано/не удалось (это ваша проблема на мобильном устройстве)
+                    // Копирование заблокировано/не удалось
                     console.error('Ошибка копирования:', err);
 
                     // УВЕДОМЛЕНИЕ О ПРОБЛЕМЕ: показываем тост с ошибкой
                     toast.innerText = '❌ Не удалось скопировать (Ошибка безопасности)';
                     toast.classList.add('visible');
                     setTimeout(() => toast.classList.remove('visible'), 3000);
-
-                    // Дополнительный совет: можно использовать старый метод копирования как запасной вариант
-                    // Fallback logic for insecure contexts (e.g., using document.execCommand)
                 });
         };
 
-        // НОВАЯ ФУНКЦИЯ ДЛЯ ПЕРЕХОДА К ОПЛАТЕ CLICK
+        // НОВАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ СУММЫ БЕЗ ПРОБЕЛОВ
+        const copyTotal = () => {
+            const amount = String(currentTotal);
+            const toast = document.getElementById('toast');
+
+            navigator.clipboard.writeText(amount)
+                .then(() => {
+                    toast.innerHTML = `💰 Сумма **${amount}** скопирована!`;
+                    toast.classList.add('visible');
+                    setTimeout(() => toast.classList.remove('visible'), 2500);
+                })
+                .catch(err => {
+                    console.error('Ошибка копирования суммы:', err);
+                    toast.innerHTML = '❌ Не удалось скопировать сумму';
+                    toast.classList.add('visible');
+                    setTimeout(() => toast.classList.remove('visible'), 3000);
+                });
+        };
+
+        // ФУНКЦИЯ ДЛЯ ПЕРЕХОДА К ОПЛАТЕ CLICK
         const goToClickPayment = () => {
             const clickUrl = "https://my.click.uz/clickp2p/072AD10D6D8360BD748F5056048D30108169A9C8B8A0B919786749B7D2DF8F0D";
             window.location.href = clickUrl;
