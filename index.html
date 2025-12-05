@@ -4,758 +4,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
     <title>Офис Маркет 🛒</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===================== ТЕМЫ (LIGHT/DARK) ===================== */
-        /* LIGHT Theme (По умолчанию) */
+        /* CSS в одну строку (сжатый) для основных элементов */
         :root {
-            --primary: #5B21B6;
-            /* Основной акцент (Фиолетовый) */
-            --primary-light: #7C3AED;
-            --bg-color: #F8FAFC;
-            --card-bg: #FFFFFF;
-            --text-main: #1E293B;
-            --text-secondary: #64748B;
-
-            --header-bg-blur: rgba(255, 255, 255, 0.85);
-            --sheet-bg-blur: rgba(255, 255, 255, 0.9);
-            --img-bg-color: #F1F5F9;
-            /* Светлый фон для изображений */
-
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
-            --header-border: 1px solid rgba(0, 0, 0, 0.05);
-            /* Добавлено для кнопки запроса */
-            --request-btn-bg: #E2E8F0;
-            --request-btn-color: var(--text-main);
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --primary: #087bff;
+            --primary-glow: #3794ff66;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --bg-day: radial-gradient(circle at 50% 10%, #fbbf24 0%, rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
+            --bg-night: radial-gradient(circle at 50% 3%, #e2e8f0 3%, rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            --theme-toggle-bg-day: rgba(0, 0, 0, 0.1);
+            --theme-toggle-fg-day: #fff;
+            --theme-toggle-bg-night: rgba(255, 255, 255, 0.1);
+            --theme-toggle-fg-night: #27272a
         }
 
-        /* DARK Theme (УЛУЧШЕННАЯ ПАЛИТРА) */
         .dark-mode {
-            --primary: #A78BFA;
-            --primary-light: #C4B5FD;
-            --bg-color: #1F1F1F;
-            --card-bg: #2C2C2C;
-            --text-main: #CCCCCC;
-            --text-secondary: #AAAAAA;
-
-            --header-bg-blur: rgba(31, 31, 31, 0.85);
-            --sheet-bg-blur: rgba(44, 44, 44, 0.9);
-            --img-bg-color: #FFFFFF;
-            /* <-- ФОН КАРТИНКИ СДЕЛАН БЕЛЫМ В ТЕМНОЙ ТЕМЕ */
-
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-            --header-border: 1px solid rgba(255, 255, 255, 0.1);
-            /* Добавлено для кнопки запроса */
-            --request-btn-bg: #374151;
-            --request-btn-color: var(--text-main);
-        }
-
-        /* ===================== ОБЩИЕ СТИЛИ ===================== */
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Inter', sans-serif;
+            --text-main: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --primary: #087bff;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1)
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 220px;
-            /* УВЕЛИЧЕННЫЙ ОТСТУП */
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 240px;
+            background: var(--bg-day);
+            background-attachment: fixed;
+            background-size: cover;
+            transition: background 0.5s ease;
+            color: var(--text-main)
         }
 
-        /* ===================== HEADER И АНИМАЦИЯ ===================== */
+        .dark-mode {
+            background: var(--bg-night);
+            background-attachment: fixed;
+            background-size: cover
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15)
+        }
+
         header {
-            background: var(--header-bg-blur);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 50;
-            padding: 16px 20px;
-            border-bottom: var(--header-border);
-            display: flex;
-            justify-content: space-between;
+            z-index: 100;
+            padding: 12px 16px;
+            margin-bottom: 10px
+        }
+
+        .header-grid {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
+            max-width: 800px;
+            margin: 0 auto
         }
 
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            position: relative;
-        }
-
-        .brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 1;
-        }
-
-        /* Анимация для названия магазина */
-        @keyframes pulseText {
-            0% {
-                opacity: 0.8;
-            }
-
-            50% {
-                opacity: 1;
-                color: var(--primary);
-            }
-
-            100% {
-                opacity: 0.8;
-            }
-        }
-
-        .brand h1 {
-            font-size: 22px;
-            font-weight: 800;
-            margin: 0;
-            color: var(--text-main);
-            animation: pulseText 3s ease-in-out infinite alternate;
-            transition: color 0.3s;
-        }
-
-
-        .brand span {
-            display: block;
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 2px;
-            transition: color 0.3s;
-        }
-
-        /* Убрал toggle-placeholder и переделал расположение элементов */
-        .left-controls {
-            display: flex;
-            align-items: center;
-            /* Добавлено для новой кнопки */
-            z-index: 10;
-        }
-
-        /* ===================== КНОПКА ЗАПРОСА ТОВАРОВ ===================== */
         .btn-request {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--request-btn-bg);
-            color: var(--request-btn-color);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 12px;
+            justify-self: start;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 13px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-right: 10px;
             text-decoration: none;
-            /* Для ссылки */
-            height: 48px;
-            /* Выравнивание по высоте с тогл-слайдером */
-        }
-
-        .btn-request span {
-            margin-left: 6px;
+            display: inline-flex;
+            align-items: center;
+            transition: 0.2s
         }
 
         .btn-request:active {
-            filter: brightness(0.9);
+            transform: scale(0.95)
         }
 
-        /* ===================== ТУМБЛЕР ТЕМЫ ===================== */
+        .brand {
+            text-align: center
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .brand span {
+            font-size: 11px;
+            opacity: 0.7;
+            display: block
+        }
+
         .theme-toggle {
-            z-index: 10;
+            justify-self: end
         }
 
-        #theme-switch {
-            display: none;
-        }
-
-        .slider {
-            cursor: pointer;
-            width: 60px;
-            height: 30px;
-            background-color: var(--text-secondary);
+        /* ИЗМЕНЕННЫЕ СТИЛИ ДЛЯ КНОПКИ ТЕМЫ */
+        .theme-toggle-btn {
+            width: 50px;
+            height: 28px;
             border-radius: 30px;
+            border: none;
+            padding: 0;
+            cursor: pointer;
             position: relative;
-            transition: background-color 0.3s;
-            display: block;
-            flex-shrink: 0;
+            background: var(--theme-toggle-bg-day);
+            transition: background 0.3s ease
         }
 
-        .slider::before {
-            content: '☀️';
+        .dark-mode .theme-toggle-btn {
+            background: var(--theme-toggle-bg-night)
+        }
+
+        /* Убрали content и фоновый цвет, добавили фоновое изображение солнца */
+        .theme-toggle-btn::before {
+            content: '';
             position: absolute;
-            height: 24px;
-            width: 24px;
+            height: 22px;
+            width: 22px;
+            top: 3px;
             left: 3px;
-            bottom: 3px;
-            background-color: var(--card-bg);
             border-radius: 50%;
-            transition: transform 0.3s, background-color 0.3s;
+            transition: transform 0.3s ease, background 0.3s ease;
+            background: url('https://png.klev.club/uploads/posts/2024-04/png-klev-club-rfb6-p-solntse-png-9.png') center/cover no-repeat
+        }
+
+        /* Убрали content и фоновый цвет, добавили фоновое изображение луны при темной теме */
+        .dark-mode .theme-toggle-btn::before {
+            transform: translateX(22px);
+            background: url('https://st4.depositphotos.com/12328584/28866/i/450/depositphotos_288668274-stock-illustration-moon-isolated-on-white-background.jpg') center/cover no-repeat
+        }
+
+        /* КОНЕЦ ИЗМЕНЕНИЙ */
+
+        .controls-container {
+            max-width: 600px;
+            margin: 0 auto 20px;
+            padding: 0 16px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 45px;
+            border-radius: 18px;
+            border: none;
+            background: var(--glass-bg);
+            color: var(--text-main);
             font-size: 14px;
+            outline: none;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05)
         }
 
-        #theme-switch:checked+.slider {
-            background-color: var(--primary);
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--text-secondary)
         }
 
-        #theme-switch:checked+.slider::before {
-            transform: translateX(30px);
-            content: '🌙';
+        .categories-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 5px;
+            scrollbar-width: none
         }
 
-        /* ===================== ТОВАРЫ И КАРТОЧКИ ===================== */
+        .categories-wrapper::-webkit-scrollbar {
+            display: none
+        }
+
+        .cat-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.3s
+        }
+
+        .dark-mode .cat-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1)
+        }
+
+        .cat-pill.active {
+            background: var(--primary);
+            color: #fff;
+            border: 1px solid var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow)
+        }
+
         .container {
-            padding: 20px;
+            padding: 0 16px;
             max-width: 600px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            padding-bottom: 40px;
-            /* Обеспечивает видимость последнего товара над блоком оплаты */
+            gap: 16px
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 12px;
             display: flex;
-            gap: 16px;
-            box-shadow: var(--shadow-card);
-            transition: background-color 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s
+        }
+
+        .card:active {
+            transform: scale(0.99)
         }
 
         .card-img-container {
-            width: 90px;
-            height: 90px;
-            border-radius: 16px;
-            overflow: hidden;
+            width: 85px;
+            height: 85px;
+            border-radius: 18px;
+            background: #fff;
+            padding: 5px;
             flex-shrink: 0;
-            background-color: var(--img-bg-color);
-            /* ИСПОЛЬЗУЕМ ПЕРЕМЕННУЮ ДЛЯ ФОНА КАРТИНКИ */
+            display: flex;
+            align-items: center;
+            justify-content: center
         }
 
         .card-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            mix-blend-mode: multiply;
+            object-fit: contain
         }
 
         .card-info {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-between
         }
 
         .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 4px;
-            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px
         }
 
-
         .card-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 12px;
+            color: var(--text-secondary)
         }
 
         .card-bottom {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-top: 8px;
+            margin-top: 6px;
+            height: 32px
         }
 
+        /* fix height for alignment */
         .price {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary)
         }
 
-        /* Контроллеры количества (УДОБНЫЕ КНОПКИ) */
-        .counter {
+        /* Стили для кнопки "Добавить" */
+        .btn-add {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px var(--primary-glow);
+            cursor: pointer;
+            transition: transform 0.2s
+        }
+
+        .btn-add:active {
+            transform: scale(0.95)
+        }
+
+        /* --- СТИЛИ ДЛЯ СЧЕТЧИКА (в одну строку для компактности) --- */
+        .counter-widget {
             display: flex;
             align-items: center;
-            background: var(--bg-color);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 2px;
-            gap: 4px;
-            transition: background-color 0.3s;
+            gap: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05)
         }
 
         .btn-qty {
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             border: none;
-            background: var(--card-bg);
-            border-radius: 8px;
+            background: #fff;
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 800;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--primary);
-            cursor: pointer;
+            font-size: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: background 0.2s;
+            transition: 0.2s
         }
 
         .btn-qty:active {
-            background: var(--bg-color);
+            transform: scale(0.9);
+            background: #f1f5f9
         }
 
-        .qty-value {
-            font-size: 14px;
-            font-weight: 600;
-            min-width: 20px;
+        .qty-val {
+            min-width: 24px;
             text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main)
         }
 
-        .btn-add-initial {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            min-height: 36px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
+        .dark-mode .btn-qty {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff
         }
 
-        .btn-add-initial:active {
-            background: var(--primary-light);
-        }
-
-        /* ===================== НИЖНЯЯ ПАНЕЛЬ ОПЛАТЫ ===================== */
+        /* Нижняя панель */
         .bottom-sheet {
             position: fixed;
-            bottom: 20px;
+            bottom: 5px;
             left: 50%;
             transform: translateX(-50%);
             width: calc(100% - 32px);
             max-width: 500px;
-            background: var(--sheet-bg-blur);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 20px;
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            z-index: 200
         }
 
         .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        /* Группировка суммы и кнопки копирования */
-        .total-amount-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Кнопка копирования суммы */
-        .btn-copy-total {
-            background: rgba(91, 33, 182, 0.1);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            padding: 0;
-            flex-shrink: 0;
-        }
-
-        .btn-copy-total:active {
-            background: var(--primary-light);
-            color: white;
-        }
-
-
-        .total-label {
-            font-size: 14px;
-            color: var(--text-secondary);
+            margin-bottom: 16px
         }
 
         .total-amount {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* Добавлено, чтобы анимация не влияла на другие элементы */
+            position: relative; 
         }
 
+        /* === НОВЫЕ СТИЛИ ДЛЯ АНИМАЦИИ ЦЕНЫ === */
+        @keyframes pricePulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+                text-shadow: 0 0 0px var(--primary-glow);
+            }
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+                color: var(--primary);
+                text-shadow: 0 0 10px var(--primary-glow);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                text-shadow: 0 0 0px var(--primary-glow);
+            }
+        }
+
+        #total-price.price-change-anim {
+            animation: pricePulse 0.4s ease-in-out;
+        }
+        /* ================================== */
+
+
+        .btn-copy-total {
+            background: var(--text-main);
+            color: var(--primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s
+        }
+
+        .btn-copy-total:active {
+            transform: scale(0.95)
+        }
 
         .pay-card {
-            background: linear-gradient(135deg, var(--text-main) 0%, #0F172A 100%);
-            border-radius: 16px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 18px;
             padding: 16px;
-            color: white;
+            color: #fff;
+            margin-bottom: 12px;
             position: relative;
-            cursor: pointer;
-            transition: transform 0.1s, background 0.3s;
-        }
-
-        .pay-card:active {
-            transform: scale(0.99);
-        }
-
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+            cursor: pointer
         }
 
         .card-num {
             font-family: monospace;
             font-size: 16px;
             letter-spacing: 2px;
-            opacity: 0.9;
+            color: #fff !important;
+            text-decoration: none !important
         }
 
-        .copy-icon {
-            font-size: 12px;
+        .copy-tag {
             background: rgba(255, 255, 255, 0.2);
-            padding: 4px 8px;
+            font-size: 10px;
+            padding: 3px 8px;
             border-radius: 6px;
+            margin-left: auto
         }
 
-        .card-hint {
-            font-size: 11px;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* НОВАЯ КНОПКА ОПЛАТЫ CLICK */
         .btn-pay-click {
             width: 100%;
-            padding: 14px 20px;
+            padding: 16px;
             background: #087BFF;
-            /* Используем основной цвет */
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 16px;
+            border-radius: 18px;
             font-size: 16px;
             font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-            /* Тень в цвет кнопки */
+            box-shadow: 0 4px 15px rgba(8, 123, 255, 0.4);
+            cursor: pointer
         }
 
         .btn-pay-click:active {
-            background: var(--primary-light);
-            transform: scale(0.99);
+            transform: scale(0.98)
         }
 
-        /* КОНЕЦ НОВОЙ КНОПКИ ОПЛАТЫ CLICK */
-
-        /* Уведомление */
         .toast {
             position: fixed;
-            top: 24px;
+            top: 80px;
             left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: var(--text-main);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 200;
+            transform: translateX(-50%) scale(0.9);
+            background: #10b981;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 500;
+            font-size: 13px;
+            font-weight: 600;
             display: flex;
-            align-items: center;
             gap: 8px;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4)
         }
 
         .toast.visible {
-            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            transform: translateX(-50%) scale(1)
         }
     </style>
 </head>
 
 <body>
-
-    <header>
-        <div class="header-inner">
-            <div class="left-controls">
-                <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">
-                    Заказ
-                </a>
-            </div>
-
+    <header class="glass-panel">
+        <div class="header-grid">
+            <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">📋 Заказ</a>
             <div class="brand">
                 <h1>Офис Маркет</h1>
-                <span>Самообслуживание 🛒</span>
+                <span>Самообслуживание</span>
             </div>
-
             <div class="theme-toggle">
-                <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
-                <label for="theme-switch" class="slider"></label>
+                <button class="theme-toggle-btn" onclick="toggleTheme()"></button>
             </div>
         </div>
     </header>
 
-    <div class="container" id="products-list">
+    <div class="controls-container">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..."
+                oninput="handleSearch()">
+        </div>
+        <div class="categories-wrapper" id="categories-container"></div>
     </div>
 
-    <div class="bottom-sheet">
-        <div class="total-row">
-            <span class="total-label">К оплате:</span>
-            <span class="total-amount-group">
-                <span class="total-amount" id="total-price">0 сум</span>
-                <button class="btn-copy-total" onclick="copyTotal()">📋</button>
-            </span>
-        </div>
+    <div class="container" id="products-list"></div>
 
-        <div class="pay-card" onclick="copyCard()">
-            <div class="card-hint">Нажмите чтобы скопировать</div>
-            <div class="card-row">
-                <span class="card-num">9860 2401 0185 6518</span>
-                <span class="copy-icon">COPY</span>
+    <div class="bottom-sheet glass-panel">
+        <div class="total-row">
+            <div>
+                <span class="total-label">К оплате:</span>
+            </div>
+            <div class="total-amount" id="total-price-container">
+                <span id="total-price">0 сум</span>
+                <button class="btn-copy-total" onclick="copyTotal()">📋</button>
             </div>
         </div>
-
-        <button class="btn-pay-click" onclick="goToClickPayment()">
-            Оплатить через CLICK
-        </button>
+        <div class="pay-card" onclick="copyCard()">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:10px; opacity:0.7;">
+                <span>КАРТА</span><span>НАЖМИТЕ ЧТОБЫ СКОПИРОВАТЬ</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="card-num" style="white-space: nowrap;">9860 2401 0185 6518</span>
+                <span class="copy-tag">COPY</span>
+            </div>
+        </div>
+        <button class="btn-pay-click" onclick="goToClickPayment()">Оплатить через CLICK</button>
     </div>
 
-    <div class="toast" id="toast">
-        <span>✅</span> Номер карты скопирован!
-    </div>
-
+    <div class="toast" id="toast">✅ Скопировано!</div>
 
     <script>
-        // ===================== ДАННЫЕ И ЛОГИКА ТОВАРОВ =====================
         const products = [
-            // *** НАПИТКИ ***
-            { id: 1, name: "Coca-Cola", desc: "0.5л", price: 7000, img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
-            { id: 2, name: "Coca-Cola Zero", desc: "0.5л", price: 7000, img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
-            { id: 3, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
-            { id: 4, name: "Bonaqua", desc: "Газированная, 1.5л", price: 6500, img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
-            { id: 5, name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
-            { id: 6, name: "Pepsi Zero", desc: "1.5л", price: 12000, img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
+            { id: 1, name: "Coca-Cola", desc: "0.5л", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
+            { id: 2, name: "Coca-Cola Zero", desc: "0.5л", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
+            { id: 3, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, category: "drinks", img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
+            { id: 4, name: "Bonaqua", desc: "Без газа, 1.5л", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
+            { id: 6, name: "Pepsi Zero", desc: "1.5л", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
+            { id: 7, name: "Twix", desc: "72г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
+            { id: 8, name: "KitKat", desc: "64г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
+            { id: 9, name: "Snickers", desc: "80г", price: 13000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
+            { id: 10, name: "Haribo Goldbears", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
+            { id: 11, name: "Haribo Mix", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
+            { id: 12, name: "MacCoffee", desc: "Cappuccino 25г", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
+            { id: 13, name: "Bombbar", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
+            { id: 14, name: "Bombbar Батончики", desc: "Ассорти №4 60г", price: 22000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
+            { id: 15, name: "Primekraft", desc: "Шоколад 40г", price: 10000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
+            { id: 16, name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" },
+            { id: 17, name: "Esse Change", desc: "Пачка", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
+            { id: 18, name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
+            { id: 19, name: "Winston Caster", desc: "Пачка", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
 
-            // *** СЛАДОСТИ ***
-            { id: 7, name: "Twix", desc: "72г", price: 13000, img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
-            { id: 8, name: "KitKat", desc: "64г", price: 13000, img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
-            { id: 9, name: "Snickers", desc: "80г", price: 13000, img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
-            { id: 10, name: "Haribo Goldbears", desc: "80г", price: 15000, img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
-            { id: 11, name: "Haribo Mix", desc: "80г", price: 15000, img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
-
-            // *** КОФЕ ***
-            { id: 12, name: "MacCoffee Cappuccino", desc: "25г", price: 5000, img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
-
-            // *** ПРОТЕИНОВЫЕ БАТОНЧИКИ ***
-            { id: 13, name: "Bombbar Батончики", desc: "Ассорти 40г", price: 18000, img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
-            { id: 14, name: "Bombbar Батончики", desc: "Ассорти №4 60г", price: 22000, img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
-            { id: 15, name: "Primekraft Батончики", desc: "40г", price: 10000, img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
-
-            // *** БЫТОВЫЕ ТОВАРЫ ***
-            { id: 16, name: "Салфетки влажные", desc: "15 шт, 1 пачка", price: 3000, img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" },
-
-            // *** ТАБАЧНЫЕ ***
-            { id: 17, name: "Esse Change", desc: "1 пачка", price: 30000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
-            { id: 18, name: "Kent Mix (толстые)", desc: "1 пачка", price: 20000, img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
-            { id: 19, name: "Esse Change", desc: "1 сигарета", price: 2000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
-            { id: 20, name: "Kent Mix (толстые)", desc: "1 сигарета", price: 1500, img: "https://mostabaktorg.moscow/image/cache/catalog/products/kent-nano-miks-kent-nano-mix-new-500x500-product_popup.jpg" },
-            { id: 21, name: "Winston Caster", desc: "1 пачка", price: 23000, img: "https://www.sas.am/upload/iblock/17b/306977.jpg"},
-                           
+        ];
+        const categories = [
+            { id: 'all', name: 'Все товары' },
+            { id: 'drinks', name: 'Напитки 🥤' },
+            { id: 'sweets', name: 'Сладости 🍫' },
+            { id: 'coffee', name: 'Кофе ☕' },
+            { id: 'sport', name: 'Спорт 💪' },
+            { id: 'tobacco', name: 'Табак 🚬' },
+            { id: 'other', name: 'Разное 🧴' }
         ];
 
-
-
+        // Корзина теперь хранит {id: количество}
         let cart = {};
-        let currentTotal = 0; // Новая переменная для хранения чистой суммы
+        let currentTotal = 0;
+        let activeCategory = 'all';
+        let searchQuery = '';
 
-        // Форматирование цены: 7000 -> 7 000
-        const formatPrice = (price) => {
-            return price.toLocaleString('ru-RU');
+        const init = () => { renderCategories(); renderProducts(); loadTheme(); calcTotal(); };
+        const formatPrice = (p) => p.toLocaleString('ru-RU');
+
+        const renderCategories = () => {
+            document.getElementById('categories-container').innerHTML = categories.map(cat =>
+                `<div class="cat-pill ${cat.id === activeCategory ? 'active' : ''}" onclick="setCategory('${cat.id}')">${cat.name}</div>`
+            ).join('');
         };
+        const setCategory = (id) => { activeCategory = (activeCategory === id) ? 'all' : id; renderCategories(); renderProducts(); };
+        const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
 
-
-        const render = () => {
+        const renderProducts = () => {
             const container = document.getElementById('products-list');
             container.innerHTML = '';
+            const filtered = products.filter(p => (activeCategory === 'all' || p.category === activeCategory) && (p.name.toLowerCase().includes(searchQuery) || p.desc.toLowerCase().includes(searchQuery)));
 
-            products.forEach(item => {
-                const count = cart[item.id] || 0;
-                const card = document.createElement('div');
-                card.className = 'card';
+            if (filtered.length === 0) {
+                return container.innerHTML = '<div style="text-align:center;padding:40px;opacity:0.6;">Ничего не найдено 🤷‍♂️</div>';
+            }
 
-                let controlsHtml = '';
-                if (count === 0) {
-                    controlsHtml = `<button class="btn-add-initial" onclick="updateQty(${item.id}, 1)">В корзину</button>`;
+            filtered.forEach(item => {
+                const qty = cart[item.id] || 0;
+                // Генерация HTML для кнопок: либо кнопка "Добавить", либо счетчик
+                let btnHtml = '';
+                if (qty === 0) {
+                    btnHtml = `<button class="btn-add" onclick="updateQty(${item.id}, 1)">Добавить</button>`;
                 } else {
-                    controlsHtml = `
-                        <div class="counter">
+                    btnHtml = `
+                        <div class="counter-widget">
                             <button class="btn-qty" onclick="updateQty(${item.id}, -1)">−</button>
-                            <span class="qty-value">${count}</span>
+                            <span class="qty-val">${qty}</span>
                             <button class="btn-qty" onclick="updateQty(${item.id}, 1)">+</button>
                         </div>
                     `;
                 }
 
-                card.innerHTML = `
-                    <div class="card-img-container">
-                        <img src="${item.img}" alt="${item.name}" class="card-img">
-                    </div>
+                container.innerHTML += `
+                <div class="glass-panel card" id="product-${item.id}">
+                    <div class="card-img-container"><img src="${item.img}" class="card-img"></div>
                     <div class="card-info">
-                        <div>
-                            <div class="card-title">${item.name}</div>
-                            <div class="card-desc">${item.desc}</div>
-                        </div>
+                        <div><div class="card-title">${item.name}</div><div class="card-desc">${item.desc}</div></div>
                         <div class="card-bottom">
                             <div class="price">${formatPrice(item.price)} сум</div>
-                            ${controlsHtml}
+                            ${btnHtml}
                         </div>
                     </div>
-                `;
-                container.appendChild(card);
+                </div>`;
             });
+        };
 
+        // Обновленная функция для изменения количества
+        const updateQty = (id, change) => {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += change;
+
+            if (cart[id] <= 0) {
+                delete cart[id];
+            }
+
+            // Оптимизация: перерисовываем кнопку только у одного товара
+            renderProductButton(id);
             calcTotal();
         };
 
-        const updateQty = (id, delta) => {
-            if (!cart[id]) cart[id] = 0;
-            cart[id] += delta;
-            if (cart[id] <= 0) delete cart[id];
-            render();
+        const renderProductButton = (id) => {
+            const productCard = document.getElementById(`product-${id}`);
+            if (!productCard) return; // Если товара нет на экране (например, при поиске), не обновляем UI карточки
+
+            const qty = cart[id] || 0;
+            const cardBottom = productCard.querySelector('.card-bottom');
+
+            // Находим текущий элемент управления (кнопку или виджет) и заменяем его
+            const currentControl = cardBottom.querySelector('.btn-add, .counter-widget');
+
+            let newHtml = '';
+            if (qty === 0) {
+                newHtml = `<button class="btn-add" onclick="updateQty(${id}, 1)">Добавить</button>`;
+            } else {
+                newHtml = `
+                    <div class="counter-widget">
+                        <button class="btn-qty" onclick="updateQty(${id}, -1)">−</button>
+                        <span class="qty-val">${qty}</span>
+                        <button class="btn-qty" onclick="updateQty(${id}, 1)">+</button>
+                    </div>
+                `;
+            }
+
+            if (currentControl) {
+                currentControl.outerHTML = newHtml;
+            }
         };
+
+        // НОВАЯ ФУНКЦИЯ ДЛЯ АНИМАЦИИ
+        const animatePriceChange = () => {
+            const priceElement = document.getElementById('total-price');
+            // 1. Убрать класс, чтобы сбросить анимацию, если она уже идет
+            priceElement.classList.remove('price-change-anim');
+            // 2. Добавить класс, чтобы начать анимацию (используем requestAnimationFrame для гарантии сброса)
+            requestAnimationFrame(() => {
+                priceElement.classList.add('price-change-anim');
+            });
+            // Необязательно, но может быть полезно для сброса класса после завершения анимации
+            setTimeout(() => {
+                priceElement.classList.remove('price-change-anim');
+            }, 500); // 500мс, чтобы дать анимации pricePulse (0.4с) завершиться
+        };
+        // КОНЕЦ НОВОЙ ФУНКЦИИ
 
         const calcTotal = () => {
             let total = 0;
+            // Перебираем товары и умножаем цену на количество
             products.forEach(p => {
                 if (cart[p.id]) {
                     total += p.price * cart[p.id];
                 }
             });
+            
+            // Проверяем, изменилась ли общая сумма
+            if (currentTotal !== total) {
+                currentTotal = total;
+                // АНИМАЦИЯ ВЫЗЫВАЕТСЯ ЗДЕСЬ
+                animatePriceChange();
+            }
 
-            currentTotal = total; // Сохраняем чистую сумму
             document.getElementById('total-price').innerText = formatPrice(total) + " сум";
         };
 
-        // НАДЕЖНАЯ ФУНКЦИЯ КОПИРОВАНИЯ КАРТЫ
-        const copyCard = () => {
-            const num = "9860240101856518";
-            const toast = document.getElementById('toast');
-
-            navigator.clipboard.writeText(num)
-                .then(() => {
-                    // Копирование успешно
-                    toast.innerText = '✅ Номер карты скопирован!';
-                    toast.classList.add('visible');
-                    setTimeout(() => toast.classList.remove('visible'), 2500);
-                })
-                .catch(err => {
-                    // Копирование заблокировано/не удалось
-                    console.error('Ошибка копирования:', err);
-
-                    // УВЕДОМЛЕНИЕ О ПРОБЛЕМЕ: показываем тост с ошибкой
-                    toast.innerText = '❌ Не удалось скопировать (Ошибка безопасности)';
-                    toast.classList.add('visible');
-                    setTimeout(() => toast.classList.remove('visible'), 3000);
-                });
+        const showToast = (msg) => {
+            const t = document.getElementById('toast');
+            t.innerHTML = msg;
+            t.classList.add('visible');
+            setTimeout(() => t.classList.remove('visible'), 2000);
         };
 
-        // НОВАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ СУММЫ БЕЗ ПРОБЕЛОВ
+        const copyCard = () => navigator.clipboard.writeText("9860240101856518").then(() => showToast("💳 Карта скопирована!"));
+
         const copyTotal = () => {
-            const amount = String(currentTotal);
-            const toast = document.getElementById('toast');
-
-
-            navigator.clipboard.writeText(amount)
-                .then(() => {
-                    toast.innerHTML = `💰 Сумма **${amount}** скопирована!`;
-                    toast.classList.add('visible');
-                    setTimeout(() => toast.classList.remove('visible'), 2500);
-                })
-                .catch(err => {
-                    console.error('Ошибка копирования суммы:', err);
-                    toast.innerHTML = '❌ Не удалось скопировать сумму';
-                    toast.classList.add('visible');
-                    setTimeout(() => toast.classList.remove('visible'), 3000);
-                });
-        };
-
-        // ФУНКЦИЯ ДЛЯ ПЕРЕХОДА К ОПЛАТЕ CLICK
-        const goToClickPayment = () => {
-            const clickUrl = "https://my.click.uz/clickp2p/1B6C37BC3128B9ED711AD4DC6FCFE817DE4E0B35BBFD355B765EC0924C844830";
-            window.location.href = clickUrl;
-        };
-
-        // ===================== ЛОГИКА ТЕМНОЙ ТЕМЫ =====================
-        const toggleTheme = () => {
-            const body = document.body;
-            const isChecked = document.getElementById('theme-switch').checked;
-
-            if (isChecked) {
-                body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark');
+            if (currentTotal > 0) {
+                navigator.clipboard.writeText(String(currentTotal)).then(() => showToast(`💰 Сумма ${formatPrice(currentTotal)} скопирована!`));
             } else {
-                body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light');
+                showToast("⚠️ Сумма 0. Выберите товар.");
             }
         };
 
-        // Загрузка сохраненной темы при открытии
+        const goToClickPayment = () => window.location.href = "https://my.click.uz/clickp2p/1B6C37BC3128B9ED711AD4DC6FCFE817DE4E0B35BBFD355B765EC0924C844830";
+
+        const toggleTheme = () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        };
+
         const loadTheme = () => {
-            const savedTheme = localStorage.getItem('theme');
-
-            if (savedTheme === 'dark') {
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.body.classList.add('dark-mode');
-                document.getElementById('theme-switch').checked = true;
-            }
-            else if (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.classList.add('dark-mode');
-                document.getElementById('theme-switch').checked = true;
             }
         };
 
-        // Запуск
-        loadTheme();
-        render();
+        init();
     </script>
 </body>
 
