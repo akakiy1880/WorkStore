@@ -57,7 +57,8 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 220px; /* УВЕЛИЧЕННЫЙ ОТСТУП */
+            padding-bottom: 220px;
+            /* УВЕЛИЧЕННЫЙ ОТСТУП */
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -185,7 +186,8 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            padding-bottom: 40px; /* Обеспечивает видимость последнего товара над блоком оплаты */
+            padding-bottom: 40px;
+            /* Обеспечивает видимость последнего товара над блоком оплаты */
         }
 
         .card {
@@ -332,7 +334,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         /* Группировка суммы и кнопки копирования */
         .total-amount-group {
             display: flex;
@@ -418,12 +420,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         /* НОВАЯ КНОПКА ОПЛАТЫ CLICK */
         .btn-pay-click {
             width: 100%;
             padding: 14px 20px;
-            background: #087BFF; /* Используем основной цвет */
+            background: #087BFF;
+            /* Используем основной цвет */
             color: white;
             border: none;
             border-radius: 16px;
@@ -432,13 +435,15 @@
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 1); /* Тень в цвет кнопки */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+            /* Тень в цвет кнопки */
         }
 
         .btn-pay-click:active {
             background: var(--primary-light);
             transform: scale(0.99);
         }
+
         /* КОНЕЦ НОВОЙ КНОПКИ ОПЛАТЫ CLICK */
 
         /* Уведомление */
@@ -500,7 +505,7 @@
         <div class="pay-card" onclick="copyCard()">
             <div class="card-hint">Нажмите чтобы скопировать</div>
             <div class="card-row">
-                <span class="card-num">9860 3501 4758 2349</span>
+                <span class="card-num">9860 2401 0185 6518</span>
                 <span class="copy-icon">COPY</span>
             </div>
         </div>
@@ -544,7 +549,10 @@
             { id: 16, name: "Салфетки влажные", desc: "15 шт, 1 пачка", price: 3000, img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" },
 
             // *** ТАБАЧНЫЕ ***
-            { id: 17, name: "Esse Exchange", desc: "1 пачка", price: 30000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" }
+            { id: 17, name: "Esse Exchange", desc: "1 пачка", price: 30000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
+            { id: 18, name: "Kent Mix", desc: "1 пачка", price: 20000, img: "https://cdn-irec.r-99.com/sites/default/files/imagecache/300o/product-images/10297/3cd6PjFGoWvBmJ3bz7fvNA.jpg" },
+            { id: 19, name: "Esse Exchange", desc: "1 сигарета", price: 2000, img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
+            { id: 20, name: "Kent Mix", desc: "1 сигарета", price: 1500, img: "https://mostabaktorg.moscow/image/cache/catalog/products/kent-nano-miks-kent-nano-mix-new-500x500-product_popup.jpg" },
         ];
 
 
@@ -614,14 +622,14 @@
                     total += p.price * cart[p.id];
                 }
             });
-            
+
             currentTotal = total; // Сохраняем чистую сумму
             document.getElementById('total-price').innerText = formatPrice(total) + " сум";
         };
 
         // НАДЕЖНАЯ ФУНКЦИЯ КОПИРОВАНИЯ КАРТЫ
         const copyCard = () => {
-            const num = "9860350147582349";
+            const num = "9860240101856518";
             const toast = document.getElementById('toast');
 
             navigator.clipboard.writeText(num)
@@ -663,7 +671,7 @@
 
         // ФУНКЦИЯ ДЛЯ ПЕРЕХОДА К ОПЛАТЕ CLICK
         const goToClickPayment = () => {
-            const clickUrl = "https://my.click.uz/clickp2p/072AD10D6D8360BD748F5056048D30108169A9C8B8A0B919786749B7D2DF8F0D";
+            const clickUrl = "https://my.click.uz/clickp2p/1B6C37BC3128B9ED711AD4DC6FCFE817DE4E0B35BBFD355B765EC0924C844830";
             window.location.href = clickUrl;
         };
 
