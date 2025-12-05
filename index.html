@@ -25,6 +25,9 @@
 
             --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
             --header-border: 1px solid rgba(0, 0, 0, 0.05);
+            /* Добавлено для кнопки запроса */
+            --request-btn-bg: #E2E8F0;
+            --request-btn-color: var(--text-main);
         }
 
         /* DARK Theme (УЛУЧШЕННАЯ ПАЛИТРА) */
@@ -43,6 +46,9 @@
 
             --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
             --header-border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Добавлено для кнопки запроса */
+            --request-btn-bg: #374151;
+            --request-btn-color: var(--text-main);
         }
 
         /* ===================== ОБЩИЕ СТИЛИ ===================== */
@@ -118,6 +124,7 @@
             transition: color 0.3s;
         }
 
+
         .brand span {
             display: block;
             font-size: 13px;
@@ -127,9 +134,41 @@
             transition: color 0.3s;
         }
 
-        .toggle-placeholder {
-            width: 60px;
-            opacity: 0;
+        /* Убрал toggle-placeholder и переделал расположение элементов */
+        .left-controls {
+            display: flex;
+            align-items: center;
+            /* Добавлено для новой кнопки */
+            z-index: 10;
+        }
+
+        /* ===================== КНОПКА ЗАПРОСА ТОВАРОВ ===================== */
+        .btn-request {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--request-btn-bg);
+            color: var(--request-btn-color);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-right: 10px;
+            text-decoration: none;
+            /* Для ссылки */
+            height: 48px;
+            /* Выравнивание по высоте с тогл-слайдером */
+        }
+
+        .btn-request span {
+            margin-left: 6px;
+        }
+
+        .btn-request:active {
+            filter: brightness(0.9);
         }
 
         /* ===================== ТУМБЛЕР ТЕМЫ ===================== */
@@ -232,6 +271,7 @@
             margin-bottom: 4px;
             color: var(--text-main);
         }
+
 
         .card-desc {
             font-size: 13px;
@@ -379,6 +419,7 @@
             letter-spacing: -0.5px;
         }
 
+
         .pay-card {
             background: linear-gradient(135deg, var(--text-main) 0%, #0F172A 100%);
             border-radius: 16px;
@@ -476,7 +517,11 @@
 
     <header>
         <div class="header-inner">
-            <div class="toggle-placeholder"></div>
+            <div class="left-controls">
+                <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">
+                    Заказ товаров
+                </a>
+            </div>
 
             <div class="brand">
                 <h1>Офис Маркет</h1>
@@ -518,6 +563,7 @@
     <div class="toast" id="toast">
         <span>✅</span> Номер карты скопирован!
     </div>
+
 
     <script>
         // ===================== ДАННЫЕ И ЛОГИКА ТОВАРОВ =====================
@@ -564,6 +610,7 @@
         const formatPrice = (price) => {
             return price.toLocaleString('ru-RU');
         };
+
 
         const render = () => {
             const container = document.getElementById('products-list');
@@ -654,6 +701,7 @@
         const copyTotal = () => {
             const amount = String(currentTotal);
             const toast = document.getElementById('toast');
+
 
             navigator.clipboard.writeText(amount)
                 .then(() => {
