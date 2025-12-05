@@ -399,7 +399,7 @@
             align-items: center;
             gap: 10px;
             /* Добавлено, чтобы анимация не влияла на другие элементы */
-            position: relative; 
+            position: relative;
         }
 
         /* === НОВЫЕ СТИЛИ ДЛЯ АНИМАЦИИ ЦЕНЫ === */
@@ -409,12 +409,14 @@
                 opacity: 1;
                 text-shadow: 0 0 0px var(--primary-glow);
             }
+
             50% {
                 transform: scale(1.08);
                 opacity: 1;
                 color: var(--primary);
                 text-shadow: 0 0 10px var(--primary-glow);
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -425,6 +427,7 @@
         #total-price.price-change-anim {
             animation: pricePulse 0.4s ease-in-out;
         }
+
         /* ================================== */
 
 
@@ -573,6 +576,7 @@
             { id: 2, name: "Coca-Cola Zero", desc: "0.5л", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
             { id: 3, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, category: "drinks", img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
             { id: 4, name: "Bonaqua", desc: "Без газа, 1.5л", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
+            { id: 5, name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
             { id: 6, name: "Pepsi Zero", desc: "1.5л", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
             { id: 7, name: "Twix", desc: "72г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
             { id: 8, name: "KitKat", desc: "64г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
@@ -721,7 +725,7 @@
                     total += p.price * cart[p.id];
                 }
             });
-            
+
             // Проверяем, изменилась ли общая сумма
             if (currentTotal !== total) {
                 currentTotal = total;
