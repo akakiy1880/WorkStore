@@ -252,6 +252,26 @@
             transition: transform 0.2s
         }
 
+        /* Обводка и бейдж для новых продуктов */
+        .new-product {
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 24px rgba(8, 123, 255, 0.12);
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(8, 123, 255, 0.18);
+        }
+
         .card:active {
             transform: scale(0.99)
         }
@@ -573,7 +593,7 @@
     <script>
         const productsRaw = [
             // --- DRINKS (Напитки) ---
-            { name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
+            { name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", },
             { name: "Bonaqua", desc: "Газированная вода, 1.5л", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
             { name: "Coca-Cola", desc: "0.5л", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
             { name: "Coca-Cola Zero", desc: "0.5л", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
@@ -597,17 +617,17 @@
             { name: "Kinder Chocolate", desc: "8 порций, 100г", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg" },
 
             // --- COFFEE ---
-            { name: "Jacobs Original", desc: "Original 13.5г", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg" },
+            { name: "Jacobs Original", desc: "Original 13.5г", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg", isNew: true },
             { name: "MacCoffee", desc: "Cappuccino 25г", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
-            { name: "Jacobs Milka", desc: "Original 18г", price: 6000, category: "coffee", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/c17900b0-bda9-4dda-9224-afd7fcd04f89/300x300?webp=true" },
+            { name: "Jacobs Milka", desc: "Original 18г", price: 6000, category: "coffee", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/c17900b0-bda9-4dda-9224-afd7fcd04f89/300x300?webp=true", isNew: true },
 
             // --- ENERGY ---
             { name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
 
             // --- SPORT ---
             { name: "Primekraft", desc: "Шоколад 40г", price: 10000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
-            { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
-            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
+            { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", isNew: true },
+            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", isNew: true },
 
             // --- TOBACCO ---
             { name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
@@ -615,16 +635,25 @@
             { name: "Esse Change", desc: "Пачка", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
 
             // --- OTHER ---
-            { name: "Миндаль Ermak", desc: "Cолёный, 40г", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg" },
-            { name: "Соленые сушки Ermak", desc: "100г", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg" },
+            { name: "Миндаль Ermak", desc: "Cолёный, 40г", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg", isNew: true },
+            { name: "Соленые сушки Ermak", desc: "100г", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg", isNew: true },
             { name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" }
         ];
 
         // 👉 генерация ID
         const products = productsRaw.map((product, index) => ({
             id: index + 1,
+            originalIndex: index,
             ...product
-        }));
+        }))
+            // Сортируем так, чтобы товары с isNew=true шли первыми,
+            // при равенстве сохраняем исходный порядок по originalIndex
+            .sort((a, b) => {
+                const aNew = !!a.isNew;
+                const bNew = !!b.isNew;
+                if (aNew === bNew) return a.originalIndex - b.originalIndex;
+                return aNew ? -1 : 1;
+            });
 
         const categories = [
             { id: 'all', name: 'Все товары' },
@@ -665,6 +694,8 @@
 
             filtered.forEach(item => {
                 const qty = cart[item.id] || 0;
+                const newClass = item.isNew ? ' new-product' : '';
+                const newBadge = item.isNew ? '<div class="new-badge">Новинка</div>' : '';
                 // Генерация HTML для кнопок: либо кнопка "Добавить", либо счетчик
                 let btnHtml = '';
                 if (qty === 0) {
@@ -680,7 +711,8 @@
                 }
 
                 container.innerHTML += `
-                <div class="glass-panel card" id="product-${item.id}">
+                <div class="glass-panel card${newClass}" id="product-${item.id}">
+                    ${newBadge}
                     <div class="card-img-container"><img src="${item.img}" class="card-img"></div>
                     <div class="card-info">
                         <div><div class="card-title">${item.name}</div><div class="card-desc">${item.desc}</div></div>
