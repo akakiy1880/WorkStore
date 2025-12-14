@@ -571,51 +571,61 @@
     <div class="toast" id="toast">✅ Скопировано!</div>
 
     <script>
-        const products = [
+        const productsRaw = [
             // --- DRINKS (Напитки) ---
-            { id: 1, name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
-            { id: 2, name: "Bonaqua", desc: "Газированная вода, 1.5л", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
-            { id: 3, name: "Coca-Cola", desc: "0.5л", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
-            { id: 4, name: "Coca-Cola Zero", desc: "0.5л", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
-            { id: 5, name: "Coca-Cola Zero", desc: "1.0л", price: 11000, category: "drinks", img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
-            { id: 6, name: "Pepsi Zero", desc: "1.5л", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
-            { id: 7, name: "Sprite", desc: "1.5л", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg" },
-            { id: 8, name: "Fanta", desc: "1.5л", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg" },
-            { id: 9, name: "Coca-Cola", desc: "2.0л", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg" },
-            { id: 10, name: "Coca-Cola", desc: "2.5л", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg" },
+            { name: "Santal", desc: "Газированная вода, 1.5л", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg" },
+            { name: "Bonaqua", desc: "Газированная вода, 1.5л", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg" },
+            { name: "Coca-Cola", desc: "0.5л", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg" },
+            { name: "Coca-Cola Zero", desc: "0.5л", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg" },
+            { name: "Coca-Cola Zero", desc: "1.0л", price: 11000, category: "drinks", img: "https://images.uzum.uz/cegs9kol08kcldtp08d0/original.jpg" },
+            { name: "Pepsi Zero", desc: "1.5л", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg" },
+            { name: "Sprite", desc: "1.5л", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg" },
+            { name: "Fanta", desc: "1.5л", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg" },
+            { name: "Coca-Cola", desc: "2.0л", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg" },
+            { name: "Coca-Cola", desc: "2.5л", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg" },
 
             // --- SWEETS (Сладости) ---
-            { id: 11, name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg" },
-            { id: 12, name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg" },
-            { id: 13, name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg" },
-            { id: 14, name: "Twix", desc: "72г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
-            { id: 15, name: "KitKat", desc: "64г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
-            { id: 16, name: "Snickers", desc: "80г", price: 13000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
-            { id: 17, name: "Haribo Goldbears", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
-            { id: 18, name: "Haribo Mix", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
-            { id: 19, name: "Tic Tac Мята (большой)", desc: "100шт, 49г", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg" },
-            { id: 20, name: "Kinder Chocolate", desc: "8 порций, 100г", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg" },
+            { name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg" },
+            { name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg" },
+            { name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg" },
+            { name: "Twix", desc: "72г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
+            { name: "KitKat", desc: "64г", price: 13000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
+            { name: "Snickers", desc: "80г", price: 13000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
+            { name: "Haribo Goldbears", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
+            { name: "Haribo Mix", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
+            { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg" },
+            { name: "Kinder Chocolate", desc: "8 порций, 100г", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg" },
 
-            // --- COFFEE (Кофе) ---
-            { id: 21, name: "MacCoffee", desc: "Cappuccino 25г", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
+            // --- COFFEE ---
+            { name: "Jacobs Original", desc: "Original 13.5г", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg" },
+            { name: "MacCoffee", desc: "Cappuccino 25г", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
+            { name: "Jacobs Milka", desc: "Original 18г", price: 6000, category: "coffee", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/c17900b0-bda9-4dda-9224-afd7fcd04f89/300x300?webp=true" },
 
-            // --- ENERGY DRINKS (Энергетики) ---
-            { id: 22, name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
+            // --- ENERGY ---
+            { name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
 
-            // --- SPORT (Спорт) ---
-            { id: 23, name: "Primekraft", desc: "Шоколад 40г", price: 10000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
-            { id: 24, name: "Bombbar", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
-            { id: 25, name: "Bombbar Батончики", desc: "Ассорти №4 60г", price: 22000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
+            // --- SPORT ---
+            { name: "Primekraft", desc: "Шоколад 40г", price: 10000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
+            { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" },
+            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig" },
 
-            // --- TOBACCO (Табак) ---
-            { id: 26, name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
-            { id: 27, name: "Winston Caster", desc: "Пачка", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
-            { id: 28, name: "Esse Change", desc: "Пачка", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
+            // --- TOBACCO ---
+            { name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
+            { name: "Winston Caster", desc: "Пачка", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
+            { name: "Esse Change", desc: "Пачка", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
 
-            // --- OTHER (Разное) ---
-            { id: 29, name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" }
-
+            // --- OTHER ---
+            { name: "Миндаль Ermak", desc: "Cолёный, 40г", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg" },
+            { name: "Соленые сушки Ermak", desc: "100г", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg" },
+            { name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" }
         ];
+
+        // 👉 генерация ID
+        const products = productsRaw.map((product, index) => ({
+            id: index + 1,
+            ...product
+        }));
+
         const categories = [
             { id: 'all', name: 'Все товары' },
             { id: 'drinks', name: 'Напитки 🥤' },
