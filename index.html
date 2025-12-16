@@ -272,8 +272,90 @@
             box-shadow: 0 4px 10px rgba(8, 123, 255, 0.18);
         }
 
-        .card:active {
-            transform: scale(0.99)
+        /* OUT OF STOCK */
+        .out-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            z-index: 6;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.18);
+        }
+
+        .card.out-of-stock {
+            opacity: 0.6;
+        }
+
+        .out-label {
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 13px;
+        }
+        /* END OUT OF STOCK */
+
+        /* DISCOUNT: красный бейдж и декоративная рамка */
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            z-index: 7;
+            display: inline-block;
+            padding: 6px 10px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            transform: skew(-12deg) rotate(-6deg);
+            background: linear-gradient(135deg,#ff3b30 0%, #ff7a7a 100%);
+            box-shadow: 0 8px 20px rgba(255,59,48,0.22), inset 0 -4px 0 rgba(255,255,255,0.06);
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.08);
+        }
+
+        .discount-card {
+            /* glass background, но с красной обводкой */
+            background: var(--glass-bg) !important;
+            color: var(--text-main);
+            box-shadow:
+                0 8px 24px rgba(255,75,75,0.06), /* лёгкая красная тень */
+                0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 24px;
+            border: 2px solid rgba(255,75,75,0.95) !important; /* красная обводка */
+        }
+
+        /* Приоритетная красная обводка, даже если товар отмечен new-product */
+        .discount-card.new-product {
+            border: 2px solid rgba(255,65,65,0.98) !important;
+            box-shadow: 0 12px 32px rgba(255,60,60,0.12);
+        }
+
+        .discount-card .card-img-container {
+            background: rgba(255,255,255,0.08);
+        }
+
+
+        .discount-card .old-price {
+            color: var(--text-secondary);
+        }
+
+        .discount-card .price {
+            color: var(--primary);
+        }
+
+        .old-price {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin: 0 0 6px 0;
+            display: block;
         }
 
         .card-img-container {
@@ -611,8 +693,8 @@
             { name: "Twix", desc: "72г", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
             { name: "KitKat", desc: "64г", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
             { name: "Snickers", desc: "80г", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
-            { name: "Haribo Goldbears", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg" },
-            { name: "Haribo Mix", desc: "80г", price: 15000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg" },
+            { name: "Haribo Goldbears", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, discount: true},
+            { name: "Haribo Mix", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, discount: true },
             { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg" },
             { name: "Kinder Chocolate", desc: "8 порций, 100г", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg" },
 
@@ -625,9 +707,9 @@
             { name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
 
             // --- SPORT ---
-            { name: "Primekraft", desc: "Шоколад 40г", price: 10000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
+            { name: "Primekraft", desc: "Шоколад 40г", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", discount: true},
             { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", isNew: true },
-            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", isNew: true },
+            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, oldprice: 30000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", isNew: true },
 
             // --- TOBACCO ---
             { name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
@@ -637,7 +719,7 @@
             // --- OTHER ---
             { name: "Миндаль Ermak", desc: "Cолёный, 40г", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg", isNew: true },
             { name: "Соленые сушки Ermak", desc: "100г", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg", isNew: true },
-            { name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp" }
+            { name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp",  }
         ];
 
         // 👉 генерация ID
@@ -649,10 +731,17 @@
             // Сортируем так, чтобы товары с isNew=true шли первыми,
             // при равенстве сохраняем исходный порядок по originalIndex
             .sort((a, b) => {
-                const aNew = !!a.isNew;
-                const bNew = !!b.isNew;
-                if (aNew === bNew) return a.originalIndex - b.originalIndex;
-                return aNew ? -1 : 1;
+                // приоритет сортировки: скидочные, затем новые, затем обычные, в конце — нет в наличии
+                const rank = (p) => {
+                    if (p.discount) return 0;
+                    if (p.isNew) return 1;
+                    if (p.outOfStock) return 3;
+                    return 2;
+                };
+                const ra = rank(a);
+                const rb = rank(b);
+                if (ra === rb) return a.originalIndex - b.originalIndex;
+                return ra - rb;
             });
 
         const categories = [
@@ -695,10 +784,25 @@
             filtered.forEach(item => {
                 const qty = cart[item.id] || 0;
                 const newClass = item.isNew ? ' new-product' : '';
+                const stockClass = item.outOfStock ? ' out-of-stock' : '';
+                const discountClass = item.discount ? ' discount-card' : '';
                 const newBadge = item.isNew ? '<div class="new-badge">Новинка</div>' : '';
-                // Генерация HTML для кнопок: либо кнопка "Добавить", либо счетчик
+                const outBadge = item.outOfStock ? '<div class="out-badge">Нет в наличии</div>' : '';
+                const discountBadge = item.discount ? `<div class="discount-badge">СКИДКА</div>` : '';
+
+                // Цена: показываем старую цену над новой, старая — серого цвета
+                let priceHtml = '';
+                if (item.oldprice) {
+                    priceHtml = `<div><div class="old-price">${formatPrice(item.oldprice)} сум</div><div class="price">${formatPrice(item.price)} сум</div></div>`;
+                } else {
+                    priceHtml = `<div class="price">${formatPrice(item.price)} сум</div>`;
+                }
+
+                // Генерация HTML для кнопок: либо кнопка "Добавить", либо счетчик или метка "Нет в наличии"
                 let btnHtml = '';
-                if (qty === 0) {
+                if (item.outOfStock) {
+                    btnHtml = `<div class="out-label">Нет в наличии</div>`;
+                } else if (qty === 0) {
                     btnHtml = `<button class="btn-add" onclick="updateQty(${item.id}, 1)">Добавить</button>`;
                 } else {
                     btnHtml = `
@@ -711,13 +815,15 @@
                 }
 
                 container.innerHTML += `
-                <div class="glass-panel card${newClass}" id="product-${item.id}">
+                <div class="glass-panel card${newClass}${stockClass}${discountClass}" id="product-${item.id}">
                     ${newBadge}
+                    ${outBadge}
+                    ${discountBadge}
                     <div class="card-img-container"><img src="${item.img}" class="card-img"></div>
                     <div class="card-info">
                         <div><div class="card-title">${item.name}</div><div class="card-desc">${item.desc}</div></div>
                         <div class="card-bottom">
-                            <div class="price">${formatPrice(item.price)} сум</div>
+                            ${priceHtml}
                             ${btnHtml}
                         </div>
                     </div>
@@ -727,6 +833,13 @@
 
         // Обновленная функция для изменения количества
         const updateQty = (id, change) => {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            if (change > 0 && product.outOfStock) {
+                showToast('⚠️ Товар отсутствует');
+                return;
+            }
+
             if (!cart[id]) cart[id] = 0;
             cart[id] += change;
 
@@ -747,10 +860,13 @@
             const cardBottom = productCard.querySelector('.card-bottom');
 
             // Находим текущий элемент управления (кнопку или виджет) и заменяем его
-            const currentControl = cardBottom.querySelector('.btn-add, .counter-widget');
+            const currentControl = cardBottom.querySelector('.btn-add, .counter-widget, .out-label');
 
+            const product = products.find(p => p.id === id);
             let newHtml = '';
-            if (qty === 0) {
+            if (product && product.outOfStock) {
+                newHtml = `<div class="out-label">Нет в наличии</div>`;
+            } else if (qty === 0) {
                 newHtml = `<button class="btn-add" onclick="updateQty(${id}, 1)">Добавить</button>`;
             } else {
                 newHtml = `
@@ -785,10 +901,11 @@
 
         const calcTotal = () => {
             let total = 0;
-            // Перебираем товары и умножаем цену на количество
+            // Перебираем товары и умножаем цену на количество, учитывая скидки
             products.forEach(p => {
                 if (cart[p.id]) {
-                    total += p.price * cart[p.id];
+                    const unit = p.price; // discount — только стайл, не влияет на цену
+                    total += unit * cart[p.id];
                 }
             });
 
