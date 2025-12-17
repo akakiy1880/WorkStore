@@ -171,11 +171,15 @@
 
         .search-box {
             position: relative;
-            width: 100%
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .search-input {
-            width: 100%;
+            flex: 1;
+            min-width: 0;
             padding: 12px 16px 12px 45px;
             border-radius: 18px;
             border: none;
@@ -184,7 +188,23 @@
             font-size: 14px;
             outline: none;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05)
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sort-select {
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-main);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
 
         .search-icon {
@@ -640,8 +660,13 @@
     <div class="controls-container">
         <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..."
-                oninput="handleSearch()">
+            <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..." oninput="handleSearch()">
+            <select id="sort-select" class="sort-select" onchange="setSort(this.value)">
+                <option value="default">По умолчанию</option>
+                <option value="new">Новые товары</option>
+                <option value="cheaper">Дешевле</option>
+                <option value="expensive">Дороже</option>
+            </select>
         </div>
         <div class="categories-wrapper" id="categories-container"></div>
     </div>
@@ -693,8 +718,8 @@
             { name: "Twix", desc: "72г", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true" },
             { name: "KitKat", desc: "64г", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin" },
             { name: "Snickers", desc: "80г", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg" },
-            { name: "Haribo Goldbears", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, discount: true},
-            { name: "Haribo Mix", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, discount: true },
+            { name: "Haribo Goldbears", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000},
+            { name: "Haribo Mix", desc: "80г", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true},
             { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg" },
             { name: "Kinder Chocolate", desc: "8 порций, 100г", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg" },
 
@@ -707,7 +732,7 @@
             { name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
             { name: "Gorilla Zero Shuar", desc: "0.449л", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", isNew: true},
             // --- SPORT ---
-            { name: "Primekraft", desc: "Шоколад 40г", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", discount: true},
+            { name: "Primekraft", desc: "Шоколад 40г", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png"},
             { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", isNew: true },
             { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", isNew: true },
 
@@ -728,14 +753,16 @@
             originalIndex: index,
             ...product
         }))
-            // Сортируем так, чтобы товары с isNew=true шли первыми,
-            // при равенстве сохраняем исходный порядок по originalIndex
+            // Сортируем так, чтобы товары с oldprice (скидкой) шли первыми,
+            // при равенстве сохраняем исходный порядок по originalIndex;
+            // товары, у которых outOfStock=true всегда в самом конце
             .sort((a, b) => {
-                // приоритет сортировки: скидочные, затем новые, затем обычные, в конце — нет в наличии
+                // oldprice автоматически означает скидку, но для отсутствующих товаров скидку не показываем
+                const hasDiscount = (p) => !!p.oldprice && !p.outOfStock;
                 const rank = (p) => {
-                    if (p.discount) return 0;
-                    if (p.isNew) return 1;
                     if (p.outOfStock) return 3;
+                    if (hasDiscount(p)) return 0;
+                    if (p.isNew) return 1;
                     return 2;
                 };
                 const ra = rank(a);
@@ -760,6 +787,7 @@
         let currentTotal = 0;
         let activeCategory = 'all';
         let searchQuery = '';
+        let currentSort = 'default';
 
         const init = () => { renderCategories(); renderProducts(); loadTheme(); calcTotal(); };
         const formatPrice = (p) => p.toLocaleString('ru-RU');
@@ -771,24 +799,49 @@
         };
         const setCategory = (id) => { activeCategory = (activeCategory === id) ? 'all' : id; renderCategories(); renderProducts(); };
         const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
+        const setSort = (val) => { currentSort = val; document.getElementById('sort-select').value = val; renderProducts(); };
+
+        // helper: поиск по имени, описанию и цене (включая oldprice)
+        const matchesSearch = (p) => {
+            if (!searchQuery) return true;
+            const q = searchQuery.trim().toLowerCase();
+            const qNum = q.replace(/\s/g, '');
+            return p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.price.toString().includes(qNum) || (p.oldprice && p.oldprice.toString().includes(qNum));
+        };
 
         const renderProducts = () => {
             const container = document.getElementById('products-list');
             container.innerHTML = '';
-            const filtered = products.filter(p => (activeCategory === 'all' || p.category === activeCategory) && (p.name.toLowerCase().includes(searchQuery) || p.desc.toLowerCase().includes(searchQuery)));
+            // фильтрация по категории и поиску (включая цену)
+            const filtered = products.filter(p => (activeCategory === 'all' || p.category === activeCategory) && matchesSearch(p));
 
             if (filtered.length === 0) {
                 return container.innerHTML = '<div style="text-align:center;padding:40px;opacity:0.6;">Ничего не найдено 🤷‍♂️</div>';
             }
 
-            filtered.forEach(item => {
+            // применяем сортировку поверх отфильтрованного массива
+            let result = filtered.slice();
+            if (currentSort === 'new') {
+                result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) || a.originalIndex - b.originalIndex);
+            } else if (currentSort === 'cheaper') {
+                result.sort((a, b) => a.price - b.price || a.originalIndex - b.originalIndex);
+            } else if (currentSort === 'expensive') {
+                result.sort((a, b) => b.price - a.price || a.originalIndex - b.originalIndex);
+            } // default сохраняет порядок products (filtered уже в исходном порядке)
+
+            // гарантируем, что товары outOfStock будут в конце
+            const inStock = result.filter(r => !r.outOfStock);
+            const outStock = result.filter(r => r.outOfStock);
+            result = [...inStock, ...outStock];
+
+            result.forEach(item => {
                 const qty = cart[item.id] || 0;
                 const newClass = item.isNew ? ' new-product' : '';
                 const stockClass = item.outOfStock ? ' out-of-stock' : '';
-                const discountClass = item.discount ? ' discount-card' : '';
+                const discountClass = (item.oldprice && !item.outOfStock) ? ' discount-card' : '';
                 const newBadge = item.isNew ? '<div class="new-badge">Новинка</div>' : '';
                 const outBadge = item.outOfStock ? '<div class="out-badge">Нет в наличии</div>' : '';
-                const discountBadge = item.discount ? `<div class="discount-badge">СКИДКА</div>` : '';
+                const discountBadge = (item.oldprice && !item.outOfStock) ? `<div class="discount-badge">СКИДКА</div>` : '';
 
                 // Цена: показываем старую цену над новой, старая — серого цвета
                 let priceHtml = '';
