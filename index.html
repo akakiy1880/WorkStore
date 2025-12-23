@@ -272,7 +272,7 @@
             transition: transform 0.2s
         }
 
-        /* Обводка и бейдж для новых продуктов */
+        /* Обводка и бейджи для новых продуктов */
         .new-product {
             border: 2px solid var(--primary);
             box-shadow: 0 8px 24px rgba(8, 123, 255, 0.12);
@@ -403,18 +403,32 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between
+            justify-content: space-between;
+            min-width: 0; /* важно для корректного переноса в flex-контейнере */
         }
 
         .card-title {
             font-size: 15px;
             font-weight: 700;
-            margin-bottom: 2px
+            margin-bottom: 2px;
+            padding-right: 88px; /* резерв слева для правых бейджей */
+            word-break: break-word;
         }
 
         .card-desc {
             font-size: 12px;
-            color: var(--text-secondary)
+            color: var(--text-secondary);
+            padding-right: 88px; /* резерв места, чтобы текст не уходил под бейдж */
+            white-space: normal; /* разрешаем перенос строк */
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        /* Доп. запас для очень маленьких экранов */
+        @media (max-width: 420px) {
+            .card-title, .card-desc {
+                padding-right: 110px;
+            }
         }
 
         .card-bottom {
@@ -730,6 +744,7 @@
             { name: "Bounty", desc: "57г", price: 11000, category: "sweets", img: "https://media.vprok.ru/products/x700/yk/cm/cissctp3feyddgtxyjbczupxfnutcmyk.jpeg", isNew: true},
             { name: "Mars", desc: "50г", price: 11000, category: "sweets", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLN1GxYLh1mY8BrQM5sGMJOhJvX4Bxk8-7XD1PnTecSHTRoYuK73b2haqQC4rmgRaJDVJ855RaGC3gAJgszmgF3-zYhw6rEWQ_wQKGBMc&s=10", isNew: true},
             { name: "Orion Choco-Pie", desc: "30г", price: 5000, category: "sweets", img: "https://cdn.mafrservices.com/pim-content/UAE/media/product/2229158/1737127204/2229158_main.jpg", isNew: true},
+            
             // --- COFFEE ---
             { name: "Jacobs Original", desc: "Original 13.5г", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg" },
             { name: "MacCoffee", desc: "Cappuccino 25г", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg" },
@@ -739,6 +754,7 @@
             { name: "Adrenaline Rush", desc: "0.449л", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg" },
             { name: "Gorilla Zero Shakar", desc: "0.449л", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", isNew: true },
             { name: "Gorilla Original", desc: "0.449л", price: 15000, category: "energy_drinks", img: "https://gorillaenergy.com/cdn/shop/files/Gorila_ORIGINAL_can_mockup_500ml_khabib_e372f847-e020-4705-b1c5-f9300fad9e05.png?v=1763397878&width=800", isNew: true },
+            
             // --- SPORT ---
             { name: "Primekraft", desc: "Шоколад 40г (8г белка, с сахаром)", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png" },
             { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г (10г белка, без сахара)", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", isNew: true },
@@ -750,11 +766,12 @@
             { name: "Kent Mix (толстые)", desc: "Пачка", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
             { name: "Winston Caster", desc: "Пачка", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
             { name: "Esse Change", desc: "Пачка", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
-
+            { name: "Зажигалка BIG", desc: "1 шт", price: 10000, category: "tobacco", img: "https://i.ibb.co/4BZmfn9/BIG.png", isNew: true },
+           
             // --- OTHER ---
             { name: "Миндаль Ermak", desc: "Cолёный, 40г", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg"},
             { name: "Соленые сушки Ermak", desc: "100г", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg" },
-            { name: "Салфетки", desc: "Влажные 15шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp", },
+            { name: "Салфетки", desc: "Влажные 15 шт", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp", },
             { name: "Ложка столовая", desc: "1 шт", price: 1000, category: "other", img: "https://plastikko.ru/i/1/1/10412.jpg", isNew: true },
         
         ];
