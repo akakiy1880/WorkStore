@@ -667,9 +667,9 @@
         }
 
         /* МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ТОВАРА */
-        .modal-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.72); z-index: 1000; padding: 20px; }
+        .modal-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.72); z-index: 1000; padding: 16px; overflow: auto; }
         .modal-overlay.visible { display: flex; }
-        .modal { width: 100%; max-width: 560px; background: #ffffff; color: var(--text-main); border-radius: 14px; padding: 18px; position: relative; box-shadow: 0 22px 60px rgba(0,0,0,0.36); }
+        .modal { width: 100%; max-width: 90vw; height: auto;background: #ffffff; color: var(--text-main); border-radius: 14px; padding: 18px; position: relative; box-shadow: 0 22px 60px rgba(0,0,0,0.36); display: flex; flex-direction: column; }
         .dark-mode .modal { background: #1e293b; }
         .modal .modal-badge { position: absolute; top: 12px; left: 12px; z-index: 12; font-weight:800; font-size:12px; padding:6px 10px; border-radius:8px; color:#fff; box-shadow:0 6px 14px rgba(0,0,0,0.12); }
         .modal.discount { border: 2px solid rgba(255,75,75,0.95); }
@@ -685,11 +685,12 @@
         .modal-price { font-size: 16px; font-weight: 800; color: var(--primary); text-align: right; }
         .modal-oldprice { font-size: 13px; color: var(--text-secondary); text-decoration: line-through; display:block; }
         .modal-weight { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
-        .modal-full { margin-top:12px; font-size:13px; color: var(--text-secondary); white-space: pre-wrap; max-height: 240px; overflow:auto; padding-right:8px; }
-        .modal-kbju-table { width:100%; border-collapse:collapse; margin-bottom:10px; }
-        .modal-kbju-table th, .modal-kbju-table td { font-size:13px; padding:3px 8px; text-align:left; }
-        .modal-kbju-table th { color:var(--primary); font-weight:700; background:rgba(8,123,255,0.07); }
-        .modal-kbju-table tr td { border-bottom:1px solid #e5e7eb; }
+        .modal-full { margin-top:12px; font-size:13px; color: var(--text-secondary); white-space: pre-wrap; overflow:auto; padding-right:8px; }
+        .modal-kbju-table { width:100%; border-collapse:collapse; margin-bottom:10px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); }
+        .modal-kbju-table th, .modal-kbju-table td { font-size:13px; padding:8px 12px; text-align:left; border-right: 1px solid rgba(0,0,0,0.08); }
+        .modal-kbju-table th:last-child, .modal-kbju-table td:last-child { border-right: none; }
+        .modal-kbju-table th { color:#fff; font-weight:700; background: var(--primary); }
+        .modal-kbju-table tr td { border-bottom:1px solid rgba(0,0,0,0.06); background: rgba(8,123,255,0.03); }
         .modal-kbju-table tr:last-child td { border-bottom:none; }
         .modal-kbju-table .right { text-align:right; }
         .modal-modal-actions { margin-top:14px; display:flex; justify-content:flex-end; }
@@ -1102,20 +1103,35 @@
             const fullEl = document.getElementById('modal-full');
             let fullHtml = '';
             if (p.kbju) {
-                let portionGr = null;
-                const m = (p.desc||'').match(/([0-9]+)\s*г/);
-                if (m) portionGr = parseInt(m[1]);
+                let fullSizeGr = null;
+                let fullSizeLabel = '';
+                // Пытаемся извлечь размер порции/объема из описания
+                const m = (p.desc||'').match(/([0-9.]+)\s*(л|г|мл)/i);
+                if (m) {
+                    const value = parseFloat(m[1]);
+                    const unit = m[2].toLowerCase();
+                    if (unit === 'л') {
+                        fullSizeGr = value * 1000; // литры в граммы
+                        fullSizeLabel = m[1] + 'л';
+                    } else if (unit === 'г') {
+                        fullSizeGr = value;
+                        fullSizeLabel = m[1] + 'г';
+                    } else if (unit === 'мл') {
+                        fullSizeGr = value; // для напитков мл ≈ г
+                        fullSizeLabel = m[1] + 'мл';
+                    }
+                }
                 const k100 = p.kbju;
-                let kPortion = null;
-                if (portionGr) {
-                    kPortion = {
-                        kcal: Math.round(k100.kcal * portionGr / 100),
-                        protein: +(k100.protein * portionGr / 100).toFixed(1),
-                        fat: +(k100.fat * portionGr / 100).toFixed(1),
-                        carbs: +(k100.carbs * portionGr / 100).toFixed(1)
+                let kFull = null;
+                if (fullSizeGr) {
+                    kFull = {
+                        kcal: Math.round(k100.kcal * fullSizeGr / 100),
+                        protein: +(k100.protein * fullSizeGr / 100).toFixed(1),
+                        fat: +(k100.fat * fullSizeGr / 100).toFixed(1),
+                        carbs: +(k100.carbs * fullSizeGr / 100).toFixed(1)
                     };
                 }
-                fullHtml += `<table class="modal-kbju-table"><tr><th>КБЖУ на 100г:</th>${kPortion?'<th>КБЖУ на порцию ('+portionGr+'г):</th>':''}</tr><tr><td>Калорий: ${k100.kcal} </td>${kPortion?'<td>Калорий: '+kPortion.kcal+'</td>':''}</tr><tr><td>Белков: ${k100.protein} г</td>${kPortion?'<td>Белков: '+kPortion.protein+' г</td>':''}</tr><tr><td>Жиров: ${k100.fat} г</td>${kPortion?'<td>Жиров: '+kPortion.fat+' г</td>':''}</tr><tr><td>Углеводов: ${k100.carbs} г</td>${kPortion?'<td>Углеводов: '+kPortion.carbs+' г</td>':''}</tr></table>`;
+                fullHtml += `<table class="modal-kbju-table"><tr><th>На 100г/100мл:</th>${kFull?'<th>На весь продукт ('+fullSizeLabel+'):</th>':''}</tr><tr><td>Калории: ${k100.kcal}</td>${kFull?'<td>Калории: '+kFull.kcal+'</td>':''}</tr><tr><td>Белки: ${k100.protein}г</td>${kFull?'<td>Белки: '+kFull.protein+'г</td>':''}</tr><tr><td>Жиры: ${k100.fat}г</td>${kFull?'<td>Жиры: '+kFull.fat+'г</td>':''}</tr><tr><td>Углеводы: ${k100.carbs}г</td>${kFull?'<td>Углеводы: '+kFull.carbs+'г</td>':''}</tr></table>`;
             }
             const fullText = p.decs || p.decsFull || p.fullDesc || p.desc || p.shortDesc || '';
             fullHtml += `<div>${fullText}</div>`;
