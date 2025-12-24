@@ -405,29 +405,35 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-width: 0; /* важно для корректного переноса в flex-контейнере */
+            min-width: 0;
+            /* важно для корректного переноса в flex-контейнере */
         }
 
         .card-title {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 2px;
-            padding-right: 88px; /* резерв слева для правых бейджей */
+            padding-right: 88px;
+            /* резерв слева для правых бейджей */
             word-break: break-word;
         }
 
         .card-desc {
             font-size: 12px;
             color: var(--text-secondary);
-            padding-right: 88px; /* резерв места, чтобы текст не уходил под бейдж */
-            white-space: normal; /* разрешаем перенос строк */
+            padding-right: 88px;
+            /* резерв места, чтобы текст не уходил под бейдж */
+            white-space: normal;
+            /* разрешаем перенос строк */
             word-break: break-word;
             overflow-wrap: anywhere;
         }
 
         /* Доп. запас для очень маленьких экранов */
         @media (max-width: 420px) {
-            .card-title, .card-desc {
+
+            .card-title,
+            .card-desc {
                 padding-right: 110px;
             }
         }
@@ -460,7 +466,8 @@
             cursor: pointer;
             transition: transform 0.12s ease;
             min-width: 72px;
-            min-height: 44px; /* крупная цель для пальца */
+            min-height: 44px;
+            /* крупная цель для пальца */
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -667,33 +674,185 @@
         }
 
         /* МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ТОВАРА */
-        .modal-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.72); z-index: 1000; padding: 16px; overflow: auto; }
-        .modal-overlay.visible { display: flex; }
-        .modal { width: 100%; max-width: 90vw; height: auto;background: #ffffff; color: var(--text-main); border-radius: 14px; padding: 18px; position: relative; box-shadow: 0 22px 60px rgba(0,0,0,0.36); display: flex; flex-direction: column; }
-        .dark-mode .modal { background: #1e293b; }
-        .modal .modal-badge { position: absolute; top: 12px; left: 12px; z-index: 12; font-weight:800; font-size:12px; padding:6px 10px; border-radius:8px; color:#fff; box-shadow:0 6px 14px rgba(0,0,0,0.12); }
-        .modal.discount { border: 2px solid rgba(255,75,75,0.95); }
-        .modal.discount .modal-badge { background: linear-gradient(135deg,#ff3b30 0%, #ff7a7a 100%); }
-        .modal.newproduct { border: 2px solid var(--primary); }
-        .modal.newproduct .modal-badge { background: var(--primary); }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.72);
+            z-index: 1000;
+            padding: 16px;
+            overflow: auto;
+        }
 
-        .modal-close { position: absolute; top: 10px; right: 10px; border: none; background: var(--primary); font-size: 16px; cursor: pointer; color: #fff; padding: 8px 10px; border-radius: 8px; box-shadow: 0 6px 18px rgba(8,123,255,0.18); }
-        .modal-close:hover { transform: translateY(-1px); }
-        .modal-img { width: 100%; height: 260px; object-fit: contain; border-radius: 12px; background: #fff; padding: 8px; }
-        .modal-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-top:10px; }
-        .modal-title { font-size: 18px; font-weight: 800; color: var(--text-main); }
-        .modal-price { font-size: 16px; font-weight: 800; color: var(--primary); text-align: right; }
-        .modal-oldprice { font-size: 13px; color: var(--text-secondary); text-decoration: line-through; display:block; }
-        .modal-weight { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
-        .modal-full { margin-top:12px; font-size:13px; color: var(--text-secondary); white-space: pre-wrap; overflow:auto; padding-right:8px; }
-        .modal-kbju-table { width:100%; border-collapse:collapse; margin-bottom:10px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); }
-        .modal-kbju-table th, .modal-kbju-table td { font-size:13px; padding:8px 12px; text-align:left; border-right: 1px solid rgba(0,0,0,0.08); }
-        .modal-kbju-table th:last-child, .modal-kbju-table td:last-child { border-right: none; }
-        .modal-kbju-table th { color:#fff; font-weight:700; background: var(--primary); }
-        .modal-kbju-table tr td { border-bottom:1px solid rgba(0,0,0,0.06); background: rgba(8,123,255,0.03); }
-        .modal-kbju-table tr:last-child td { border-bottom:none; }
-        .modal-kbju-table .right { text-align:right; }
-        .modal-modal-actions { margin-top:14px; display:flex; justify-content:flex-end; }
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 90vw;
+            height: auto;
+            background: #ffffff;
+            color: var(--text-main);
+            border-radius: 14px;
+            padding: 18px;
+            position: relative;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.36);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .modal {
+            background: #1e293b;
+        }
+
+        .modal .modal-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 12;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            color: #fff;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .modal.discount {
+            border: 2px solid rgba(255, 75, 75, 0.95);
+        }
+
+        .modal.discount .modal-badge {
+            background: linear-gradient(135deg, #ff3b30 0%, #ff7a7a 100%);
+        }
+
+        .modal.newproduct {
+            border: 2px solid var(--primary);
+        }
+
+        .modal.newproduct .modal-badge {
+            background: var(--primary);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: var(--primary);
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            padding: 8px 10px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(8, 123, 255, 0.18);
+        }
+
+        .modal-close:hover {
+            transform: translateY(-1px);
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #fff;
+            padding: 8px;
+        }
+
+        .modal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .modal-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: right;
+        }
+
+        .modal-oldprice {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            display: block;
+        }
+
+        .modal-weight {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .modal-full {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            overflow: auto;
+            padding-right: 8px;
+        }
+
+        .modal-kbju-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .modal-kbju-table th,
+        .modal-kbju-table td {
+            font-size: 13px;
+            padding: 8px 12px;
+            text-align: left;
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .modal-kbju-table th:last-child,
+        .modal-kbju-table td:last-child {
+            border-right: none;
+        }
+
+        .modal-kbju-table th {
+            color: #fff;
+            font-weight: 700;
+            background: var(--primary);
+        }
+
+        .modal-kbju-table tr td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgba(8, 123, 255, 0.03);
+        }
+
+        .modal-kbju-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modal-kbju-table .right {
+            text-align: right;
+        }
+
+        .modal-modal-actions {
+            margin-top: 14px;
+            display: flex;
+            justify-content: flex-end;
+        }
 
         /* Дополнительные стили для модального окна */
         .modal-content {
@@ -803,62 +962,101 @@
     <script>
         const productsRaw = [
             // --- DRINKS (Напитки) ---
-            { name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Coca-Cola", desc: "0.5л", fullDesc: "Классическая Coca‑Cola — газированный напиток с узнаваемым вкусом карамели и специй.", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg", kbju: {kcal: 42, protein: 0, fat: 0, carbs: 11} },
-            { name: "Coca-Cola Zero", desc: "0.5л", fullDesc: "Coca‑Cola Zero — без сахара, с привычным вкусом Coca‑Cola, низкокалорийный вариант.", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Coca-Cola Zero", desc: "1.0л", fullDesc: "Coca‑Cola Zero 1.0л — удобный формат на несколько приемов, без сахара.", price: 11000, category: "drinks", img: "https://rimibaltic-res.cloudinary.com/image/upload/b_white,c_limit,dpr_3.0,f_auto,q_auto:low,w_400/d_ecommerce:backend-fallback.png/MAT_1360569_PCE_EE", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Sprite", desc: "1.5л", fullDesc: "Sprite — лимонно‑лаймовый газированный напиток, освежающий и легкий.", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg", kbju: {kcal: 38, protein: 0, fat: 0, carbs: 10} },
-            { name: "Fanta", desc: "1.5л", fullDesc: "Fanta — фруктовый газированный напиток с ярким ароматом и сладковатым послевкусием.", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg", kbju: {kcal: 44, protein: 0, fat: 0, carbs: 11} },
-            { name: "Coca-Cola", desc: "2.0л", fullDesc: "Coca‑Cola 2.0л — семейная упаковка классической Coca‑Cola для компаний и мероприятий.", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg", kbju: {kcal: 42, protein: 0, fat: 0, carbs: 11} },
-            { name: "Coca-Cola", desc: "2.5л", fullDesc: "Coca‑Cola 2.5л — большой формат, идеально для отдыха и встреч с друзьями.", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg", kbju: {kcal: 42, protein: 0, fat: 0, carbs: 11} },
+            { name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Coca-Cola", desc: "0.5л", fullDesc: "Классическая Coca‑Cola — газированный напиток с узнаваемым вкусом карамели и специй.", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 } },
+            { name: "Coca-Cola Zero", desc: "0.5л", fullDesc: "Coca‑Cola Zero — без сахара, с привычным вкусом Coca‑Cola, низкокалорийный вариант.", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            {
+                name: "Pepsi",
+                desc: "0.5л",
+                fullDesc: "Pepsi — газированный безалкогольный напиток с классическим сладким вкусом.",
+                price: 7000,
+                category: "drinks",
+                img: "https://buy.am/media/image/f6/90/24/yerevan-city-1034692.jpg",
+                kbju: { kcal: 42, protein: 0, fat: 0, carbs: 10.6 }, isNew: true
+            },
+            {
+                name: "Fanta",
+                desc: "0.5л",
+                fullDesc: "Fanta — газированный безалкогольный напиток с ярким апельсиновым вкусом.",
+                price: 7000,
+                category: "drinks",
+                img: "https://www.zozocafe.ro/userfiles/f73e7d77-ff3b-4c52-9475-e668bd626300/products/361737460_big.jpg",
+                kbju: { kcal: 48, protein: 0, fat: 0, carbs: 11.7 }, isNew: true
+            },
+
+
+            { name: "Coca-Cola Zero", desc: "1.0л", fullDesc: "Coca‑Cola Zero 1.0л — удобный формат на несколько приемов, без сахара.", price: 11000, category: "drinks", img: "https://rimibaltic-res.cloudinary.com/image/upload/b_white,c_limit,dpr_3.0,f_auto,q_auto:low,w_400/d_ecommerce:backend-fallback.png/MAT_1360569_PCE_EE", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Sprite", desc: "1.5л", fullDesc: "Sprite — лимонно‑лаймовый газированный напиток, освежающий и легкий.", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg", kbju: { kcal: 38, protein: 0, fat: 0, carbs: 10 }, outOfStock: true },
+            { name: "Fanta", desc: "1.5л", fullDesc: "Fanta — фруктовый газированный напиток с ярким ароматом и сладковатым послевкусием.", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg", kbju: { kcal: 44, protein: 0, fat: 0, carbs: 11 } },
+            { name: "Coca-Cola", desc: "2.0л", fullDesc: "Coca‑Cola 2.0л — семейная упаковка классической Coca‑Cola для компаний и мероприятий.", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 } },
+            { name: "Coca-Cola", desc: "2.5л", fullDesc: "Coca‑Cola 2.5л — большой формат, идеально для отдыха и встреч с друзьями.", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
 
             // --- SWEETS (Сладости) ---
-            { name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", fullDesc: "Освежающие драже Tic Tac со вкусом мяты в удобной маленькой упаковке. Идеально для свежего дыхания в течение дня.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg", kbju: {kcal: 360, protein: 0, fat: 0, carbs: 90} },
-            { name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", fullDesc: "Фруктовые драже Tic Tac со вкусом ягодного микса. Отличный способ освежить дыхание и насладиться ярким вкусом.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg", kbju: {kcal: 360, protein: 0, fat: 0, carbs: 90} },
-            { name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", fullDesc: "Драже Tic Tac со вкусом сочного апельсина. Дарит свежесть и приятный цитрусовый аромат.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg", kbju: {kcal: 360, protein: 0, fat: 0, carbs: 90} },
-            { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: {kcal: 520, protein: 6, fat: 25, carbs: 63} },
-            { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: {kcal: 530, protein: 6, fat: 26, carbs: 62} },
-            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg", kbju: {kcal: 490, protein: 7, fat: 25, carbs: 62} },
-            { name: "Haribo Goldbears", desc: "80г", fullDesc: "Классические жевательные мармеладки Haribo Goldbears в форме мишек. Фруктовые вкусы для радости детей и взрослых.", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, outOfStock: true, kbju: {kcal: 320, protein: 6, fat: 0, carbs: 78} },
-            { name: "Haribo Mix", desc: "80г", fullDesc: "Ассорти жевательных мармеладок Haribo Mix с различными формами и вкусами. Отличный выбор для любителей сладостей.", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true, kbju: {kcal: 320, protein: 6, fat: 0, carbs: 78} },
-            { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: {kcal: 360, protein: 0, fat: 0, carbs: 90} },
-            { name: "Kinder Chocolate", desc: "8 порций, 100г", fullDesc: "Молочный шоколад Kinder Chocolate с нежной молочной начинкой. 8 индивидуальных порций.", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg", kbju: {kcal: 535, protein: 7, fat: 31, carbs: 56} },
-            { name: "Kinder Country", desc: "23.5г", fullDesc: "Молочный шоколад Kinder Country с воздушными злаками и нежной молочной начинкой. Легкий и хрустящий.", price: 10000, category: "sweets", img: "https://i.ebayimg.com/images/g/IXMAAeSwABBpARfP/s-l1200.jpg", kbju: {kcal: 520, protein: 6, fat: 25, carbs: 62} },
-            { name: "Bounty", desc: "57г", fullDesc: "Шоколадный батончик Bounty с нежной кокосовой начинкой, покрытый молочным шоколадом. Вкус тропического рая.", price: 11000, category: "sweets", img: "https://media.vprok.ru/products/x700/yk/cm/cissctp3feyddgtxyjbczupxfnutcmyk.jpeg", isNew: true, kbju: {kcal: 540, protein: 4, fat: 28, carbs: 66} },
-            { name: "Mars", desc: "50г", fullDesc: "Шоколадный батончик Mars с нугой, карамелью и молочным шоколадом. Классический вкус для заряда энергией.", price: 11000, category: "sweets", img: "https://dostavo4ka.uz/upload-file/2021/05/05/4765/4f5cb547-37ff-4191-ba50-9b0917072930.jpg", isNew: true, kbju: {kcal: 488, protein: 4.4, fat: 17, carbs: 68} },
-            { name: "Orion Choco-Pie", desc: "30г", fullDesc: "Бисквитное пирожное Orion Choco-Pie в шоколадной глазури с нежной начинкой маршмеллоу. Идеально к чаю.", price: 5000, category: "sweets", img: "https://cdn.mafrservices.com/pim-content/UAE/media/product/2229158/1737127204/2229158_main.jpg", isNew: true, kbju: {kcal: 420, protein: 5, fat: 15, carbs: 60} },
+            { name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", fullDesc: "Освежающие драже Tic Tac со вкусом мяты в удобной маленькой упаковке. Идеально для свежего дыхания в течение дня.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
+            { name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", fullDesc: "Фруктовые драже Tic Tac со вкусом ягодного микса. Отличный способ освежить дыхание и насладиться ярким вкусом.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
+            { name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", fullDesc: "Драже Tic Tac со вкусом сочного апельсина. Дарит свежесть и приятный цитрусовый аромат.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
+            { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 63 } },
+            { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 } },
+            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
+            { name: "Haribo Goldbears", desc: "80г", fullDesc: "Классические жевательные мармеладки Haribo Goldbears в форме мишек. Фруктовые вкусы для радости детей и взрослых.", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
+            { name: "Haribo Mix", desc: "80г", fullDesc: "Ассорти жевательных мармеладок Haribo Mix с различными формами и вкусами. Отличный выбор для любителей сладостей.", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
+            { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
+            { name: "Kinder Chocolate", desc: "8 порций, 100г", fullDesc: "Молочный шоколад Kinder Chocolate с нежной молочной начинкой. 8 индивидуальных порций.", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg", kbju: { kcal: 535, protein: 7, fat: 31, carbs: 56 } },
+            { name: "Kinder Country", desc: "23.5г", fullDesc: "Молочный шоколад Kinder Country с воздушными злаками и нежной молочной начинкой. Легкий и хрустящий.", price: 10000, category: "sweets", img: "https://i.ebayimg.com/images/g/IXMAAeSwABBpARfP/s-l1200.jpg", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 62 } },
+            { name: "Bounty", desc: "57г", fullDesc: "Шоколадный батончик Bounty с нежной кокосовой начинкой, покрытый молочным шоколадом. Вкус тропического рая.", price: 11000, category: "sweets", img: "https://media.vprok.ru/products/x700/yk/cm/cissctp3feyddgtxyjbczupxfnutcmyk.jpeg", isNew: true, kbju: { kcal: 540, protein: 4, fat: 28, carbs: 66 } },
+            { name: "Mars", desc: "50г", fullDesc: "Шоколадный батончик Mars с нугой, карамелью и молочным шоколадом. Классический вкус для заряда энергией.", price: 11000, category: "sweets", img: "https://dostavo4ka.uz/upload-file/2021/05/05/4765/4f5cb547-37ff-4191-ba50-9b0917072930.jpg", isNew: true, kbju: { kcal: 488, protein: 4.4, fat: 17, carbs: 68 } },
+            { name: "Orion Choco-Pie", desc: "30г", fullDesc: "Бисквитное пирожное Orion Choco-Pie в шоколадной глазури с нежной начинкой маршмеллоу. Идеально к чаю.", price: 5000, category: "sweets", img: "https://cdn.mafrservices.com/pim-content/UAE/media/product/2229158/1737127204/2229158_main.jpg", isNew: true, kbju: { kcal: 420, protein: 5, fat: 15, carbs: 60 } },
 
             // --- COFFEE ---
-            { name: "Jacobs Original", desc: "Original 13.5г", fullDesc: "Растворимый кофе Jacobs Original в стиках. Быстрый и ароматный кофе для бодрого утра.", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg", kbju: {kcal: 2, protein: 0.1, fat: 0, carbs: 0.3} },
-            { name: "MacCoffee", desc: "Cappuccino 25г", fullDesc: "Растворимый капучино MacCoffee с нежной пенкой. Насладитесь вкусом любимого напитка в любое время.", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg", kbju: {kcal: 450, protein: 5, fat: 10, carbs: 75} },
-            { name: "Jacobs Milka", desc: "Original 18г", fullDesc: "Кофе Jacobs Milka с добавлением молочного шоколада. Нежное сочетание кофе и шоколада.", price: 6000, category: "coffee", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/c17900b0-bda9-4dda-9224-afd7fcd04f89/300x300?webp=true", isNew: true, kbju: {kcal: 420, protein: 6, fat: 8, carbs: 68} },
+            { name: "Jacobs Original", desc: "Original 13.5г", fullDesc: "Растворимый кофе Jacobs Original в стиках. Быстрый и ароматный кофе для бодрого утра.", price: 4000, category: "coffee", img: "https://officemax.uz/media/uploads/1_eKw5t9g.jpg", kbju: { kcal: 2, protein: 0.1, fat: 0, carbs: 0.3 } },
+            { name: "MacCoffee", desc: "Cappuccino 25г", fullDesc: "Растворимый капучино MacCoffee с нежной пенкой. Насладитесь вкусом любимого напитка в любое время.", price: 5000, category: "coffee", img: "https://images.uzum.uz/ckv4lslennt861inogag/original.jpg", kbju: { kcal: 450, protein: 5, fat: 10, carbs: 75 } },
+            { name: "Jacobs Milka", desc: "Original 18г", fullDesc: "Кофе Jacobs Milka с добавлением молочного шоколада. Нежное сочетание кофе и шоколада.", price: 6000, category: "coffee", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/c17900b0-bda9-4dda-9224-afd7fcd04f89/300x300?webp=true", isNew: true, kbju: { kcal: 420, protein: 6, fat: 8, carbs: 68 } },
 
             // --- ENERGY ---
-            { name: "Adrenaline Rush", desc: "0.449л", fullDesc: "Энергетический напиток Adrenaline Rush для быстрого восстановления сил и повышения концентрации. Большой объем.", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg", kbju: {kcal: 45, protein: 0, fat: 0, carbs: 11} },
-            { name: "Gorilla Zero Shakar", desc: "0.449л", fullDesc: "Энергетический напиток Gorilla Zero Sugar без сахара. Максимальный заряд энергии без лишних калорий.", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", kbju: {kcal: 0, protein: 0, fat: 0, carbs: 0} },
-            { name: "Gorilla Original", desc: "0.449л", fullDesc: "Классический энергетический напиток Gorilla Original. Мощный заряд бодрости и энергии.", price: 15000, category: "energy_drinks", img: "https://gorillaenergy.com/cdn/shop/files/Gorila_ORIGINAL_can_mockup_500ml_khabib_e372f847-e020-4705-b1c5-f9300fad9e05.png?v=1763397878&width=800", isNew: true, kbju: {kcal: 45, protein: 0, fat: 0, carbs: 11} },
+            { name: "Adrenaline Rush", desc: "0.449л", fullDesc: "Энергетический напиток Adrenaline Rush для быстрого восстановления сил и повышения концентрации. Большой объем.", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
+            { name: "Gorilla Zero Shakar", desc: "0.449л", fullDesc: "Энергетический напиток Gorilla Zero Sugar без сахара. Максимальный заряд энергии без лишних калорий.", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Gorilla Original", desc: "0.449л", fullDesc: "Классический энергетический напиток Gorilla Original. Мощный заряд бодрости и энергии.", price: 15000, category: "energy_drinks", img: "https://gorillaenergy.com/cdn/shop/files/Gorila_ORIGINAL_can_mockup_500ml_khabib_e372f847-e020-4705-b1c5-f9300fad9e05.png?v=1763397878&width=800", isNew: true, kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
 
             // --- SPORT ---
-            { name: "Primekraft", desc: "Шоколад 40г (8г белка, с сахаром)", fullDesc: "Протеиновый батончик Primekraft со вкусом шоколада. Содержит 8г белка, с сахаром. Идеален для быстрого перекуса.", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", kbju: {kcal: 160, protein: 8, fat: 8, carbs: 15} },
-            { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г (10г белка, без сахара)", fullDesc: "Мини-батончики Bombbar в ассортименте. Содержат 10г белка, без сахара. Отличный вариант для здорового перекуса.", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg" , kbju: {kcal: 120, protein: 10, fat: 5, carbs: 4} },
-            { name: "Протеиновые батончики Simple", desc: "Ассорти 50г (20г белка, без сахара)", fullDesc: "Протеиновые батончики Simple в ассортименте. Содержат 20г белка, без сахара. Максимальная польза для мышц.", price: 20000, category: "sport", img: "https://cdn-irec.r-99.com/sites/default/files/imagecache/300o/product-images/361098/a9ltpeJYVgnAkjgWjA65sg.png", isNew: true, kbju: {kcal: 180, protein: 20, fat: 6, carbs: 5} },
-            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г (20г белка, без сахара)", fullDesc: "Большие протеиновые батончики Bombbar в ассортименте. Содержат 20г белка, без сахара. Для серьезных тренировок.", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", kbju: {kcal: 220, protein: 20, fat: 8, carbs: 6} },
-            { name: "CHIKALAB Суфле в шоколаде", desc: "Ассорти 55г (14г белка, без сахара)", fullDesc: "Протеиновое суфле CHIKALAB в шоколаде. Содержит 14г белка, без сахара. Вкусный и полезный десерт.", price: 25000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/18234312/2a0000019b001b055aa0ac809a57998da3c1/orig", isNew: true, kbju: {kcal: 190, protein: 14, fat: 10, carbs: 7} },
+            { name: "Primekraft", desc: "Шоколад 40г (8г белка, с сахаром)", fullDesc: "Протеиновый батончик Primekraft со вкусом шоколада. Содержит 8г белка, с сахаром. Идеален для быстрого перекуса.", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", kbju: { kcal: 160, protein: 8, fat: 8, carbs: 15 } },
+            { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г (10г белка, без сахара)", fullDesc: "Мини-батончики Bombbar в ассортименте. Содержат 10г белка, без сахара. Отличный вариант для здорового перекуса.", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", kbju: { kcal: 120, protein: 10, fat: 5, carbs: 4 } },
+            { name: "Протеиновые батончики Simple", desc: "Ассорти 50г (20г белка, без сахара)", fullDesc: "Протеиновые батончики Simple в ассортименте. Содержат 20г белка, без сахара. Максимальная польза для мышц.", price: 20000, category: "sport", img: "https://cdn-irec.r-99.com/sites/default/files/imagecache/300o/product-images/361098/a9ltpeJYVgnAkjgWjA65sg.png", isNew: true, kbju: { kcal: 180, protein: 20, fat: 6, carbs: 5 } },
+            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г (20г белка, без сахара)", fullDesc: "Большие протеиновые батончики Bombbar в ассортименте. Содержат 20г белка, без сахара. Для серьезных тренировок.", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", kbju: { kcal: 220, protein: 20, fat: 8, carbs: 6 } },
+            { name: "CHIKALAB Суфле в шоколаде", desc: "Ассорти 55г (14г белка, без сахара)", fullDesc: "Протеиновое суфле CHIKALAB в шоколаде. Содержит 14г белка, без сахара. Вкусный и полезный десерт.", price: 25000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/18234312/2a0000019b001b055aa0ac809a57998da3c1/orig", isNew: true, kbju: { kcal: 190, protein: 14, fat: 10, carbs: 7 } },
 
             // --- TOBACCO ---
             { name: "Kent Mix (толстые)", desc: "Пачка", fullDesc: "Сигареты Kent Mix с фильтром. Классический табачный вкус.", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
             { name: "Winston Caster", desc: "Пачка", fullDesc: "Сигареты Winston Caster с капсулой. Освежающий вкус ментола.", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
             { name: "Esse Change", desc: "Пачка", fullDesc: "Сигареты Esse Change с двумя капсулами. Возможность менять вкус.", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
             { name: "Зажигалка BIG", desc: "1 шт", fullDesc: "Надежная газовая зажигалка BIG. Удобна в использовании, долговечна.", price: 10000, category: "tobacco", img: "https://i.ibb.co/4BZmfn9/BIG.png", isNew: true },
-            
+
             // --- OTHER ---
-            { name: "Миндаль Ermak", desc: "Cолёный, 40г", fullDesc: "Соленый миндаль Ermak, 40г. Отличный перекус, богатый белком и полезными жирами.", price: 14000, category: "other", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg", kbju: {kcal: 600, protein: 21, fat: 50, carbs: 10} },
-            { name: "Соленые сушки Ermak", desc: "100г", fullDesc: "Хрустящие соленые сушки Ermak, 100г. Идеально к чаю или как легкий перекус.", price: 8000, category: "other", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg", kbju: {kcal: 350, protein: 10, fat: 2, carbs: 70} },
+            { name: "Миндаль Ermak", desc: "Cолёный, 40г", fullDesc: "Соленый миндаль Ermak, 40г. Отличный перекус, богатый белком и полезными жирами.", price: 14000, category: "snacks", img: "https://images.uzum.uz/ccvs5f35a95unf122ntg/original.jpg", kbju: { kcal: 600, protein: 21, fat: 50, carbs: 10 } },
+            { name: "Соленые сушки Ermak", desc: "100г", fullDesc: "Хрустящие соленые сушки Ermak, 100г. Идеально к чаю или как легкий перекус.", price: 8000, category: "snacks", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg", kbju: { kcal: 350, protein: 10, fat: 2, carbs: 70 } },
+            {
+                name: "Тараллини Nina Farina",
+                desc: "Томат с ароматными травами 180г",
+                fullDesc: "Тараллини Nina Farina — хрустящие итальянские мини-сушки с томатом и ароматными травами.",
+                price: 13000,
+                category: "snacks",
+                img: "https://images.uzum.uz/chc74t9maogscco83vo0/original.jpg",
+                kbju: { kcal: 480, protein: 10, fat: 20, carbs: 64 }, isNew: true /* КБЖУ проверено */
+            },
+            {
+                name: "Тараллини Nina Farina",
+                desc: "С чесноком 180г",
+                fullDesc: "Тараллини Nina Farina — итальянские мини-сушки с насыщенным чесночным вкусом.",
+                price: 13000,
+                category: "snacks",
+                img: "https://images.uzum.uz/cerdqk2vtie1lhbgavtg/original.jpg",
+                kbju: { kcal: 470, protein: 9.5, fat: 20, carbs: 64 }, isNew: true /* КБЖУ проверено */
+            },
+
             { name: "Салфетки", desc: "Влажные 15 шт", fullDesc: "Влажные салфетки, 15 штук. Удобны для гигиены рук в любой ситуации.", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp", },
             { name: "Ложка столовая", desc: "1 шт", fullDesc: "Одноразовая столовая ложка, 1 шт. Удобна для использования в офисе или на пикнике.", price: 1000, category: "other", img: "https://plastikko.ru/i/1/1/10412.jpg" },
-        
+
         ];
 
         // 👉 генерация ID
@@ -870,10 +1068,10 @@
             decs: product.decs || product.decsFull || product.fullDesc || product.desc || '',
             ...product
         }))
-             // Сортируем так, чтобы товары с oldprice (скидкой) шли первыми,
-             // при равенстве сохраняем исходный порядок по originalIndex;
-             // товары, у которых outOfStock=true всегда в самом конце
-             .sort((a, b) => {
+            // Сортируем так, чтобы товары с oldprice (скидкой) шли первыми,
+            // при равенстве сохраняем исходный порядок по originalIndex;
+            // товары, у которых outOfStock=true всегда в самом конце
+            .sort((a, b) => {
                 // oldprice автоматически означает скидку, но для отсутствующих товаров скидку не показываем
                 const hasDiscount = (p) => !!p.oldprice && !p.outOfStock;
                 const rank = (p) => {
@@ -892,6 +1090,7 @@
             { id: 'all', name: 'Все товары' },
             { id: 'drinks', name: 'Напитки 🥤' },
             { id: 'sweets', name: 'Сладости 🍫' },
+            { id: 'snacks', name: 'Снеки 🥨' },
             { id: 'coffee', name: 'Кофе ☕' },
             { id: 'energy_drinks', name: 'Энергетики ⚡️' },
             { id: 'sport', name: 'Спорт 💪' },
@@ -1106,7 +1305,7 @@
                 let fullSizeGr = null;
                 let fullSizeLabel = '';
                 // Пытаемся извлечь размер порции/объема из описания
-                const m = (p.desc||'').match(/([0-9.]+)\s*(л|г|мл)/i);
+                const m = (p.desc || '').match(/([0-9.]+)\s*(л|г|мл)/i);
                 if (m) {
                     const value = parseFloat(m[1]);
                     const unit = m[2].toLowerCase();
@@ -1131,7 +1330,7 @@
                         carbs: +(k100.carbs * fullSizeGr / 100).toFixed(1)
                     };
                 }
-                fullHtml += `<table class="modal-kbju-table"><tr><th>На 100г/100мл:</th>${kFull?'<th>На весь продукт ('+fullSizeLabel+'):</th>':''}</tr><tr><td>Калории: ${k100.kcal}</td>${kFull?'<td>Калории: '+kFull.kcal+'</td>':''}</tr><tr><td>Белки: ${k100.protein}г</td>${kFull?'<td>Белки: '+kFull.protein+'г</td>':''}</tr><tr><td>Жиры: ${k100.fat}г</td>${kFull?'<td>Жиры: '+kFull.fat+'г</td>':''}</tr><tr><td>Углеводы: ${k100.carbs}г</td>${kFull?'<td>Углеводы: '+kFull.carbs+'г</td>':''}</tr></table>`;
+                fullHtml += `<table class="modal-kbju-table"><tr><th>На 100г/100мл:</th>${kFull ? '<th>На весь продукт (' + fullSizeLabel + '):</th>' : ''}</tr><tr><td>Калории: ${k100.kcal}</td>${kFull ? '<td>Калории: ' + kFull.kcal + '</td>' : ''}</tr><tr><td>Белки: ${k100.protein}г</td>${kFull ? '<td>Белки: ' + kFull.protein + 'г</td>' : ''}</tr><tr><td>Жиры: ${k100.fat}г</td>${kFull ? '<td>Жиры: ' + kFull.fat + 'г</td>' : ''}</tr><tr><td>Углеводы: ${k100.carbs}г</td>${kFull ? '<td>Углеводы: ' + kFull.carbs + 'г</td>' : ''}</tr></table>`;
             }
             const fullText = p.decs || p.decsFull || p.fullDesc || p.desc || p.shortDesc || '';
             fullHtml += `<div>${fullText}</div>`;
