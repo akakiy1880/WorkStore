@@ -22,8 +22,61 @@
             --theme-toggle-bg-day: rgba(0, 0, 0, 0.1);
             --theme-toggle-fg-day: #fff;
             --theme-toggle-bg-night: rgba(255, 255, 255, 0.1);
-            --theme-toggle-fg-night: #27272a
+            --theme-toggle-fg-night: #27272a;
+            --bg-night: radial-gradient(circle at 50% 10%, #0f172a 0%, #000000 100%);
+
         }
+
+        /* --- СНЕГ И ЕЛКА --- */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Чтобы сквозь снег можно было кликать */
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            user-select: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        /* Темная тема - снег чуть ярче */
+        .dark-mode .snowflake {
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0px) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(20px) rotate(360deg);
+            }
+        }
+
+        /* Украшение заголовка */
+        .header-decoration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Конец Зимы */
 
         .dark-mode {
             --text-main: #e2e8f0;
@@ -901,10 +954,140 @@
             min-width: 28px;
             font-size: 14px;
         }
+
+        /* --- СТИЛИ ДЛЯ КОРЗИНЫ --- */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .dark-mode .cart-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: #fff;
+            object-fit: contain;
+            padding: 2px;
+            flex-shrink: 0;
+        }
+
+        .cart-details {
+            flex: 1;
+        }
+
+        .cart-name {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .cart-price-calc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .cart-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item-total {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .empty-cart-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Указатель, что цену можно кликнуть */
+        .total-amount {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .total-amount:active {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode #confirm-modal .btn-pay-click[onclick="closeConfirmModal()"] {
+            background: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+
+        /* Обновляем базовый стиль кнопок с эффектом свечения */
+        .btn-pay-click {
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            /* Переменная для цвета свечения по умолчанию */
+            --btn-glow: var(--primary-glow);
+            box-shadow: 0 8px 20px -6px var(--btn-glow);
+        }
+
+        .btn-pay-click:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 12px -4px var(--btn-glow);
+        }
+
+        /* Красная кнопка (Очистить) */
+        #btn-clear-cart {
+            background: #ef4444 !important;
+            --btn-glow: rgba(239, 68, 68, 0.4) !important;
+        }
+
+        /* Кнопка "Отмена" в подтверждении */
+        #confirm-modal .btn-pay-click[onclick="executeClearCart()"] {
+            background: #ef4444 !important;
+            --btn-glow: rgba(239, 68, 68, 0.5) !important;
+        }
+
+        /* Если в темной теме кнопка отмены другая */
+        .dark-mode #confirm-modal .btn-pay-click[onclick="closeConfirmModal()"] {
+            background: #334155 !important;
+            color: #f1f5f9 !important;
+            --btn-glow: rgba(15, 23, 42, 0.4) !important;
+        }
+
+        .btn-pay-click:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 10px -4px var(--btn-glow);
+        }
+
+        /* Кнопка "Готово" или основные синие кнопки (если --primary синий) */
+        .btn-pay-click:not(#btn-clear-cart) {
+            --btn-glow: var(--primary-glow);
+        }
     </style>
 </head>
 
 <body>
+
     <header class="glass-panel">
         <div class="header-grid">
             <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">📋 Заказ</a>
@@ -940,10 +1123,12 @@
             <div>
                 <span class="total-label">К оплате:</span>
             </div>
-            <div class="total-amount" id="total-price-container">
+
+            <div class="total-amount" id="total-price-container" onclick="openCartModal()">
                 <span id="total-price">0 сум</span>
-                <button class="btn-copy-total" onclick="copyTotal()">📋</button>
+
             </div>
+            <button class="btn-copy-total" onclick="copyTotal()">📋</button>
         </div>
         <div class="pay-card" onclick="copyCard()">
             <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:10px; opacity:0.7;">
@@ -958,6 +1143,50 @@
     </div>
 
     <div class="toast" id="toast">✅ Скопировано!</div>
+    <div id="cart-modal" class="modal-overlay" style="z-index: 1100;" aria-hidden="true"
+        onclick="if(event.target===this) closeCartModal()">
+        <div class="modal" role="dialog" aria-modal="true"
+            style="max-height: 80vh; display: flex; flex-direction: column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                <h2 style="margin:0; font-size: 20px;">Ваш заказ 🛒</h2>
+                <button class="modal-close" style="position:static; box-shadow:none; padding: 6px 10px;"
+                    onclick="closeCartModal()">✕</button>
+            </div>
+
+            <div id="cart-list" style="overflow-y: auto; flex: 1; padding-right: 4px;">
+            </div>
+
+            <div style="border-top: 1px solid rgba(0,0,0,0.1); margin-top: 12px; padding-top: 12px;">
+                <div class="total-row" style="margin-bottom: 12px;">
+                    <span style="font-weight:600;">Итого:</span>
+                    <span id="cart-total-display" style="font-size:18px; font-weight:800; color:var(--primary);">0
+                        сум</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="btn-clear-cart" class="btn-pay-click"
+                        style="flex: 1; background: #ef4444; padding: 12px; font-size: 14px;"
+                        onclick="clearCart()">Очистить</button>
+                    <button class="btn-pay-click" style="flex: 2; padding: 12px;"
+                        onclick="closeCartModal()">Готово</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="confirm-modal" class="modal-overlay" style="z-index: 1200;"
+        onclick="if(event.target===this) closeConfirmModal()">
+        <div class="modal" style="max-width: 300px; text-align: center; padding: 25px;">
+            <div style="font-size: 40px; margin-bottom: 15px;">🧹</div>
+            <h3 style="margin-bottom: 10px;">Очистить корзину?</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Все выбранные товары будут
+                удалены из списка.</p>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-pay-click" style="flex: 1; background: #f1f5f9; color: #475569;"
+                    onclick="closeConfirmModal()">Отмена</button>
+                <button class="btn-pay-click" style="flex: 1; background: #ef4444;"
+                    onclick="executeClearCart()">Очистить</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const productsRaw = [
@@ -974,7 +1203,7 @@
             { name: "Fuse Tea Mango & Ananas", desc: "0.5л", fullDesc: "Сочный и ароматный напиток от Fuse Tea с вкусом манго и ананаса. Идеален для утоления жажды в жаркий день и как дополнение к любому приёму пищи.", price: 7000, category: "drinks", img: "https://images.uzum.uz/d030r55pb7f46s87pppg/original.jpg", kbju: { kcal: 40, protein: 0, fat: 0, carbs: 10 }, isNew: true },
             { name: "Dr. Pepper Zero Sugar", desc: "0.33л", fullDesc: "Напиток Dr. Pepper Zero Sugar без сахара, с уникальным вкусом.", price: 23000, category: "drinks", img: "https://nutsboom.com.ua/content/images/49/480x480l50nn0/90031561113485.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
             { name: "Coca-Cola Zero", desc: "1.0л", fullDesc: "Coca‑Cola Zero 1.0л — удобный формат на несколько приемов, без сахара.", price: 11000, category: "drinks", img: "https://rimibaltic-res.cloudinary.com/image/upload/b_white,c_limit,dpr_3.0,f_auto,q_auto:low,w_400/d_ecommerce:backend-fallback.png/MAT_1360569_PCE_EE", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            { name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } , outOfStock: true},
+            { name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, outOfStock: true },
             { name: "Sprite", desc: "1.5л", fullDesc: "Sprite — лимонно‑лаймовый газированный напиток, освежающий и легкий.", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg", kbju: { kcal: 38, protein: 0, fat: 0, carbs: 10 }, outOfStock: true },
             { name: "Fanta", desc: "1.5л", fullDesc: "Fanta — фруктовый газированный напиток с ярким ароматом и сладковатым послевкусием.", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg", kbju: { kcal: 44, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
             { name: "Coca-Cola", desc: "2.0л", fullDesc: "Coca‑Cola 2.0л — семейная упаковка классической Coca‑Cola для компаний и мероприятий.", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
@@ -984,7 +1213,7 @@
             { name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", fullDesc: "Освежающие драже Tic Tac со вкусом мяты в удобной маленькой упаковке. Идеально для свежего дыхания в течение дня.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
             { name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", fullDesc: "Фруктовые драже Tic Tac со вкусом ягодного микса. Отличный способ освежить дыхание и насладиться ярким вкусом.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
             { name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", fullDesc: "Драже Tic Tac со вкусом сочного апельсина. Дарит свежесть и приятный цитрусовый аромат.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
-            { name: "KitKat Chunky Funky", desc: "40г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 13000, category: "sweets", img: "https://ir.ozone.ru/s3/multimedia-1-y/8214871930.jpg", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 }, isNew: true  },
+            { name: "KitKat Chunky Funky", desc: "40г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 13000, category: "sweets", img: "https://ir.ozone.ru/s3/multimedia-1-y/8214871930.jpg", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 }, isNew: true },
             { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 63 } },
             { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 } },
             { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
@@ -1215,6 +1444,8 @@
             }
         };
 
+
+
         // Обновленная функция для изменения количества
         const updateQty = (id, change) => {
             const product = products.find(p => p.id === id);
@@ -1231,14 +1462,22 @@
                 delete cart[id];
             }
 
-            // Оптимизация: перерисовываем кнопку только у одного товара
+            // 1. Обновляем кнопку в основном списке
             renderProductButton(id);
-            // Если открыта модалка этого товара — обновить и там
-            const modal = document.getElementById('product-modal');
-            if (modal && modal.classList.contains('visible')) {
-                const p = products.find(x => x.id === id);
-                if (p) openProductModal(id, true); // true — не открывать заново, а просто обновить содержимое
+
+            // 2. Если открыто детальное модальное окно товара — обновляем его
+            const prodModal = document.getElementById('product-modal');
+            if (prodModal && prodModal.classList.contains('visible')) {
+                openProductModal(id, true);
             }
+
+            // 3. Если открыта корзина — перерисовываем список внутри корзины
+            const cartModal = document.getElementById('cart-modal');
+            if (cartModal && cartModal.classList.contains('visible')) {
+                renderCartItems();
+            }
+
+            // 4. Пересчитываем общую сумму
             calcTotal();
         };
 
@@ -1423,6 +1662,99 @@
                 document.body.classList.add('dark-mode');
             }
         };
+
+        // --- ЛОГИКА КОРЗИНЫ ---
+
+        const openCartModal = () => {
+            renderCartItems();
+            const modal = document.getElementById('cart-modal');
+            modal.classList.add('visible');
+            modal.setAttribute('aria-hidden', 'false');
+        };
+
+        const closeCartModal = () => {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.remove('visible');
+            modal.setAttribute('aria-hidden', 'true');
+        };
+
+        // Добавьте эту функцию в ваш <script>
+        // Открыть окно подтверждения
+        const clearCart = () => {
+            if (Object.keys(cart).length === 0) return;
+            document.getElementById('confirm-modal').classList.add('visible');
+        };
+
+        // Закрыть окно подтверждения
+        const closeConfirmModal = () => {
+            document.getElementById('confirm-modal').classList.remove('visible');
+        };
+
+        // Сама очистка (выполняется при нажатии "Очистить" в модалке)
+        const executeClearCart = () => {
+            const ids = Object.keys(cart).map(Number);
+            cart = {};
+
+            ids.forEach(id => renderProductButton(id));
+
+            // Если была открыта карточка товара
+            closeProductModal();
+
+            // Обновляем интерфейс
+            calcTotal();
+            renderCartItems();
+
+            // Закрываем окно подтверждения и корзину
+            closeConfirmModal();
+
+            showToast("🧹 Корзина очищена");
+        };
+
+        // Замените существующую функцию renderCartItems на эту (добавлено управление кнопкой очистки)
+        const renderCartItems = () => {
+            const container = document.getElementById('cart-list');
+            const cartIds = Object.keys(cart).map(Number);
+            const clearBtn = document.getElementById('btn-clear-cart');
+
+            if (cartIds.length === 0) {
+                container.innerHTML = '<div class="empty-cart-msg">Корзина пуста 😔<br>Добавьте что-нибудь вкусненькое!</div>';
+                document.getElementById('cart-total-display').innerText = '0 сум';
+                if (clearBtn) clearBtn.style.display = 'none'; // Скрываем кнопку, если пусто
+                return;
+            }
+
+            if (clearBtn) clearBtn.style.display = 'block'; // Показываем кнопку
+
+            let html = '';
+            let total = 0;
+            const cartProducts = products.filter(p => cart[p.id]).sort((a, b) => a.originalIndex - b.originalIndex);
+
+            cartProducts.forEach(p => {
+                const qty = cart[p.id];
+                const lineTotal = p.price * qty;
+                total += lineTotal;
+
+                html += `
+                <div class="cart-item">
+                    <img src="${p.img}" class="cart-img">
+                    <div class="cart-details">
+                        <div class="cart-name">${p.name}</div>
+                        <div class="cart-price-calc">${qty} x ${formatPrice(p.price)} = <strong>${formatPrice(lineTotal)}</strong></div>
+                    </div>
+                    <div class="counter-widget" style="padding: 2px;">
+                         <button class="btn-qty" style="width:26px; height:26px; font-size:16px;" onclick="updateQty(${p.id}, -1)">−</button>
+                         <span class="qty-val" style="min-width:24px; font-size:16px;">${qty}</span>
+                         <button class="btn-qty" style="width:26px; height:26px; font-size:16px;" onclick="updateQty(${p.id}, 1)">+</button>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('cart-total-display').innerText = formatPrice(total) + ' сум';
+        };
+
+
+
 
         init();
     </script>
