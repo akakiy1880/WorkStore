@@ -17,8 +17,8 @@
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-bg-not_transarent: rgba(50, 50, 50, 1);
             --glass-border: rgba(255, 255, 255, 0.6);
-            --bg-day: radial-gradient(circle at 50% 10%, #fbbf24 0%, rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
-            --bg-night: radial-gradient(circle at 50% 3%, #e2e8f0 3%, rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            --bg-day: radial-gradient(rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
+            --bg-night: radial-gradient(rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
             --theme-toggle-bg-day: rgba(0, 0, 0, 0.1);
             --theme-toggle-fg-day: #fff;
             --theme-toggle-bg-night: rgba(255, 255, 255, 0.1);
@@ -27,36 +27,7 @@
 
         }
 
-        /* --- СНЕГ И ЕЛКА --- */
-        #snow-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            /* Чтобы сквозь снег можно было кликать */
-            z-index: 9999;
-            overflow: hidden;
-        }
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: white;
-            font-size: 1em;
-            opacity: 0.8;
-            user-select: none;
-            animation-name: fall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-
-        /* Темная тема - снег чуть ярче */
-        .dark-mode .snowflake {
-            opacity: 0.9;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
 
         @keyframes fall {
             0% {
@@ -86,9 +57,15 @@
             --glass-border: rgba(255, 255, 255, 0.1)
         }
 
+        html {
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+
         body {
             margin: 0;
             padding: 0;
+            padding-top: 80px;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             padding-bottom: 240px;
@@ -96,13 +73,231 @@
             background-attachment: fixed;
             background-size: cover;
             transition: background 0.5s ease;
-            color: var(--text-main)
+            color: var(--text-main);
+            position: relative;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         .dark-mode {
             background: var(--bg-night);
             background-attachment: fixed;
             background-size: cover
+        }
+
+        /* Параллакс элементы - Солнце и Луна */
+
+        .parallax-moon {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.5s ease, transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .parallax-moon {
+            top: 8%;
+            right: 12%;
+            background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+            box-shadow: 0 0 40px rgba(226, 232, 240, 0.4), 0 0 80px rgba(226, 232, 240, 0.2);
+            opacity: 0;
+            --moon-rotation: 0deg;
+            --moon-shadow-intensity: 1;
+            transform-origin: center center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .dark-mode .parallax-moon {
+            opacity: 0.8;
+        }
+
+        /* Дополнительные эффекты для луны */
+        .parallax-moon::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.3);
+            box-shadow:
+                -15px 10px 0 -5px rgba(148, 163, 184, 0.2),
+                -25px 20px 0 -8px rgba(148, 163, 184, 0.15),
+                15px -10px 0 -5px rgba(148, 163, 184, 0.2);
+        }
+
+        /* Контейнер для звезд */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .dark-mode .star {
+            opacity: 1;
+        }
+
+        .star.small {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
+        }
+
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 1);
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Планеты */
+        .planet {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.5s ease, transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .planet.venus {
+            width: 20px;
+            height: 20px;
+            top: 15%;
+            left: 10%;
+            background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ff8c00 100%);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            opacity: 0;
+        }
+
+        .dark-mode .planet.venus {
+            opacity: 0.6;
+        }
+
+        .planet.mars {
+            width: 25px;
+            height: 25px;
+            top: 25%;
+            left: 85%;
+            background: radial-gradient(circle at 30% 30%, #ff6b47 0%, #cc4125 100%);
+            box-shadow: 0 0 20px rgba(255, 107, 71, 0.4);
+            opacity: 0;
+        }
+
+        .dark-mode .planet.mars {
+            opacity: 0.5;
+        }
+
+        .planet.jupiter {
+            width: 30px;
+            height: 30px;
+            top: 60%;
+            left: 5%;
+            background: radial-gradient(circle at 30% 30%, #ffa500 0%, #ff8c00 50%, #ff6347 100%);
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
+            opacity: 0;
+        }
+
+        .dark-mode .planet.jupiter {
+            opacity: 0.4;
+        }
+
+
+
+        .dark-mode .eclipse-shadow {
+            opacity: 0.3;
+            animation: eclipseMove 20s ease-in-out infinite;
+        }
+
+        @keyframes eclipseMove {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-10px, 10px) scale(1.1);
+            }
+        }
+
+
+
+
+        /* Луна исчезает когда все товары закончились */
+        .parallax-moon.all-out-of-stock {
+            opacity: 0 !important;
+            transform: translateY(0) scale(0);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
+
+            .parallax-moon {
+                width: 100px;
+                height: 100px;
+            }
+
+
+            .parallax-moon {
+                top: 6%;
+                right: 8%;
+            }
+
+
+        }
+
+        @media (max-width: 480px) {
+
+            .parallax-moon {
+                width: 80px;
+                height: 80px;
+            }
+
+
+
+            .parallax-moon {
+                top: 5%;
+                right: 6%;
+            }
         }
 
         * {
@@ -119,11 +314,19 @@
         }
 
         header {
-            position: sticky;
+            position: fixed;
+            /* Фиксированное позиционирование относительно окна */
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            /* Высокий индекс, чтобы хедер был поверх карточек */
             padding: 12px 16px;
-            margin-bottom: 10px
+            background: var(--glass-bg);
+            /* Добавляем фон, иначе под ним будет виден текст при скролле */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .header-grid {
@@ -163,6 +366,7 @@
             margin: 0;
             background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent
         }
 
@@ -1087,6 +1291,19 @@
 </head>
 
 <body>
+    <!-- Параллакс элементы - Солнце и Луна -->
+    <div class="parallax-moon"></div>
+
+    <!-- Эффекты -->
+
+
+    <!-- Планеты -->
+    <div class="planet venus"></div>
+    <div class="planet mars"></div>
+    <div class="planet jupiter"></div>
+
+    <!-- Контейнер для звезд -->
+    <div class="stars-container" id="stars-container"></div>
 
     <header class="glass-panel">
         <div class="header-grid">
@@ -1195,6 +1412,9 @@
             // --- DRINKS (Напитки) ---
             { outOfStock: true, name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { outOfStock: true, name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { isNew: true, name: "Bonaqua", desc: "Газированная вода (темно-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://ppmarket.in.ua/wp-content/uploads/2023/08/bonaqua-carbonated.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { isNew: true, name: "Bonaqua", desc: "Не газированная вода (светло-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://img.postershop.me/10936/Products/4211201_1692722144.619_original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+
             { name: "Coca-Cola", desc: "0.5л", fullDesc: "Классическая Coca‑Cola — газированный напиток с узнаваемым вкусом карамели и специй.", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 } },
             { name: "Coca-Cola Zero", desc: "0.5л", fullDesc: "Coca‑Cola Zero — без сахара, с привычным вкусом Coca‑Cola, низкокалорийный вариант.", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Pepsi", desc: "0.5л", fullDesc: "Pepsi — газированный безалкогольный напиток с классическим сладким вкусом.", price: 7000, category: "drinks", img: "https://buy.am/media/image/f6/90/24/yerevan-city-1034692.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 10.6 } },
@@ -1216,7 +1436,7 @@
             { name: "KitKat Chunky Funky", desc: "40г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 13000, category: "sweets", img: "https://ir.ozone.ru/s3/multimedia-1-y/8214871930.jpg", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 }, isNew: true },
             { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 63 } },
             { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 } },
-            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
+            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://cdn-kz3.foodpicasso.com/assets/2024/05/13/9dff8ecacfd0a6ec8637e54d630f3909---png_1000x_103c0_convert.png", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
             { name: "Haribo Goldbears", desc: "80г", fullDesc: "Классические жевательные мармеладки Haribo Goldbears в форме мишек. Фруктовые вкусы для радости детей и взрослых.", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
             { name: "Haribo Mix", desc: "80г", fullDesc: "Ассорти жевательных мармеладок Haribo Mix с различными формами и вкусами. Отличный выбор для любителей сладостей.", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
             { outOfStock: true, name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
@@ -1238,9 +1458,10 @@
             { name: "Adrenaline Rush", desc: "0.449л", fullDesc: "Энергетический напиток Adrenaline Rush для быстрого восстановления сил и повышения концентрации. Большой объем.", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
             { name: "Gorilla Zero Shakar", desc: "0.449л", fullDesc: "Энергетический напиток Gorilla Zero Sugar без сахара. Максимальный заряд энергии без лишних калорий.", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Gorilla Original", desc: "0.449л", fullDesc: "Классический энергетический напиток Gorilla Original. Мощный заряд бодрости и энергии.", price: 15000, category: "energy_drinks", img: "https://gorillaenergy.com/cdn/shop/files/Gorila_ORIGINAL_can_mockup_500ml_khabib_e372f847-e020-4705-b1c5-f9300fad9e05.png?v=1763397878&width=800", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
+            { name: "Lit Energy ZEROSUGAR", desc: "0.450л", fullDesc: "Энергетический напиток Lit Energy с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 19000, category: "energy_drinks", img: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/09/b03c81f6-c271-4598-8315-e0fc92d7e9aa", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
             { name: "Lit Energy Blueberry", desc: "0.450л", fullDesc: "Энергетический напиток Lit Energy с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 19000, category: "energy_drinks", img: "https://shop.tegen.uz/wp-content/uploads/2025/11/4680232930120_2.jpg", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 }, isNew: true },
-            { outOfStock: true, name: "by Баста Zero Shugar", desc: "0.450л", fullDesc: "Энергетический напиток by Баста с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 21000, category: "energy_drinks", img: "https://tsx.x5static.net/i/1600x1600-fit/xdelivery/files/10/9d/ee03d37d7318e8a464e11a4562e3.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
-
+            { name: "by Баста Zero Shugar", desc: "0.450л", fullDesc: "Энергетический напиток by Баста с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 21000, category: "energy_drinks", img: "https://tsx.x5static.net/i/1600x1600-fit/xdelivery/files/10/9d/ee03d37d7318e8a464e11a4562e3.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
+            { name: "Primekraft Energy Sport MUSCLE (фиолетовый)", desc: "0.450л", fullDesc: "Энергетический напиток Primekraft Energy Sport MUSCLE.", price: 17000, category: "energy_drinks", img: "https://whey.kz/wp-content/uploads/2024/07/prime-kraft-energy-sport-muscle-500.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
 
             // --- SPORT ---
             { name: "Primekraft", desc: "Шоколад 40г (8г белка, с сахаром)", fullDesc: "Протеиновый батончик Primekraft со вкусом шоколада. Содержит 8г белка, с сахаром. Идеален для быстрого перекуса.", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", kbju: { kcal: 160, protein: 8, fat: 8, carbs: 15 } },
@@ -1441,6 +1662,11 @@
                     </div>
                 </div>`;
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
+            }
+
+            // Проверяем наличие товаров и обновляем видимость луны
+            if (typeof checkProductsAvailability === 'function') {
+                checkProductsAvailability();
             }
         };
 
@@ -1752,7 +1978,206 @@
             container.innerHTML = html;
             document.getElementById('cart-total-display').innerText = formatPrice(total) + ' сум';
         };
-        
+
+        // --- ПАРАЛЛАКС ЭФФЕКТ ДЛЯ СОЛНЦА И ЛУНЫ ---
+        const parallaxSun = document.querySelector('.parallax-sun');
+        const parallaxMoon = document.querySelector('.parallax-moon');
+
+        const handleParallax = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const windowWidth = window.innerWidth;
+
+            // Определяем, мобильное ли это устройство
+            const isMobile = windowWidth <= 768;
+            const isSmallMobile = windowWidth <= 480;
+
+            // Адаптивная скорость параллакса: на мобильных медленнее
+            let parallaxSpeed = 0.3;
+            if (isSmallMobile) {
+                parallaxSpeed = 0.1; // Очень медленно на маленьких экранах
+            } else if (isMobile) {
+                parallaxSpeed = 0.15; // Медленнее на мобильных
+            }
+
+            // Вычисляем смещение (солнце/луна двигаются медленнее, чем контент)
+            let offset = scrollY * parallaxSpeed;
+
+            // Ограничиваем максимальное смещение, чтобы солнце/луна не исчезали
+            // Максимум 30% от высоты экрана
+            const maxOffset = windowHeight * 0.4;
+            offset = Math.min(offset, maxOffset);
+
+
+
+            if (parallaxMoon) {
+                // Вращение луны при прокрутке (полный оборот каждые 3000px прокрутки)
+                const rotationSpeed = 360 / 3000; // градусов на пиксель
+                const moonRotation = (scrollY * rotationSpeed) % 360;
+
+                // Интенсивность тени: циклически изменяется от минимальной (0.5) через среднюю (1) до максимальной (1.8) и обратно
+                // Один полный цикл каждые 2000px прокрутки
+                const shadowCycle = (scrollY % 2000) / 2000; // от 0 до 1
+                let shadowIntensity;
+                if (shadowCycle < 0.33) {
+                    // От минимальной (0.5) до средней (1)
+                    shadowIntensity = 0.5 + (shadowCycle / 0.33) * 0.5; // 0.5 -> 1
+                } else if (shadowCycle < 0.66) {
+                    // От средней (1) до максимальной (1.8)
+                    shadowIntensity = 1 + ((shadowCycle - 0.33) / 0.33) * 0.8; // 1 -> 1.8
+                } else {
+                    // От максимальной (1.8) обратно к минимальной (0.5)
+                    shadowIntensity = 1.8 - ((shadowCycle - 0.66) / 0.34) * 1.3; // 1.8 -> 0.5
+                }
+
+                // Применяем трансформацию с вращением
+                parallaxMoon.style.setProperty('--moon-rotation', `${moonRotation}deg`);
+                parallaxMoon.style.setProperty('--moon-shadow-intensity', shadowIntensity);
+                parallaxMoon.style.transform = `translateY(${offset}px) rotate(var(--moon-rotation))`;
+
+                // Обновляем тень на основе интенсивности (более заметные изменения)
+                const baseShadow1 = 30 * shadowIntensity;
+                const baseShadow2 = 60 * shadowIntensity;
+                const baseShadow3 = 100 * shadowIntensity;
+                const opacity1 = Math.min(0.6 * shadowIntensity, 0.8);
+                const opacity2 = Math.min(0.4 * shadowIntensity, 0.6);
+                const opacity3 = Math.min(0.2 * shadowIntensity, 0.3);
+                parallaxMoon.style.boxShadow =
+                    `0 0 ${baseShadow1}px rgba(226, 232, 240, ${opacity1}), 
+                     0 0 ${baseShadow2}px rgba(226, 232, 240, ${opacity2}),
+                     0 0 ${baseShadow3}px rgba(148, 163, 184, ${opacity3})`;
+            }
+        };
+
+        // Оптимизация: используем requestAnimationFrame для плавности
+        let ticking = false;
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        // Добавляем обработчик прокрутки
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Вызываем при загрузке для начальной позиции
+        handleParallax();
+
+        // --- ГЕНЕРАЦИЯ ЗВЕЗД ---
+        const generateStars = () => {
+            const starsContainer = document.getElementById('stars-container');
+            if (!starsContainer) return;
+
+            starsContainer.innerHTML = '';
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                // Случайный размер
+                const size = Math.random();
+                if (size < 0.6) {
+                    star.classList.add('small');
+                } else if (size < 0.9) {
+                    star.classList.add('medium');
+                } else {
+                    star.classList.add('large');
+                }
+
+                // Случайная позиция
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+
+                // Случайная задержка анимации
+                star.style.animationDelay = Math.random() * 3 + 's';
+
+                starsContainer.appendChild(star);
+            }
+        };
+
+        // --- ПАРАЛЛАКС ДЛЯ ПЛАНЕТ ---
+        const planets = document.querySelectorAll('.planet');
+        const handlePlanetsParallax = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const parallaxSpeed = 0.2; // Планеты двигаются еще медленнее
+
+            planets.forEach((planet, index) => {
+                const offset = scrollY * parallaxSpeed * (1 + index * 0.1);
+                planet.style.transform = `translateY(${offset}px)`;
+            });
+        };
+
+        // Обновляем функцию onScroll для включения планет
+        const onScrollExtended = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleParallax();
+                    handlePlanetsParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        // Заменяем старый обработчик
+        window.removeEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScrollExtended, { passive: true });
+
+        // --- ПРОВЕРКА НАЛИЧИЯ ТОВАРОВ И УПРАВЛЕНИЕ ЛУНОЙ ---
+        const checkProductsAvailability = () => {
+            const parallaxMoon = document.querySelector('.parallax-moon');
+            if (!parallaxMoon) return;
+
+            // Проверяем, есть ли товары в наличии (не outOfStock)
+            const hasInStockProducts = products.some(p => !p.outOfStock);
+
+            if (!hasInStockProducts) {
+                // Все товары закончились - луна исчезает
+                parallaxMoon.classList.add('all-out-of-stock');
+            } else {
+                // Есть товары в наличии - луна видна (если темная тема)
+                parallaxMoon.classList.remove('all-out-of-stock');
+            }
+        };
+
+        // Проверяем при загрузке и после рендеринга товаров
+        checkProductsAvailability();
+
+        // Генерируем звезды при загрузке
+        generateStars();
+
+        // --- ПРЕДОТВРАЩЕНИЕ ПРОКРУТКИ ВЫШЕ HEADER ---
+        let lastScrollTop = 0;
+        const preventScrollAboveHeader = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Если пытаемся прокрутить выше начала страницы
+            if (scrollTop < 0) {
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            // Если прокрутка меньше 0 (не должно быть, но на всякий случай)
+            if (scrollTop < lastScrollTop && scrollTop < 10) {
+                window.scrollTo(0, 0);
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        };
+
+        // Добавляем обработчик для предотвращения прокрутки выше header
+        window.addEventListener('scroll', preventScrollAboveHeader, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+            if (window.scrollY <= 0 && e.touches[0].clientY > e.touches[0].clientY) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         init();
     </script>
 </body>
