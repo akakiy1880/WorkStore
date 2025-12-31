@@ -27,36 +27,7 @@
 
         }
 
-        /* --- СНЕГ И ЕЛКА --- */
-        #snow-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            /* Чтобы сквозь снег можно было кликать */
-            z-index: 9999;
-            overflow: hidden;
-        }
-
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: white;
-            font-size: 1em;
-            opacity: 0.8;
-            user-select: none;
-            animation-name: fall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-
-        /* Темная тема - снег чуть ярче */
-        .dark-mode .snowflake {
-            opacity: 0.9;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
+       
 
         @keyframes fall {
             0% {
@@ -86,6 +57,11 @@
             --glass-border: rgba(255, 255, 255, 0.1)
         }
 
+        html {
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -99,6 +75,7 @@
             color: var(--text-main);
             position: relative;
             overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         .dark-mode {
@@ -108,7 +85,7 @@
         }
 
         /* Параллакс элементы - Солнце и Луна */
-        .parallax-sun,
+
         .parallax-moon {
             position: fixed;
             width: 120px;
@@ -120,24 +97,16 @@
             will-change: transform;
         }
 
-        .parallax-sun {
-            top: 10%;
-            right: 15%;
-            background: radial-gradient(circle at 30% 30%, #fff 0%, #fbbf24 40%, #f59e0b 100%);
-            box-shadow: 0 0 60px rgba(251, 191, 36, 0.6), 0 0 120px rgba(251, 191, 36, 0.3);
-            opacity: 0.9;
-        }
-
-        .dark-mode .parallax-sun {
-            opacity: 0;
-        }
-
         .parallax-moon {
             top: 8%;
             right: 12%;
             background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
             box-shadow: 0 0 40px rgba(226, 232, 240, 0.4), 0 0 80px rgba(226, 232, 240, 0.2);
             opacity: 0;
+            --moon-rotation: 0deg;
+            --moon-shadow-intensity: 1;
+            transform-origin: center center;
+            transition: box-shadow 0.3s ease;
         }
 
         .dark-mode .parallax-moon {
@@ -260,20 +229,7 @@
             opacity: 0.4;
         }
 
-        /* Эффект затмения */
-        .eclipse-shadow {
-            position: fixed;
-            top: 8%;
-            right: 12%;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+       
 
         .dark-mode .eclipse-shadow {
             opacity: 0.3;
@@ -285,33 +241,46 @@
             50% { transform: translate(-10px, 10px) scale(1.1); }
         }
 
-        /* Эффект заката */
-        .sunset-glow {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to top, 
-                rgba(255, 87, 34, 0.3) 0%,
-                rgba(255, 152, 0, 0.2) 30%,
-                rgba(255, 193, 7, 0.1) 60%,
-                transparent 100%);
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
 
-        body:not(.dark-mode) .sunset-glow {
-            opacity: 0.6;
-        }
+   
 
         /* Луна исчезает когда все товары закончились */
         .parallax-moon.all-out-of-stock {
             opacity: 0 !important;
             transform: translateY(0) scale(0);
             transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
+           
+            .parallax-moon {
+                width: 100px;
+                height: 100px;
+            }
+
+
+            .parallax-moon {
+                top: 6%;
+                right: 8%;
+            }
+
+           
+        }
+
+        @media (max-width: 480px) {
+            
+            .parallax-moon {
+                width: 80px;
+                height: 80px;
+            }
+
+          
+
+            .parallax-moon {
+                top: 5%;
+                right: 6%;
+            }
         }
 
         * {
@@ -1298,12 +1267,10 @@
 
 <body>
     <!-- Параллакс элементы - Солнце и Луна -->
-    <div class="parallax-sun"></div>
     <div class="parallax-moon"></div>
     
     <!-- Эффекты -->
-    <div class="eclipse-shadow"></div>
-    <div class="sunset-glow"></div>
+
     
     <!-- Планеты -->
     <div class="planet venus"></div>
@@ -1990,22 +1957,66 @@
         const handleParallax = () => {
             const scrollY = window.scrollY || window.pageYOffset;
             const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            const maxScroll = documentHeight - windowHeight;
+            const windowWidth = window.innerWidth;
             
-            // Коэффициент параллакса (чем меньше, тем медленнее движение)
-            const parallaxSpeed = 0.3;
+            // Определяем, мобильное ли это устройство
+            const isMobile = windowWidth <= 768;
+            const isSmallMobile = windowWidth <= 480;
             
-            // Вычисляем смещение (солнце/луна двигаются медленнее, чем контент)
-            const offset = scrollY * parallaxSpeed;
-            
-            // Применяем трансформацию
-            if (parallaxSun) {
-                parallaxSun.style.transform = `translateY(${offset}px)`;
+            // Адаптивная скорость параллакса: на мобильных медленнее
+            let parallaxSpeed = 0.3;
+            if (isSmallMobile) {
+                parallaxSpeed = 0.1; // Очень медленно на маленьких экранах
+            } else if (isMobile) {
+                parallaxSpeed = 0.15; // Медленнее на мобильных
             }
             
+            // Вычисляем смещение (солнце/луна двигаются медленнее, чем контент)
+            let offset = scrollY * parallaxSpeed;
+            
+            // Ограничиваем максимальное смещение, чтобы солнце/луна не исчезали
+            // Максимум 30% от высоты экрана
+            const maxOffset = windowHeight * 0.5;
+            offset = Math.min(offset, maxOffset);
+            
+           
+            
             if (parallaxMoon) {
-                parallaxMoon.style.transform = `translateY(${offset}px)`;
+                // Вращение луны при прокрутке (полный оборот каждые 3000px прокрутки)
+                const rotationSpeed = 360 / 3000; // градусов на пиксель
+                const moonRotation = (scrollY * rotationSpeed) % 360;
+                
+                // Интенсивность тени: циклически изменяется от минимальной (0.5) через среднюю (1) до максимальной (1.8) и обратно
+                // Один полный цикл каждые 2000px прокрутки
+                const shadowCycle = (scrollY % 2000) / 2000; // от 0 до 1
+                let shadowIntensity;
+                if (shadowCycle < 0.33) {
+                    // От минимальной (0.5) до средней (1)
+                    shadowIntensity = 0.5 + (shadowCycle / 0.33) * 0.5; // 0.5 -> 1
+                } else if (shadowCycle < 0.66) {
+                    // От средней (1) до максимальной (1.8)
+                    shadowIntensity = 1 + ((shadowCycle - 0.33) / 0.33) * 0.8; // 1 -> 1.8
+                } else {
+                    // От максимальной (1.8) обратно к минимальной (0.5)
+                    shadowIntensity = 1.8 - ((shadowCycle - 0.66) / 0.34) * 1.3; // 1.8 -> 0.5
+                }
+                
+                // Применяем трансформацию с вращением
+                parallaxMoon.style.setProperty('--moon-rotation', `${moonRotation}deg`);
+                parallaxMoon.style.setProperty('--moon-shadow-intensity', shadowIntensity);
+                parallaxMoon.style.transform = `translateY(${offset}px) rotate(var(--moon-rotation))`;
+                
+                // Обновляем тень на основе интенсивности (более заметные изменения)
+                const baseShadow1 = 30 * shadowIntensity;
+                const baseShadow2 = 60 * shadowIntensity;
+                const baseShadow3 = 100 * shadowIntensity;
+                const opacity1 = Math.min(0.6 * shadowIntensity, 0.8);
+                const opacity2 = Math.min(0.4 * shadowIntensity, 0.6);
+                const opacity3 = Math.min(0.2 * shadowIntensity, 0.3);
+                parallaxMoon.style.boxShadow = 
+                    `0 0 ${baseShadow1}px rgba(226, 232, 240, ${opacity1}), 
+                     0 0 ${baseShadow2}px rgba(226, 232, 240, ${opacity2}),
+                     0 0 ${baseShadow3}px rgba(148, 163, 184, ${opacity3})`;
             }
         };
 
@@ -2110,6 +2121,33 @@
         
         // Генерируем звезды при загрузке
         generateStars();
+
+        // --- ПРЕДОТВРАЩЕНИЕ ПРОКРУТКИ ВЫШЕ HEADER ---
+        let lastScrollTop = 0;
+        const preventScrollAboveHeader = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Если пытаемся прокрутить выше начала страницы
+            if (scrollTop < 0) {
+                window.scrollTo(0, 0);
+                return;
+            }
+            
+            // Если прокрутка меньше 0 (не должно быть, но на всякий случай)
+            if (scrollTop < lastScrollTop && scrollTop < 10) {
+                window.scrollTo(0, 0);
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        };
+
+        // Добавляем обработчик для предотвращения прокрутки выше header
+        window.addEventListener('scroll', preventScrollAboveHeader, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+            if (window.scrollY <= 0 && e.touches[0].clientY > e.touches[0].clientY) {
+                e.preventDefault();
+            }
+        }, { passive: false });
         
         init();
     </script>
