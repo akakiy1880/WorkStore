@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Офис Маркет 🛒</title>
+    <title>Офис Маркет</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/cart.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/cart.png">
+
+    
     <style>
         /* CSS в одну строку (сжатый) для основных элементов */
         :root {
@@ -61,6 +65,8 @@
             overflow-x: hidden;
             overscroll-behavior-y: none;
         }
+
+
 
         body {
             margin: 0;
@@ -1437,6 +1443,7 @@
             { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 63 } },
             { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 } },
             { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://cdn-kz3.foodpicasso.com/assets/2024/05/13/9dff8ecacfd0a6ec8637e54d630f3909---png_1000x_103c0_convert.png", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
+            { isNew : true, name: "Milky Way", desc: "54г", fullDesc: "Milky Way (англ. — \"Млечный Путь\") — шоколадный батончик, покрытый молочным шоколадом с легкой ванильной нугой", price: 14000, category: "sweets", img: "https://images-foodtech.magnit.ru/DTRYPTKQJexKkyuvlMUR9ldMAgh6aE-G8D4_SJEZv0c/rs:fit:1600:1600/plain/s3://img-dostavka/catalog/uf/48b/48b7e22fd761dd80b515fb012fb54765/d247ad7defffaa3e93a6d2cafa3d426e.jpeg@webp", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
             { name: "Haribo Goldbears", desc: "80г", fullDesc: "Классические жевательные мармеладки Haribo Goldbears в форме мишек. Фруктовые вкусы для радости детей и взрослых.", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
             { name: "Haribo Mix", desc: "80г", fullDesc: "Ассорти жевательных мармеладок Haribo Mix с различными формами и вкусами. Отличный выбор для любителей сладостей.", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
             { outOfStock: true, name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
@@ -1884,11 +1891,13 @@
         };
 
         const loadTheme = () => {
-            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || !savedTheme || window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
             }
         };
-
         // --- ЛОГИКА КОРЗИНЫ ---
 
         const openCartModal = () => {
