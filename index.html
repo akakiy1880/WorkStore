@@ -5,12 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Офис Маркет</title>
+    <title>Офис Маркет 🛒</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/cart.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/cart.png">
-
-    
     <style>
         /* CSS в одну строку (сжатый) для основных элементов */
         :root {
@@ -21,37 +17,13 @@
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-bg-not_transarent: rgba(50, 50, 50, 1);
             --glass-border: rgba(255, 255, 255, 0.6);
-            --bg-day: radial-gradient(rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
-            --bg-night: radial-gradient(rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            --bg-day: radial-gradient(circle at 50% 10%, #fbbf24 0%, rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
+            --bg-night: radial-gradient(circle at 50% 3%, #e2e8f0 3%, rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
             --theme-toggle-bg-day: rgba(0, 0, 0, 0.1);
             --theme-toggle-fg-day: #fff;
             --theme-toggle-bg-night: rgba(255, 255, 255, 0.1);
-            --theme-toggle-fg-night: #27272a;
-            --bg-night: radial-gradient(circle at 50% 10%, #0f172a 0%, #000000 100%);
-
+            --theme-toggle-fg-night: #27272a
         }
-
-
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-10vh) translateX(0px) rotate(0deg);
-            }
-
-            100% {
-                transform: translateY(110vh) translateX(20px) rotate(360deg);
-            }
-        }
-
-        /* Украшение заголовка */
-        .header-decoration {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        /* Конец Зимы */
 
         .dark-mode {
             --text-main: #e2e8f0;
@@ -61,17 +33,9 @@
             --glass-border: rgba(255, 255, 255, 0.1)
         }
 
-        html {
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
-        }
-
-
-
         body {
             margin: 0;
             padding: 0;
-            padding-top: 80px;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             padding-bottom: 240px;
@@ -79,231 +43,13 @@
             background-attachment: fixed;
             background-size: cover;
             transition: background 0.5s ease;
-            color: var(--text-main);
-            position: relative;
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
+            color: var(--text-main)
         }
 
         .dark-mode {
             background: var(--bg-night);
             background-attachment: fixed;
             background-size: cover
-        }
-
-        /* Параллакс элементы - Солнце и Луна */
-
-        .parallax-moon {
-            position: fixed;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transition: opacity 0.5s ease, transform 0.1s ease-out;
-            will-change: transform;
-        }
-
-        .parallax-moon {
-            top: 8%;
-            right: 12%;
-            background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
-            box-shadow: 0 0 40px rgba(226, 232, 240, 0.4), 0 0 80px rgba(226, 232, 240, 0.2);
-            opacity: 0;
-            --moon-rotation: 0deg;
-            --moon-shadow-intensity: 1;
-            transform-origin: center center;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .dark-mode .parallax-moon {
-            opacity: 0.8;
-        }
-
-        /* Дополнительные эффекты для луны */
-        .parallax-moon::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 25%;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(148, 163, 184, 0.3);
-            box-shadow:
-                -15px 10px 0 -5px rgba(148, 163, 184, 0.2),
-                -25px 20px 0 -8px rgba(148, 163, 184, 0.15),
-                15px -10px 0 -5px rgba(148, 163, 184, 0.2);
-        }
-
-        /* Контейнер для звезд */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .dark-mode .star {
-            opacity: 1;
-        }
-
-        .star.small {
-            width: 1px;
-            height: 1px;
-            box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
-        }
-
-        .star.medium {
-            width: 2px;
-            height: 2px;
-            box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
-        }
-
-        .star.large {
-            width: 3px;
-            height: 3px;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 1);
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
-        /* Планеты */
-        .planet {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transition: opacity 0.5s ease, transform 0.1s ease-out;
-            will-change: transform;
-        }
-
-        .planet.venus {
-            width: 20px;
-            height: 20px;
-            top: 15%;
-            left: 10%;
-            background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ff8c00 100%);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.venus {
-            opacity: 0.6;
-        }
-
-        .planet.mars {
-            width: 25px;
-            height: 25px;
-            top: 25%;
-            left: 85%;
-            background: radial-gradient(circle at 30% 30%, #ff6b47 0%, #cc4125 100%);
-            box-shadow: 0 0 20px rgba(255, 107, 71, 0.4);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.mars {
-            opacity: 0.5;
-        }
-
-        .planet.jupiter {
-            width: 30px;
-            height: 30px;
-            top: 60%;
-            left: 5%;
-            background: radial-gradient(circle at 30% 30%, #ffa500 0%, #ff8c00 50%, #ff6347 100%);
-            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.jupiter {
-            opacity: 0.4;
-        }
-
-
-
-        .dark-mode .eclipse-shadow {
-            opacity: 0.3;
-            animation: eclipseMove 20s ease-in-out infinite;
-        }
-
-        @keyframes eclipseMove {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(-10px, 10px) scale(1.1);
-            }
-        }
-
-
-
-
-        /* Луна исчезает когда все товары закончились */
-        .parallax-moon.all-out-of-stock {
-            opacity: 0 !important;
-            transform: translateY(0) scale(0);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        /* Адаптивность для мобильных устройств */
-        @media (max-width: 768px) {
-
-            .parallax-moon {
-                width: 100px;
-                height: 100px;
-            }
-
-
-            .parallax-moon {
-                top: 6%;
-                right: 8%;
-            }
-
-
-        }
-
-        @media (max-width: 480px) {
-
-            .parallax-moon {
-                width: 80px;
-                height: 80px;
-            }
-
-
-
-            .parallax-moon {
-                top: 5%;
-                right: 6%;
-            }
         }
 
         * {
@@ -320,19 +66,11 @@
         }
 
         header {
-            position: fixed;
-            /* Фиксированное позиционирование относительно окна */
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            /* Высокий индекс, чтобы хедер был поверх карточек */
+            z-index: 100;
             padding: 12px 16px;
-            background: var(--glass-bg);
-            /* Добавляем фон, иначе под ним будет виден текст при скролле */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 10px
         }
 
         .header-grid {
@@ -372,7 +110,6 @@
             margin: 0;
             background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent
         }
 
@@ -1164,153 +901,10 @@
             min-width: 28px;
             font-size: 14px;
         }
-
-        /* --- СТИЛИ ДЛЯ КОРЗИНЫ --- */
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-
-        .dark-mode .cart-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: #fff;
-            object-fit: contain;
-            padding: 2px;
-            flex-shrink: 0;
-        }
-
-        .cart-details {
-            flex: 1;
-        }
-
-        .cart-name {
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 4px;
-        }
-
-        .cart-price-calc {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .cart-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cart-item-total {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--primary);
-            min-width: 60px;
-            text-align: right;
-        }
-
-        .empty-cart-msg {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        /* Указатель, что цену можно кликнуть */
-        .total-amount {
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: background 0.2s;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .total-amount:active {
-            background: rgba(0, 0, 0, 0.15);
-        }
-
-        .dark-mode #confirm-modal .btn-pay-click[onclick="closeConfirmModal()"] {
-            background: #334155 !important;
-            color: #f1f5f9 !important;
-        }
-
-        /* Обновляем базовый стиль кнопок с эффектом свечения */
-        .btn-pay-click {
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            /* Переменная для цвета свечения по умолчанию */
-            --btn-glow: var(--primary-glow);
-            box-shadow: 0 8px 20px -6px var(--btn-glow);
-        }
-
-        .btn-pay-click:active {
-            transform: scale(0.96);
-            box-shadow: 0 4px 12px -4px var(--btn-glow);
-        }
-
-        /* Красная кнопка (Очистить) */
-        #btn-clear-cart {
-            background: #ef4444 !important;
-            --btn-glow: rgba(239, 68, 68, 0.4) !important;
-        }
-
-        /* Кнопка "Отмена" в подтверждении */
-        #confirm-modal .btn-pay-click[onclick="executeClearCart()"] {
-            background: #ef4444 !important;
-            --btn-glow: rgba(239, 68, 68, 0.5) !important;
-        }
-
-        /* Если в темной теме кнопка отмены другая */
-        .dark-mode #confirm-modal .btn-pay-click[onclick="closeConfirmModal()"] {
-            background: #334155 !important;
-            color: #f1f5f9 !important;
-            --btn-glow: rgba(15, 23, 42, 0.4) !important;
-        }
-
-        .btn-pay-click:active {
-            transform: scale(0.96);
-            box-shadow: 0 4px 10px -4px var(--btn-glow);
-        }
-
-        /* Кнопка "Готово" или основные синие кнопки (если --primary синий) */
-        .btn-pay-click:not(#btn-clear-cart) {
-            --btn-glow: var(--primary-glow);
-        }
     </style>
 </head>
 
 <body>
-    <!-- Параллакс элементы - Солнце и Луна -->
-    <div class="parallax-moon"></div>
-
-    <!-- Эффекты -->
-
-
-    <!-- Планеты -->
-    <div class="planet venus"></div>
-    <div class="planet mars"></div>
-    <div class="planet jupiter"></div>
-
-    <!-- Контейнер для звезд -->
-    <div class="stars-container" id="stars-container"></div>
-
     <header class="glass-panel">
         <div class="header-grid">
             <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">📋 Заказ</a>
@@ -1326,7 +920,7 @@
 
     <div class="controls-container">
         <div class="search-box">
-
+            <span class="search-icon">🔍</span>
             <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..."
                 oninput="handleSearch()">
             <select id="sort-select" class="sort-select" onchange="setSort(this.value)">
@@ -1346,12 +940,10 @@
             <div>
                 <span class="total-label">К оплате:</span>
             </div>
-
-            <div class="total-amount" id="total-price-container" onclick="openCartModal()">
+            <div class="total-amount" id="total-price-container">
                 <span id="total-price">0 сум</span>
-
+                <button class="btn-copy-total" onclick="copyTotal()">📋</button>
             </div>
-            <button class="btn-copy-total" onclick="copyTotal()">📋</button>
         </div>
         <div class="pay-card" onclick="copyCard()">
             <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:10px; opacity:0.7;">
@@ -1366,93 +958,46 @@
     </div>
 
     <div class="toast" id="toast">✅ Скопировано!</div>
-    <div id="cart-modal" class="modal-overlay" style="z-index: 1100;" aria-hidden="true"
-        onclick="if(event.target===this) closeCartModal()">
-        <div class="modal" role="dialog" aria-modal="true"
-            style="max-height: 80vh; display: flex; flex-direction: column;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                <h2 style="margin:0; font-size: 20px;">Ваш заказ 🛒</h2>
-                <button class="modal-close" style="position:static; box-shadow:none; padding: 6px 10px;"
-                    onclick="closeCartModal()">✕</button>
-            </div>
-
-            <div id="cart-list" style="overflow-y: auto; flex: 1; padding-right: 4px;">
-            </div>
-
-            <div style="border-top: 1px solid rgba(0,0,0,0.1); margin-top: 12px; padding-top: 12px;">
-                <div class="total-row" style="margin-bottom: 12px;">
-                    <span style="font-weight:600;">Итого:</span>
-                    <span id="cart-total-display" style="font-size:18px; font-weight:800; color:var(--primary);">0
-                        сум</span>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button id="btn-clear-cart" class="btn-pay-click"
-                        style="flex: 1; background: #ef4444; padding: 12px; font-size: 14px;"
-                        onclick="clearCart()">Очистить</button>
-                    <button class="btn-pay-click" style="flex: 2; padding: 12px;"
-                        onclick="closeCartModal()">Готово</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="confirm-modal" class="modal-overlay" style="z-index: 1200;"
-        onclick="if(event.target===this) closeConfirmModal()">
-        <div class="modal" style="max-width: 300px; text-align: center; padding: 25px;">
-            <div style="font-size: 40px; margin-bottom: 15px;">🧹</div>
-            <h3 style="margin-bottom: 10px;">Очистить корзину?</h3>
-            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Все выбранные товары будут
-                удалены из списка.</p>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-pay-click" style="flex: 1; background: #f1f5f9; color: #475569;"
-                    onclick="closeConfirmModal()">Отмена</button>
-                <button class="btn-pay-click" style="flex: 1; background: #ef4444;"
-                    onclick="executeClearCart()">Очистить</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         const productsRaw = [
             // { name: "", desc: "", fullDesc: "", price: 300000, category: "", img: "", kbju: {}, isNew: true },
 
             // --- DRINKS (Напитки) ---
-            { outOfStock: true, name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            { outOfStock: true, name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            { isNew: true, name: "Bonaqua", desc: "Газированная вода (темно-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://ppmarket.in.ua/wp-content/uploads/2023/08/bonaqua-carbonated.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            { isNew: true, name: "Bonaqua", desc: "Не газированная вода (светло-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://img.postershop.me/10936/Products/4211201_1692722144.619_original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-
+            { name: "Chortoq", desc: "0.5л", fullDesc: "CHORTOQ", price: 17000, category: "drinks", img: "https://shop.tegen.uz/wp-content/uploads/2021/05/imgonline-com-ua-Resize-s5y9EDBt83.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0}, isNew: true },
+            { name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Coca-Cola", desc: "0.5л", fullDesc: "Классическая Coca‑Cola — газированный напиток с узнаваемым вкусом карамели и специй.", price: 7000, category: "drinks", img: "https://images.uzum.uz/cf7b7qqvtie1lhbhbk00/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 } },
             { name: "Coca-Cola Zero", desc: "0.5л", fullDesc: "Coca‑Cola Zero — без сахара, с привычным вкусом Coca‑Cola, низкокалорийный вариант.", price: 7000, category: "drinks", img: "https://www.eventfood.com.ua/wp-content/uploads/2021/04/coca-cola-zero-0.5.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Pepsi", desc: "0.5л", fullDesc: "Pepsi — газированный безалкогольный напиток с классическим сладким вкусом.", price: 7000, category: "drinks", img: "https://buy.am/media/image/f6/90/24/yerevan-city-1034692.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 10.6 } },
             { name: "Fanta", desc: "0.5л", fullDesc: "Fanta — газированный безалкогольный напиток с ярким апельсиновым вкусом.", price: 7000, category: "drinks", img: "https://www.zozocafe.ro/userfiles/f73e7d77-ff3b-4c52-9475-e668bd626300/products/361737460_big.jpg", kbju: { kcal: 48, protein: 0, fat: 0, carbs: 11.7 } },
             { name: "Dinay Клубника-Яблоко", desc: "0.5л", fullDesc: "Сочный и ароматный напиток от Dinay порадует натуральным вкусом ягод и фруктов. Идеален для утоления жажды в жаркий день и как дополнение к любому приёму пищи.", price: 9000, category: "drinks", img: "https://images.uzum.uz/d142fhq7s4fr083f3u60/original.jpg", kbju: { kcal: 40, protein: 0, fat: 0, carbs: 10 }, isNew: true },
             { name: "Fuse Tea Mango & Ananas", desc: "0.5л", fullDesc: "Сочный и ароматный напиток от Fuse Tea с вкусом манго и ананаса. Идеален для утоления жажды в жаркий день и как дополнение к любому приёму пищи.", price: 7000, category: "drinks", img: "https://images.uzum.uz/d030r55pb7f46s87pppg/original.jpg", kbju: { kcal: 40, protein: 0, fat: 0, carbs: 10 }, isNew: true },
-            { outOfStock: true, name: "Dr. Pepper Zero Sugar", desc: "0.33л", fullDesc: "Напиток Dr. Pepper Zero Sugar без сахара, с уникальным вкусом.", price: 23000, category: "drinks", img: "https://nutsboom.com.ua/content/images/49/480x480l50nn0/90031561113485.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
+            { name: "Dr. Pepper Zero Sugar", desc: "0.33л", fullDesc: "Напиток Dr. Pepper Zero Sugar без сахара, с уникальным вкусом.", price: 23000, category: "drinks", img: "https://nutsboom.com.ua/content/images/49/480x480l50nn0/90031561113485.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
             { name: "Coca-Cola Zero", desc: "1.0л", fullDesc: "Coca‑Cola Zero 1.0л — удобный формат на несколько приемов, без сахара.", price: 11000, category: "drinks", img: "https://rimibaltic-res.cloudinary.com/image/upload/b_white,c_limit,dpr_3.0,f_auto,q_auto:low,w_400/d_ecommerce:backend-fallback.png/MAT_1360569_PCE_EE", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            { outOfStock: true, name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, outOfStock: true },
-            { outOfStock: true, name: "Sprite", desc: "1.5л", fullDesc: "Sprite — лимонно‑лаймовый газированный напиток, освежающий и легкий.", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg", kbju: { kcal: 38, protein: 0, fat: 0, carbs: 10 }, outOfStock: true },
-            { outOfStock: true, name: "Fanta", desc: "1.5л", fullDesc: "Fanta — фруктовый газированный напиток с ярким ароматом и сладковатым послевкусием.", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg", kbju: { kcal: 44, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
-            { outOfStock: true, name: "Coca-Cola", desc: "2.0л", fullDesc: "Coca‑Cola 2.0л — семейная упаковка классической Coca‑Cola для компаний и мероприятий.", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
-            { outOfStock: true, name: "Coca-Cola", desc: "2.5л", fullDesc: "Coca‑Cola 2.5л — большой формат, идеально для отдыха и встреч с друзьями.", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
+            { name: "Pepsi Zero", desc: "1.5л", fullDesc: "Pepsi Zero — газированный напиток без сахара с насыщенным вкусом.", price: 12000, category: "drinks", img: "https://images.uzum.uz/cqf37mcqvss6ad8j5no0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } , outOfStock: true},
+            { name: "Sprite", desc: "1.5л", fullDesc: "Sprite — лимонно‑лаймовый газированный напиток, освежающий и легкий.", price: 15000, category: "drinks", img: "https://devel.prom.uz/upload/product_logos/35/72/3572a71675d530ee1d2858a786a83864.jpeg", kbju: { kcal: 38, protein: 0, fat: 0, carbs: 10 }, outOfStock: true },
+            { name: "Fanta", desc: "1.5л", fullDesc: "Fanta — фруктовый газированный напиток с ярким ароматом и сладковатым послевкусием.", price: 15000, category: "drinks", img: "https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg", kbju: { kcal: 44, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
+            { name: "Coca-Cola", desc: "2.0л", fullDesc: "Coca‑Cola 2.0л — семейная упаковка классической Coca‑Cola для компаний и мероприятий.", price: 19000, category: "drinks", img: "https://images.uzum.uz/cia493tenntd8rfc2s40/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
+            { name: "Coca-Cola", desc: "2.5л", fullDesc: "Coca‑Cola 2.5л — большой формат, идеально для отдыха и встреч с друзьями.", price: 24000, category: "drinks", img: "https://images.uzum.uz/ctcmjulpb7f7ago8e8fg/original.jpg", kbju: { kcal: 42, protein: 0, fat: 0, carbs: 11 }, outOfStock: true },
 
             // --- SWEETS (Сладости) ---
             { name: "Tic Tac Мята (маленький)", desc: "33шт, 16г", fullDesc: "Освежающие драже Tic Tac со вкусом мяты в удобной маленькой упаковке. Идеально для свежего дыхания в течение дня.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcoi6j76oneqamsq0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
             { name: "Tic Tac Ягодный микс (маленький)", desc: "33шт, 16г", fullDesc: "Фруктовые драже Tic Tac со вкусом ягодного микса. Отличный способ освежить дыхание и насладиться ярким вкусом.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jcjb5sp2tr82i6v4u0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
             { name: "Tic Tac Апельсин (маленький)", desc: "33шт, 16г", fullDesc: "Драже Tic Tac со вкусом сочного апельсина. Дарит свежесть и приятный цитрусовый аромат.", price: 10000, category: "sweets", img: "https://images.uzum.uz/d4jci7dv2sjnqk4j5c0g/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
-            { name: "KitKat Chunky Funky", desc: "40г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 13000, category: "sweets", img: "https://ir.ozone.ru/s3/multimedia-1-y/8214871930.jpg", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 }, isNew: true },
+            { name: "KitKat Chunky Funky", desc: "40г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 13000, category: "sweets", img: "https://ir.ozone.ru/s3/multimedia-1-y/8214871930.jpg", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 }, isNew: true  },
             { name: "Twix", desc: "72г", fullDesc: "Шоколадный батончик Twix с хрустящим печеньем, нежной карамелью и молочным шоколадом. Идеально для перекуса.", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/581b2738-67db-4482-bda5-7a46804ed816/300x300?webp=true", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 63 } },
             { name: "KitKat", desc: "64г", fullDesc: "Вафельный батончик KitKat в молочном шоколаде. Возьми паузу, съешь KitKat!", price: 14000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2998515/a97dff15-d08e-4d85-b72f-aaafe648abad/464x464-origin", kbju: { kcal: 530, protein: 6, fat: 26, carbs: 62 } },
-            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://cdn-kz3.foodpicasso.com/assets/2024/05/13/9dff8ecacfd0a6ec8637e54d630f3909---png_1000x_103c0_convert.png", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
-            { isNew : true, name: "Milky Way", desc: "54г", fullDesc: "Milky Way (англ. — \"Млечный Путь\") — шоколадный батончик, покрытый молочным шоколадом с легкой ванильной нугой", price: 14000, category: "sweets", img: "https://images-foodtech.magnit.ru/DTRYPTKQJexKkyuvlMUR9ldMAgh6aE-G8D4_SJEZv0c/rs:fit:1600:1600/plain/s3://img-dostavka/catalog/uf/48b/48b7e22fd761dd80b515fb012fb54765/d247ad7defffaa3e93a6d2cafa3d426e.jpeg@webp", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
+            { name: "Snickers", desc: "80г", fullDesc: "Шоколадный батончик Snickers с нугой, арахисом, карамелью и молочным шоколадом. Отлично утоляет голод.", price: 14000, category: "sweets", img: "https://semeiniy.kz/wa-data/public/shop/products/19/61/116119/images/36041/36041.970.jpg", kbju: { kcal: 490, protein: 7, fat: 25, carbs: 62 } },
             { name: "Haribo Goldbears", desc: "80г", fullDesc: "Классические жевательные мармеладки Haribo Goldbears в форме мишек. Фруктовые вкусы для радости детей и взрослых.", price: 14000, category: "sweets", img: "https://images.uzum.uz/cet940ov1htd23akg6q0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
             { name: "Haribo Mix", desc: "80г", fullDesc: "Ассорти жевательных мармеладок Haribo Mix с различными формами и вкусами. Отличный выбор для любителей сладостей.", price: 14000, category: "sweets", img: "https://images.uzum.uz/csbma5bvgbkl7nol3nh0/original.jpg", oldprice: 16000, outOfStock: true, kbju: { kcal: 320, protein: 6, fat: 0, carbs: 78 } },
-            { outOfStock: true, name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
+            { name: "Tic Tac Мята (большой)", desc: "100шт, 49г", fullDesc: "Большая упаковка освежающих драже Tic Tac со вкусом мяты. Хватит надолго!", price: 20000, category: "sweets", img: "https://images.uzum.uz/d4jcfuuj76oneqamsgv0/original.jpg", kbju: { kcal: 360, protein: 0, fat: 0, carbs: 90 } },
             { name: "Kinder Chocolate", desc: "8 порций, 100г", fullDesc: "Молочный шоколад Kinder Chocolate с нежной молочной начинкой. 8 индивидуальных порций.", price: 24000, category: "sweets", img: "https://images.uzum.uz/csiu7534nkdv7h9iqorg/original.jpg", kbju: { kcal: 535, protein: 7, fat: 31, carbs: 56 } },
             { name: "Kinder Country", desc: "23.5г", fullDesc: "Молочный шоколад Kinder Country с воздушными злаками и нежной молочной начинкой. Легкий и хрустящий.", price: 11000, category: "sweets", img: "https://i.ebayimg.com/images/g/IXMAAeSwABBpARfP/s-l1200.jpg", kbju: { kcal: 520, protein: 6, fat: 25, carbs: 62 } },
             { name: "Bounty", desc: "57г", fullDesc: "Шоколадный батончик Bounty с нежной кокосовой начинкой, покрытый молочным шоколадом. Вкус тропического рая.", price: 11000, category: "sweets", img: "https://media.vprok.ru/products/x700/yk/cm/cissctp3feyddgtxyjbczupxfnutcmyk.jpeg", kbju: { kcal: 540, protein: 4, fat: 28, carbs: 66 } },
             { name: "Mars", desc: "50г", fullDesc: "Шоколадный батончик Mars с нугой, карамелью и молочным шоколадом. Классический вкус для заряда энергией.", price: 11000, category: "sweets", img: "https://dostavo4ka.uz/upload-file/2021/05/05/4765/4f5cb547-37ff-4191-ba50-9b0917072930.jpg", kbju: { kcal: 488, protein: 4.4, fat: 17, carbs: 68 } },
             { name: "Orion Choco-Pie", desc: "30г", fullDesc: "Бисквитное пирожное Orion Choco-Pie в шоколадной глазури с нежной начинкой маршмеллоу. Идеально к чаю.", price: 5000, category: "sweets", img: "https://cdn.mafrservices.com/pim-content/UAE/media/product/2229158/1737127204/2229158_main.jpg", kbju: { kcal: 420, protein: 5, fat: 15, carbs: 60 } },
-            { outOfStock: true, name: "Lotte Choco-Pie Zero Sugar", desc: "12шт по 30г", fullDesc: "Бисквитное пирожное Lotte Choco-Pie Zero Sugar в шоколадной глазури с нежной начинкой маршмеллоу. Идеально к чаю.", price: 90000, category: "sweets", img: "https://static.wixstatic.com/media/98ef98_0d778d1e6b3744c2ac34a0f934f90f9b~mv2.jpg/v1/fill/w_420,h_420,al_c,lg_1,q_80,enc_avif,quality_auto/98ef98_0d778d1e6b3744c2ac34a0f934f90f9b~mv2.jpg", kbju: { kcal: 374, protein: 5, fat: 21, carbs: 60.8 }, isNew: true /* КБЖУ проверено */ },
+            { name: "Lotte Choco-Pie Zero Sugar", desc: "12шт по 30г", fullDesc: "Бисквитное пирожное Lotte Choco-Pie Zero Sugar в шоколадной глазури с нежной начинкой маршмеллоу. Идеально к чаю.", price: 90000, category: "sweets", img: "https://static.wixstatic.com/media/98ef98_0d778d1e6b3744c2ac34a0f934f90f9b~mv2.jpg/v1/fill/w_420,h_420,al_c,lg_1,q_80,enc_avif,quality_auto/98ef98_0d778d1e6b3744c2ac34a0f934f90f9b~mv2.jpg", kbju: { kcal: 374, protein: 5, fat: 21, carbs: 60.8 }, isNew: true /* КБЖУ проверено */ },
             { name: "Orbit", desc: "Любой вкус", fullDesc: "Жевательная резинка Orbit в различных вкусах. Освежает дыхание и поднимает настроение.", price: 5000, category: "sweets", img: "https://yastatic.net/avatars/get-grocery-goods/2888787/4e028f23-58df-4715-8a9a-c1302ab4681d/300x300?webp=true", kbju: { kcal: 5, protein: 0, fat: 0, carbs: 1 }, isNew: true },
 
             // --- COFFEE ---
@@ -1465,21 +1010,20 @@
             { name: "Adrenaline Rush", desc: "0.449л", fullDesc: "Энергетический напиток Adrenaline Rush для быстрого восстановления сил и повышения концентрации. Большой объем.", price: 17000, category: "energy_drinks", img: "https://images.uzum.uz/cq7sp8ffrr885gh1ls80/original.jpg", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
             { name: "Gorilla Zero Shakar", desc: "0.449л", fullDesc: "Энергетический напиток Gorilla Zero Sugar без сахара. Максимальный заряд энергии без лишних калорий.", price: 15000, category: "energy_drinks", img: "https://vsabrine.kz/wp-content/uploads/4870022003695.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Gorilla Original", desc: "0.449л", fullDesc: "Классический энергетический напиток Gorilla Original. Мощный заряд бодрости и энергии.", price: 15000, category: "energy_drinks", img: "https://gorillaenergy.com/cdn/shop/files/Gorila_ORIGINAL_can_mockup_500ml_khabib_e372f847-e020-4705-b1c5-f9300fad9e05.png?v=1763397878&width=800", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 } },
-            { name: "Lit Energy ZEROSUGAR", desc: "0.450л", fullDesc: "Энергетический напиток Lit Energy с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 19000, category: "energy_drinks", img: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/09/b03c81f6-c271-4598-8315-e0fc92d7e9aa", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
             { name: "Lit Energy Blueberry", desc: "0.450л", fullDesc: "Энергетический напиток Lit Energy с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 19000, category: "energy_drinks", img: "https://shop.tegen.uz/wp-content/uploads/2025/11/4680232930120_2.jpg", kbju: { kcal: 45, protein: 0, fat: 0, carbs: 11 }, isNew: true },
             { name: "by Баста Zero Shugar", desc: "0.450л", fullDesc: "Энергетический напиток by Баста с высоким содержанием кофеина. Отличный выбор для тех, кто нуждается в мощном заряде энергии.", price: 21000, category: "energy_drinks", img: "https://tsx.x5static.net/i/1600x1600-fit/xdelivery/files/10/9d/ee03d37d7318e8a464e11a4562e3.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
-            { name: "Primekraft Energy Sport MUSCLE (фиолетовый)", desc: "0.450л", fullDesc: "Энергетический напиток Primekraft Energy Sport MUSCLE.", price: 17000, category: "energy_drinks", img: "https://whey.kz/wp-content/uploads/2024/07/prime-kraft-energy-sport-muscle-500.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 }, isNew: true },
+
 
             // --- SPORT ---
             { name: "Primekraft", desc: "Шоколад 40г (8г белка, с сахаром)", fullDesc: "Протеиновый батончик Primekraft со вкусом шоколада. Содержит 8г белка, с сахаром. Идеален для быстрого перекуса.", price: 10000, oldprice: 12000, category: "sport", img: "https://primekraft.ru/upload/iblock/2b4/va70v88jo2doxjs92hpi107xbzad223f.png", kbju: { kcal: 160, protein: 8, fat: 8, carbs: 15 } },
             { name: "Bombbar Батончики 40г (мини)", desc: "Ассорти 40г (10г белка, без сахара)", fullDesc: "Мини-батончики Bombbar в ассортименте. Содержат 10г белка, без сахара. Отличный вариант для здорового перекуса.", price: 18000, category: "sport", img: "https://enzym.ru/imagecache/card/storage/products/43/70/43703/9f72c9aaeff0914b35b272c0046e7cded25095d9.jpg", kbju: { kcal: 120, protein: 10, fat: 5, carbs: 4 } },
             { name: "Протеиновые батончики Simple", desc: "Ассорти 50г (20г белка, без сахара)", fullDesc: "Протеиновые батончики Simple в ассортименте. Содержат 20г белка, без сахара. Максимальная польза для мышц.", price: 20000, category: "sport", img: "https://cdn-irec.r-99.com/sites/default/files/imagecache/300o/product-images/361098/a9ltpeJYVgnAkjgWjA65sg.png", isNew: true, kbju: { kcal: 180, protein: 20, fat: 6, carbs: 5 } },
-            { outOfStock: true, name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г (20г белка, без сахара)", fullDesc: "Большие протеиновые батончики Bombbar в ассортименте. Содержат 20г белка, без сахара. Для серьезных тренировок.", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", kbju: { kcal: 220, protein: 20, fat: 8, carbs: 6 } },
+            { name: "Bombbar Батончики 60г (макси)", desc: "Ассорти 60г (20г белка, без сахара)", fullDesc: "Большие протеиновые батончики Bombbar в ассортименте. Содержат 20г белка, без сахара. Для серьезных тренировок.", price: 24000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/7381431/img_id2127036567216787885.jpeg/orig", kbju: { kcal: 220, protein: 20, fat: 8, carbs: 6 } },
             { name: "CHIKALAB Суфле в шоколаде", desc: "Ассорти 55г (14г белка, без сахара)", fullDesc: "Протеиновое суфле CHIKALAB в шоколаде. Содержит 14г белка, без сахара. Вкусный и полезный десерт.", price: 30000, category: "sport", img: "https://avatars.mds.yandex.net/get-mpic/18234312/2a0000019b001b055aa0ac809a57998da3c1/orig", isNew: true, kbju: { kcal: 190, protein: 14, fat: 10, carbs: 7 } },
 
             // --- TOBACCO ---
-            { name: "Зажигалка BIG", desc: "1 шт", fullDesc: "Надежная газовая зажигалка BIG. Удобна в использовании, долговечна.", price: 10000, category: "tobacco", img: "https://i.ibb.co/4BZmfn9/BIG.png" },
-            { name: "Kent Mix (толстые)", desc: "Пачка", fullDesc: "Сигареты Kent Mix с фильтром. Классический табачный вкус.", price: 21000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
+            { name: "Зажигалка BIG", desc: "1 шт", fullDesc: "Надежная газовая зажигалка BIG. Удобна в использовании, долговечна.", price: 10000, category: "tobacco", img: "https://i.ibb.co/4BZmfn9/BIG.png", isNew: true },
+            { name: "Kent Mix (толстые)", desc: "Пачка", fullDesc: "Сигареты Kent Mix с фильтром. Классический табачный вкус.", price: 20000, category: "tobacco", img: "https://backend.magnit.tj/uploads/images/027ad84e400b8ca4573081038f4907e3-1024x1024.jpg" },
             { name: "Winston Caster", desc: "Пачка", fullDesc: "Сигареты Winston Caster с капсулой. Освежающий вкус ментола.", price: 23000, category: "tobacco", img: "https://www.sas.am/upload/iblock/17b/306977.jpg" },
             { name: "Esse Change", desc: "Пачка", fullDesc: "Сигареты Esse Change с двумя капсулами. Возможность менять вкус.", price: 30000, category: "tobacco", img: "https://p.turbosquid.com/ts-thumb/q5/LJ4Nj2/NBSJHaac/exw_camera001/jpg/1487610080/1920x1080/fit_q87/767cd9123b7eea1bdd4043fdf76dccc6e08ce76b/exw_camera001.jpg" },
 
@@ -1493,7 +1037,7 @@
             { name: "Тараллини Nina Farina", desc: "С чесноком 180г", fullDesc: "Тараллини Nina Farina — итальянские мини-сушки с насыщенным чесночным вкусом.", price: 13000, category: "snacks", img: "https://images.uzum.uz/cerdqk2vtie1lhbgavtg/original.jpg", kbju: { kcal: 470, protein: 9.5, fat: 20, carbs: 64 }, isNew: true /* КБЖУ проверено */ },
             { name: "Хрустяшки сыр", desc: "40г", fullDesc: "Хрустяшки со вкусом сыра — хрустящий пшеничный снэк с выраженным сырным ароматом.", price: 3000, category: "snacks", img: "https://yastatic.net/avatars/get-grocery-goods/2750890/9dacea87-d92b-4a0c-be90-544410c6c591/464x464-origin", kbju: { kcal: 500, protein: 8, fat: 25, carbs: 60 } },
             { name: "Хрустяшки багет", desc: "40г", fullDesc: "Хрустяшки багет — хрустящий пшеничный снэк со вкусом свежего багета.", price: 3000, category: "snacks", img: "https://yastatic.net/avatars/get-grocery-goods/2783132/32484b7f-5c27-48f7-93cf-a12d747ee0c6/300x300?webp=true", kbju: { kcal: 490, protein: 7, fat: 22, carbs: 62 } },
-            { name: "Гарлики", desc: "Со вкусом \"Телятина с аджикой\", 90г", fullDesc: "Гарлики со вкусом \"Телятина с аджикой\", 90 г. Отличный перекус, богатый белком и полезными жирами.", price: 13000, category: "snacks", img: "https://images.uzum.uz/cor5avs0u44tu6do6e60/original.jpg", kbju: { kcal: 403, protein: 8, fat: 8, carbs: 77.6 }, isNew: true /* КБЖУ проверено */ },
+            { name: "Гарлики", desc: "Ассорти вкусов, 90г", fullDesc: "Гарлики со вкусом, 90 г. Отличный перекус, богатый белком и полезными жирами.", price: 13000, category: "snacks", img: "https://images.uzum.uz/cor5avs0u44tu6do6e60/original.jpg", kbju: { kcal: 403, protein: 8, fat: 8, carbs: 77.6 }, isNew: true /* КБЖУ проверено */ },
             { name: "Сухарики Кириешки, со вкусом холодца с хреном", desc: "40г", fullDesc: "Сухарики Кириешки, со вкусом холодца с хреном. Отличный перекус, богатый белком и полезными жирами.", price: 6000, category: "snacks", img: "https://images.uzum.uz/clpfio5enntcj8aaqftg/t_product_240_high.jpg", kbju: { kcal: 400, protein: 8, fat: 8, carbs: 77 }, isNew: true },
             { name: "Сухарики ржаные Кириешки, со вкусом чеснока c сырным соусом", desc: "60г", fullDesc: "Сухарики ржаные Кириешки, со вкусом чеснока c сырным соусом. Отличный перекус, богатый белком и полезными жирами.", price: 8000, category: "snacks", img: "https://images.uzum.uz/ciajvcb6edfostihj200/t_product_240_high.jpg", kbju: { kcal: 410, protein: 8, fat: 8, carbs: 60 }, isNew: true },
 
@@ -1670,14 +1214,7 @@
                 </div>`;
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
             }
-
-            // Проверяем наличие товаров и обновляем видимость луны
-            if (typeof checkProductsAvailability === 'function') {
-                checkProductsAvailability();
-            }
         };
-
-
 
         // Обновленная функция для изменения количества
         const updateQty = (id, change) => {
@@ -1695,22 +1232,14 @@
                 delete cart[id];
             }
 
-            // 1. Обновляем кнопку в основном списке
+            // Оптимизация: перерисовываем кнопку только у одного товара
             renderProductButton(id);
-
-            // 2. Если открыто детальное модальное окно товара — обновляем его
-            const prodModal = document.getElementById('product-modal');
-            if (prodModal && prodModal.classList.contains('visible')) {
-                openProductModal(id, true);
+            // Если открыта модалка этого товара — обновить и там
+            const modal = document.getElementById('product-modal');
+            if (modal && modal.classList.contains('visible')) {
+                const p = products.find(x => x.id === id);
+                if (p) openProductModal(id, true); // true — не открывать заново, а просто обновить содержимое
             }
-
-            // 3. Если открыта корзина — перерисовываем список внутри корзины
-            const cartModal = document.getElementById('cart-modal');
-            if (cartModal && cartModal.classList.contains('visible')) {
-                renderCartItems();
-            }
-
-            // 4. Пересчитываем общую сумму
             calcTotal();
         };
 
@@ -1891,301 +1420,10 @@
         };
 
         const loadTheme = () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || !savedTheme || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
             }
         };
-        // --- ЛОГИКА КОРЗИНЫ ---
-
-        const openCartModal = () => {
-            renderCartItems();
-            const modal = document.getElementById('cart-modal');
-            modal.classList.add('visible');
-            modal.setAttribute('aria-hidden', 'false');
-        };
-
-        const closeCartModal = () => {
-            const modal = document.getElementById('cart-modal');
-            modal.classList.remove('visible');
-            modal.setAttribute('aria-hidden', 'true');
-        };
-
-        // Добавьте эту функцию в ваш <script>
-        // Открыть окно подтверждения
-        const clearCart = () => {
-            if (Object.keys(cart).length === 0) return;
-            document.getElementById('confirm-modal').classList.add('visible');
-        };
-
-        // Закрыть окно подтверждения
-        const closeConfirmModal = () => {
-            document.getElementById('confirm-modal').classList.remove('visible');
-        };
-
-        // Сама очистка (выполняется при нажатии "Очистить" в модалке)
-        const executeClearCart = () => {
-            const ids = Object.keys(cart).map(Number);
-            cart = {};
-
-            ids.forEach(id => renderProductButton(id));
-
-            // Если была открыта карточка товара
-            closeProductModal();
-
-            // Обновляем интерфейс
-            calcTotal();
-            renderCartItems();
-
-            // Закрываем окно подтверждения и корзину
-            closeConfirmModal();
-
-            showToast("🧹 Корзина очищена");
-        };
-
-        // Замените существующую функцию renderCartItems на эту (добавлено управление кнопкой очистки)
-        const renderCartItems = () => {
-            const container = document.getElementById('cart-list');
-            const cartIds = Object.keys(cart).map(Number);
-            const clearBtn = document.getElementById('btn-clear-cart');
-
-            if (cartIds.length === 0) {
-                container.innerHTML = '<div class="empty-cart-msg">Корзина пуста 😔<br>Добавьте что-нибудь вкусненькое!</div>';
-                document.getElementById('cart-total-display').innerText = '0 сум';
-                if (clearBtn) clearBtn.style.display = 'none'; // Скрываем кнопку, если пусто
-                return;
-            }
-
-            if (clearBtn) clearBtn.style.display = 'block'; // Показываем кнопку
-
-            let html = '';
-            let total = 0;
-            const cartProducts = products.filter(p => cart[p.id]).sort((a, b) => a.originalIndex - b.originalIndex);
-
-            cartProducts.forEach(p => {
-                const qty = cart[p.id];
-                const lineTotal = p.price * qty;
-                total += lineTotal;
-
-                html += `
-                <div class="cart-item">
-                    <img src="${p.img}" class="cart-img">
-                    <div class="cart-details">
-                        <div class="cart-name">${p.name}</div>
-                        <div class="cart-price-calc">${qty} x ${formatPrice(p.price)} = <strong>${formatPrice(lineTotal)}</strong></div>
-                    </div>
-                    <div class="counter-widget" style="padding: 2px;">
-                         <button class="btn-qty" style="width:26px; height:26px; font-size:16px;" onclick="updateQty(${p.id}, -1)">−</button>
-                         <span class="qty-val" style="min-width:24px; font-size:16px;">${qty}</span>
-                         <button class="btn-qty" style="width:26px; height:26px; font-size:16px;" onclick="updateQty(${p.id}, 1)">+</button>
-                    </div>
-                </div>`;
-            });
-
-            container.innerHTML = html;
-            document.getElementById('cart-total-display').innerText = formatPrice(total) + ' сум';
-        };
-
-        // --- ПАРАЛЛАКС ЭФФЕКТ ДЛЯ СОЛНЦА И ЛУНЫ ---
-        const parallaxSun = document.querySelector('.parallax-sun');
-        const parallaxMoon = document.querySelector('.parallax-moon');
-
-        const handleParallax = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const windowHeight = window.innerHeight;
-            const windowWidth = window.innerWidth;
-
-            // Определяем, мобильное ли это устройство
-            const isMobile = windowWidth <= 768;
-            const isSmallMobile = windowWidth <= 480;
-
-            // Адаптивная скорость параллакса: на мобильных медленнее
-            let parallaxSpeed = 0.3;
-            if (isSmallMobile) {
-                parallaxSpeed = 0.1; // Очень медленно на маленьких экранах
-            } else if (isMobile) {
-                parallaxSpeed = 0.15; // Медленнее на мобильных
-            }
-
-            // Вычисляем смещение (солнце/луна двигаются медленнее, чем контент)
-            let offset = scrollY * parallaxSpeed;
-
-            // Ограничиваем максимальное смещение, чтобы солнце/луна не исчезали
-            // Максимум 30% от высоты экрана
-            const maxOffset = windowHeight * 0.4;
-            offset = Math.min(offset, maxOffset);
-
-
-
-            if (parallaxMoon) {
-                // Вращение луны при прокрутке (полный оборот каждые 3000px прокрутки)
-                const rotationSpeed = 360 / 3000; // градусов на пиксель
-                const moonRotation = (scrollY * rotationSpeed) % 360;
-
-                // Интенсивность тени: циклически изменяется от минимальной (0.5) через среднюю (1) до максимальной (1.8) и обратно
-                // Один полный цикл каждые 2000px прокрутки
-                const shadowCycle = (scrollY % 2000) / 2000; // от 0 до 1
-                let shadowIntensity;
-                if (shadowCycle < 0.33) {
-                    // От минимальной (0.5) до средней (1)
-                    shadowIntensity = 0.5 + (shadowCycle / 0.33) * 0.5; // 0.5 -> 1
-                } else if (shadowCycle < 0.66) {
-                    // От средней (1) до максимальной (1.8)
-                    shadowIntensity = 1 + ((shadowCycle - 0.33) / 0.33) * 0.8; // 1 -> 1.8
-                } else {
-                    // От максимальной (1.8) обратно к минимальной (0.5)
-                    shadowIntensity = 1.8 - ((shadowCycle - 0.66) / 0.34) * 1.3; // 1.8 -> 0.5
-                }
-
-                // Применяем трансформацию с вращением
-                parallaxMoon.style.setProperty('--moon-rotation', `${moonRotation}deg`);
-                parallaxMoon.style.setProperty('--moon-shadow-intensity', shadowIntensity);
-                parallaxMoon.style.transform = `translateY(${offset}px) rotate(var(--moon-rotation))`;
-
-                // Обновляем тень на основе интенсивности (более заметные изменения)
-                const baseShadow1 = 30 * shadowIntensity;
-                const baseShadow2 = 60 * shadowIntensity;
-                const baseShadow3 = 100 * shadowIntensity;
-                const opacity1 = Math.min(0.6 * shadowIntensity, 0.8);
-                const opacity2 = Math.min(0.4 * shadowIntensity, 0.6);
-                const opacity3 = Math.min(0.2 * shadowIntensity, 0.3);
-                parallaxMoon.style.boxShadow =
-                    `0 0 ${baseShadow1}px rgba(226, 232, 240, ${opacity1}), 
-                     0 0 ${baseShadow2}px rgba(226, 232, 240, ${opacity2}),
-                     0 0 ${baseShadow3}px rgba(148, 163, 184, ${opacity3})`;
-            }
-        };
-
-        // Оптимизация: используем requestAnimationFrame для плавности
-        let ticking = false;
-        const onScroll = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    handleParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
-
-        // Добавляем обработчик прокрутки
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        // Вызываем при загрузке для начальной позиции
-        handleParallax();
-
-        // --- ГЕНЕРАЦИЯ ЗВЕЗД ---
-        const generateStars = () => {
-            const starsContainer = document.getElementById('stars-container');
-            if (!starsContainer) return;
-
-            starsContainer.innerHTML = '';
-            const starCount = 150;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-
-                // Случайный размер
-                const size = Math.random();
-                if (size < 0.6) {
-                    star.classList.add('small');
-                } else if (size < 0.9) {
-                    star.classList.add('medium');
-                } else {
-                    star.classList.add('large');
-                }
-
-                // Случайная позиция
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-
-                // Случайная задержка анимации
-                star.style.animationDelay = Math.random() * 3 + 's';
-
-                starsContainer.appendChild(star);
-            }
-        };
-
-        // --- ПАРАЛЛАКС ДЛЯ ПЛАНЕТ ---
-        const planets = document.querySelectorAll('.planet');
-        const handlePlanetsParallax = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const parallaxSpeed = 0.2; // Планеты двигаются еще медленнее
-
-            planets.forEach((planet, index) => {
-                const offset = scrollY * parallaxSpeed * (1 + index * 0.1);
-                planet.style.transform = `translateY(${offset}px)`;
-            });
-        };
-
-        // Обновляем функцию onScroll для включения планет
-        const onScrollExtended = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    handleParallax();
-                    handlePlanetsParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
-
-        // Заменяем старый обработчик
-        window.removeEventListener('scroll', onScroll);
-        window.addEventListener('scroll', onScrollExtended, { passive: true });
-
-        // --- ПРОВЕРКА НАЛИЧИЯ ТОВАРОВ И УПРАВЛЕНИЕ ЛУНОЙ ---
-        const checkProductsAvailability = () => {
-            const parallaxMoon = document.querySelector('.parallax-moon');
-            if (!parallaxMoon) return;
-
-            // Проверяем, есть ли товары в наличии (не outOfStock)
-            const hasInStockProducts = products.some(p => !p.outOfStock);
-
-            if (!hasInStockProducts) {
-                // Все товары закончились - луна исчезает
-                parallaxMoon.classList.add('all-out-of-stock');
-            } else {
-                // Есть товары в наличии - луна видна (если темная тема)
-                parallaxMoon.classList.remove('all-out-of-stock');
-            }
-        };
-
-        // Проверяем при загрузке и после рендеринга товаров
-        checkProductsAvailability();
-
-        // Генерируем звезды при загрузке
-        generateStars();
-
-        // --- ПРЕДОТВРАЩЕНИЕ ПРОКРУТКИ ВЫШЕ HEADER ---
-        let lastScrollTop = 0;
-        const preventScrollAboveHeader = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-            // Если пытаемся прокрутить выше начала страницы
-            if (scrollTop < 0) {
-                window.scrollTo(0, 0);
-                return;
-            }
-
-            // Если прокрутка меньше 0 (не должно быть, но на всякий случай)
-            if (scrollTop < lastScrollTop && scrollTop < 10) {
-                window.scrollTo(0, 0);
-            }
-
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        };
-
-        // Добавляем обработчик для предотвращения прокрутки выше header
-        window.addEventListener('scroll', preventScrollAboveHeader, { passive: true });
-        window.addEventListener('touchmove', (e) => {
-            if (window.scrollY <= 0 && e.touches[0].clientY > e.touches[0].clientY) {
-                e.preventDefault();
-            }
-        }, { passive: false });
 
         init();
     </script>
