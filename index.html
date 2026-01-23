@@ -1293,6 +1293,37 @@
         .btn-pay-click:not(#btn-clear-cart) {
             --btn-glow: var(--primary-glow);
         }
+
+        /* Новые стили для iPhone: отключение анимаций фона */
+        .iphone .parallax-moon,
+        .iphone .stars-container,
+        .iphone .planet {
+            opacity: 0 !important;
+            transform: none !important;
+            animation: none !important;
+        }
+        
+        .iphone .parallax-moon::before {
+            display: none;
+        }
+        
+        /* Для скролла категорий на ПК: показывать скроллбар */
+        @media (min-width: 769px) {
+            .categories-wrapper {
+                scrollbar-width: auto;
+            }
+            .categories-wrapper::-webkit-scrollbar {
+                display: block;
+                height: 6px;
+            }
+            .categories-wrapper::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+            .categories-wrapper::-webkit-scrollbar-track {
+                background: transparent;
+            }
+        }
     </style>
 </head>
 
@@ -1496,7 +1527,7 @@
             { name: "Фисташки Beerka", desc: "Жареные, соленые. 80г", fullDesc: "Фисташки Beerka - нежные и вкусные орехи, которые предоставят вам настоящее удовольствие. Эти фисташки отличаются свежестью и высоким качеством. Прекрасный перекус, богатый витаминами и минералами, станет идеальным дополнением к вашему здоровому образу жизни. Откройте для себя великолепный вкус фисташек Beerka и наслаждайтесь каждым моментом перекуса!", price: 25000, category: "snacks", img: "https://images.uzum.uz/cfkbonp25kualhm8dm0g/original.jpg", kbju: { kcal: 653, protein: 20, fat: 50, carbs: 16 }, /* КБЖУ проверено */ },
             { name: "Соленые сушки Ermak", desc: "100г", fullDesc: "Хрустящие соленые сушки Ermak, 100г. Идеально к чаю или как легкий перекус.", price: 8000, category: "snacks", img: "https://images.uzum.uz/cps27gj5qt1gj8dcnn10/original.jpg", kbju: { kcal: 350, protein: 10, fat: 2, carbs: 70 } },
             { name: "Арахис Ermak", desc: "Cолёный, 50г", fullDesc: "Соленый арахис Ermak, 50г. Отличный перекус, богатый белком и полезными жирами.", price: 7500, category: "snacks", img: "https://images.uzum.uz/cps27736eisq2rkda70g/original.jpg", kbju: { kcal: 609, protein: 18, fat: 53, carbs: 13 },  /* КБЖУ проверено */ },
-            { name: "Тараллини Nina Farina", desc: "Томат с ароматными травами 180г", fullDesc: "Тараллини Nina Farina — хрустящие итальянские мини-сушки с томатом и ароматными травами.", price: 13000, category: "snacks", img: "https://images.uzum.uz/chc74t9maogscco83vo0/original.jpg", kbju: { kcal: 480, protein: 10, fat: 20, carbs: 64 },  /* КБЖУ проверено */ },
+            { outOfStock: true, name: "Тараллини Nina Farina", desc: "Томат с ароматными травами 180г", fullDesc: "Тараллини Nina Farina — хрустящие итальянские мини-сушки с томатом и ароматными травами.", price: 13000, category: "snacks", img: "https://images.uzum.uz/chc74t9maogscco83vo0/original.jpg", kbju: { kcal: 480, protein: 10, fat: 20, carbs: 64 },  /* КБЖУ проверено */ },
             { name: "Тараллини Nina Farina", desc: "С чесноком 180г", fullDesc: "Тараллини Nina Farina — итальянские мини-сушки с насыщенным чесночным вкусом.", price: 13000, category: "snacks", img: "https://images.uzum.uz/cerdqk2vtie1lhbgavtg/original.jpg", kbju: { kcal: 470, protein: 9.5, fat: 20, carbs: 64 },  /* КБЖУ проверено */ },
             { name: "Хрустяшки сыр", desc: "40г", fullDesc: "Хрустяшки со вкусом сыра — хрустящий пшеничный снэк с выраженным сырным ароматом.", price: 3000, category: "snacks", img: "https://yastatic.net/avatars/get-grocery-goods/2750890/9dacea87-d92b-4a0c-be90-544410c6c591/464x464-origin", kbju: { kcal: 500, protein: 8, fat: 25, carbs: 60 } },
             { name: "Хрустяшки багет", desc: "40г", fullDesc: "Хрустяшки багет — хрустящий пшеничный снэк со вкусом свежего багета.", price: 3000, category: "snacks", img: "https://yastatic.net/avatars/get-grocery-goods/2783132/32484b7f-5c27-48f7-93cf-a12d747ee0c6/300x300?webp=true", kbju: { kcal: 490, protein: 7, fat: 22, carbs: 62 } },
@@ -1568,7 +1599,7 @@
         const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
         const setSort = (val) => { currentSort = val; document.getElementById('sort-select').value = val; renderProducts(); };
 
-        // helper: поиск по имени, описанию и цене (включая oldprice)
+        // helper: поиск по имени, описании и цене (включая oldprice)
         const matchesSearch = (p) => {
             if (!searchQuery) return true;
             const q = searchQuery.trim().toLowerCase();
@@ -1899,10 +1930,20 @@
 
         const loadTheme = () => {
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || !savedTheme || window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.classList.add('dark-mode');
+            const isDarkPreferred = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isIPhone = /iPhone/.test(navigator.userAgent);
+            
+            // Если iPhone, автоматически включаем темную тему и добавляем класс
+            if (isIPhone) {
+                document.body.classList.add('dark-mode', 'iphone');
+                localStorage.setItem('theme', 'dark');
             } else {
-                document.body.classList.remove('dark-mode');
+                // Обычная логика для других устройств
+                if (savedTheme === 'dark' || (!savedTheme && isDarkPreferred)) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
             }
         };
         // --- ЛОГИКА КОРЗИНЫ ---
