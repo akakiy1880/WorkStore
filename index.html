@@ -5,12 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Офис Маркет</title>
+    <title>Офис Маркет 🛒</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/cart.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/cart.png">
-
-    
     <style>
         /* CSS в одну строку (сжатый) для основных элементов */
         :root {
@@ -21,8 +17,8 @@
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-bg-not_transarent: rgba(50, 50, 50, 1);
             --glass-border: rgba(255, 255, 255, 0.6);
-            --bg-day: radial-gradient(rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
-            --bg-night: radial-gradient(rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            --bg-day: radial-gradient(circle at 50% 10%, #fbbf24 0%, rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
+            --bg-night: radial-gradient(circle at 50% 3%, #e2e8f0 3%, rgba(255, 255, 255, 0) 10%), linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
             --theme-toggle-bg-day: rgba(0, 0, 0, 0.1);
             --theme-toggle-fg-day: #fff;
             --theme-toggle-bg-night: rgba(255, 255, 255, 0.1);
@@ -31,7 +27,36 @@
 
         }
 
+        /* --- СНЕГ И ЕЛКА --- */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Чтобы сквозь снег можно было кликать */
+            z-index: 9999;
+            overflow: hidden;
+        }
 
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            user-select: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        /* Темная тема - снег чуть ярче */
+        .dark-mode .snowflake {
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
 
         @keyframes fall {
             0% {
@@ -61,17 +86,9 @@
             --glass-border: rgba(255, 255, 255, 0.1)
         }
 
-        html {
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
-        }
-
-
-
         body {
             margin: 0;
             padding: 0;
-            padding-top: 80px;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             padding-bottom: 240px;
@@ -79,231 +96,13 @@
             background-attachment: fixed;
             background-size: cover;
             transition: background 0.5s ease;
-            color: var(--text-main);
-            position: relative;
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
+            color: var(--text-main)
         }
 
         .dark-mode {
             background: var(--bg-night);
             background-attachment: fixed;
             background-size: cover
-        }
-
-        /* Параллакс элементы - Солнце и Луна */
-
-        .parallax-moon {
-            position: fixed;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transition: opacity 0.5s ease, transform 0.1s ease-out;
-            will-change: transform;
-        }
-
-        .parallax-moon {
-            top: 8%;
-            right: 12%;
-            background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
-            box-shadow: 0 0 40px rgba(226, 232, 240, 0.4), 0 0 80px rgba(226, 232, 240, 0.2);
-            opacity: 0;
-            --moon-rotation: 0deg;
-            --moon-shadow-intensity: 1;
-            transform-origin: center center;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .dark-mode .parallax-moon {
-            opacity: 0.8;
-        }
-
-        /* Дополнительные эффекты для луны */
-        .parallax-moon::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 25%;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(148, 163, 184, 0.3);
-            box-shadow:
-                -15px 10px 0 -5px rgba(148, 163, 184, 0.2),
-                -25px 20px 0 -8px rgba(148, 163, 184, 0.15),
-                15px -10px 0 -5px rgba(148, 163, 184, 0.2);
-        }
-
-        /* Контейнер для звезд */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .dark-mode .star {
-            opacity: 1;
-        }
-
-        .star.small {
-            width: 1px;
-            height: 1px;
-            box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
-        }
-
-        .star.medium {
-            width: 2px;
-            height: 2px;
-            box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
-        }
-
-        .star.large {
-            width: 3px;
-            height: 3px;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 1);
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
-        /* Планеты */
-        .planet {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transition: opacity 0.5s ease, transform 0.1s ease-out;
-            will-change: transform;
-        }
-
-        .planet.venus {
-            width: 20px;
-            height: 20px;
-            top: 15%;
-            left: 10%;
-            background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ff8c00 100%);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.venus {
-            opacity: 0.6;
-        }
-
-        .planet.mars {
-            width: 25px;
-            height: 25px;
-            top: 25%;
-            left: 85%;
-            background: radial-gradient(circle at 30% 30%, #ff6b47 0%, #cc4125 100%);
-            box-shadow: 0 0 20px rgba(255, 107, 71, 0.4);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.mars {
-            opacity: 0.5;
-        }
-
-        .planet.jupiter {
-            width: 30px;
-            height: 30px;
-            top: 60%;
-            left: 5%;
-            background: radial-gradient(circle at 30% 30%, #ffa500 0%, #ff8c00 50%, #ff6347 100%);
-            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
-            opacity: 0;
-        }
-
-        .dark-mode .planet.jupiter {
-            opacity: 0.4;
-        }
-
-
-
-        .dark-mode .eclipse-shadow {
-            opacity: 0.3;
-            animation: eclipseMove 20s ease-in-out infinite;
-        }
-
-        @keyframes eclipseMove {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(-10px, 10px) scale(1.1);
-            }
-        }
-
-
-
-
-        /* Луна исчезает когда все товары закончились */
-        .parallax-moon.all-out-of-stock {
-            opacity: 0 !important;
-            transform: translateY(0) scale(0);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        /* Адаптивность для мобильных устройств */
-        @media (max-width: 768px) {
-
-            .parallax-moon {
-                width: 100px;
-                height: 100px;
-            }
-
-
-            .parallax-moon {
-                top: 6%;
-                right: 8%;
-            }
-
-
-        }
-
-        @media (max-width: 480px) {
-
-            .parallax-moon {
-                width: 80px;
-                height: 80px;
-            }
-
-
-
-            .parallax-moon {
-                top: 5%;
-                right: 6%;
-            }
         }
 
         * {
@@ -320,19 +119,11 @@
         }
 
         header {
-            position: fixed;
-            /* Фиксированное позиционирование относительно окна */
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            /* Высокий индекс, чтобы хедер был поверх карточек */
+            z-index: 100;
             padding: 12px 16px;
-            background: var(--glass-bg);
-            /* Добавляем фон, иначе под ним будет виден текст при скролле */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 10px
         }
 
         .header-grid {
@@ -372,7 +163,6 @@
             margin: 0;
             background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent
         }
 
@@ -1293,54 +1083,10 @@
         .btn-pay-click:not(#btn-clear-cart) {
             --btn-glow: var(--primary-glow);
         }
-
-        /* Новые стили для iPhone: отключение анимаций фона */
-        .iphone .parallax-moon,
-        .iphone .stars-container,
-        .iphone .planet {
-            opacity: 0 !important;
-            transform: none !important;
-            animation: none !important;
-        }
-        
-        .iphone .parallax-moon::before {
-            display: none;
-        }
-        
-        /* Для скролла категорий на ПК: показывать скроллбар */
-        @media (min-width: 769px) {
-            .categories-wrapper {
-                scrollbar-width: auto;
-            }
-            .categories-wrapper::-webkit-scrollbar {
-                display: block;
-                height: 6px;
-            }
-            .categories-wrapper::-webkit-scrollbar-thumb {
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 3px;
-            }
-            .categories-wrapper::-webkit-scrollbar-track {
-                background: transparent;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <!-- Параллакс элементы - Солнце и Луна -->
-    <div class="parallax-moon"></div>
-
-    <!-- Эффекты -->
-
-
-    <!-- Планеты -->
-    <div class="planet venus"></div>
-    <div class="planet mars"></div>
-    <div class="planet jupiter"></div>
-
-    <!-- Контейнер для звезд -->
-    <div class="stars-container" id="stars-container"></div>
 
     <header class="glass-panel">
         <div class="header-grid">
@@ -1357,7 +1103,7 @@
 
     <div class="controls-container">
         <div class="search-box">
-
+            <span class="search-icon">🔍</span>
             <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..."
                 oninput="handleSearch()">
             <select id="sort-select" class="sort-select" onchange="setSort(this.value)">
@@ -1443,7 +1189,7 @@
     </div>
 
     <script>
-        const productsRaw = [
+           const productsRaw = [
             // { name: "", desc: "", fullDesc: "", price: 300000, category: "", img: "", kbju: {}, isNew: true },
 
             // --- DRINKS (Напитки) ---
@@ -1538,8 +1284,11 @@
             // --- OTHER ---
             { name: "Салфетки", desc: "Влажные 15 шт", fullDesc: "Влажные салфетки, 15 штук. Удобны для гигиены рук в любой ситуации.", price: 3000, category: "other", img: "https://pharmaclick.uz/upload/Sh/imageCache/534/143/1430212791367275.webp", },
             { name: "Ложка столовая", desc: "1 шт", fullDesc: "Одноразовая столовая ложка, 1 шт. Удобна для использования в офисе или на пикнике.", price: 1000, category: "other", img: "https://plastikko.ru/i/1/1/10412.jpg" },
-
+            { name: "Батарейка пальчиковая", desc: "1 шт", fullDesc: "Батарейка пальчиковая 1 шт", price: 3000, category: "other", img: "https://i.ibb.co/NnmQfST5/Chat-GPT-Image-23-2026-13-17-44.png" },
+            { name: "Батарейка мизинчиковая", desc: "1 шт", fullDesc: "Батарейка мизинчиковая 1 шт", price: 3000, category: "other", img: "https://i.ibb.co/NnmQfST5/Chat-GPT-Image-23-2026-13-17-44.png" },
         ];
+
+        
 
         // 👉 генерация ID
         const products = productsRaw.map((product, index) => ({
@@ -1599,7 +1348,7 @@
         const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
         const setSort = (val) => { currentSort = val; document.getElementById('sort-select').value = val; renderProducts(); };
 
-        // helper: поиск по имени, описании и цене (включая oldprice)
+        // helper: поиск по имени, описанию и цене (включая oldprice)
         const matchesSearch = (p) => {
             if (!searchQuery) return true;
             const q = searchQuery.trim().toLowerCase();
@@ -1707,11 +1456,6 @@
                     </div>
                 </div>`;
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
-            }
-
-            // Проверяем наличие товаров и обновляем видимость луны
-            if (typeof checkProductsAvailability === 'function') {
-                checkProductsAvailability();
             }
         };
 
@@ -1929,23 +1673,11 @@
         };
 
         const loadTheme = () => {
-            const savedTheme = localStorage.getItem('theme');
-            const isDarkPreferred = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isIPhone = /iPhone/.test(navigator.userAgent);
-            
-            // Если iPhone, автоматически включаем темную тему и добавляем класс
-            if (isIPhone) {
-                document.body.classList.add('dark-mode', 'iphone');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                // Обычная логика для других устройств
-                if (savedTheme === 'dark' || (!savedTheme && isDarkPreferred)) {
-                    document.body.classList.add('dark-mode');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                }
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
             }
         };
+
         // --- ЛОГИКА КОРЗИНЫ ---
 
         const openCartModal = () => {
@@ -2036,204 +1768,8 @@
             document.getElementById('cart-total-display').innerText = formatPrice(total) + ' сум';
         };
 
-        // --- ПАРАЛЛАКС ЭФФЕКТ ДЛЯ СОЛНЦА И ЛУНЫ ---
-        const parallaxSun = document.querySelector('.parallax-sun');
-        const parallaxMoon = document.querySelector('.parallax-moon');
-
-        const handleParallax = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const windowHeight = window.innerHeight;
-            const windowWidth = window.innerWidth;
-
-            // Определяем, мобильное ли это устройство
-            const isMobile = windowWidth <= 768;
-            const isSmallMobile = windowWidth <= 480;
-
-            // Адаптивная скорость параллакса: на мобильных медленнее
-            let parallaxSpeed = 0.3;
-            if (isSmallMobile) {
-                parallaxSpeed = 0.1; // Очень медленно на маленьких экранах
-            } else if (isMobile) {
-                parallaxSpeed = 0.15; // Медленнее на мобильных
-            }
-
-            // Вычисляем смещение (солнце/луна двигаются медленнее, чем контент)
-            let offset = scrollY * parallaxSpeed;
-
-            // Ограничиваем максимальное смещение, чтобы солнце/луна не исчезали
-            // Максимум 30% от высоты экрана
-            const maxOffset = windowHeight * 0.4;
-            offset = Math.min(offset, maxOffset);
 
 
-
-            if (parallaxMoon) {
-                // Вращение луны при прокрутке (полный оборот каждые 3000px прокрутки)
-                const rotationSpeed = 360 / 3000; // градусов на пиксель
-                const moonRotation = (scrollY * rotationSpeed) % 360;
-
-                // Интенсивность тени: циклически изменяется от минимальной (0.5) через среднюю (1) до максимальной (1.8) и обратно
-                // Один полный цикл каждые 2000px прокрутки
-                const shadowCycle = (scrollY % 2000) / 2000; // от 0 до 1
-                let shadowIntensity;
-                if (shadowCycle < 0.33) {
-                    // От минимальной (0.5) до средней (1)
-                    shadowIntensity = 0.5 + (shadowCycle / 0.33) * 0.5; // 0.5 -> 1
-                } else if (shadowCycle < 0.66) {
-                    // От средней (1) до максимальной (1.8)
-                    shadowIntensity = 1 + ((shadowCycle - 0.33) / 0.33) * 0.8; // 1 -> 1.8
-                } else {
-                    // От максимальной (1.8) обратно к минимальной (0.5)
-                    shadowIntensity = 1.8 - ((shadowCycle - 0.66) / 0.34) * 1.3; // 1.8 -> 0.5
-                }
-
-                // Применяем трансформацию с вращением
-                parallaxMoon.style.setProperty('--moon-rotation', `${moonRotation}deg`);
-                parallaxMoon.style.setProperty('--moon-shadow-intensity', shadowIntensity);
-                parallaxMoon.style.transform = `translateY(${offset}px) rotate(var(--moon-rotation))`;
-
-                // Обновляем тень на основе интенсивности (более заметные изменения)
-                const baseShadow1 = 30 * shadowIntensity;
-                const baseShadow2 = 60 * shadowIntensity;
-                const baseShadow3 = 100 * shadowIntensity;
-                const opacity1 = Math.min(0.6 * shadowIntensity, 0.8);
-                const opacity2 = Math.min(0.4 * shadowIntensity, 0.6);
-                const opacity3 = Math.min(0.2 * shadowIntensity, 0.3);
-                parallaxMoon.style.boxShadow =
-                    `0 0 ${baseShadow1}px rgba(226, 232, 240, ${opacity1}), 
-                     0 0 ${baseShadow2}px rgba(226, 232, 240, ${opacity2}),
-                     0 0 ${baseShadow3}px rgba(148, 163, 184, ${opacity3})`;
-            }
-        };
-
-        // Оптимизация: используем requestAnimationFrame для плавности
-        let ticking = false;
-        const onScroll = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    handleParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
-
-        // Добавляем обработчик прокрутки
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        // Вызываем при загрузке для начальной позиции
-        handleParallax();
-
-        // --- ГЕНЕРАЦИЯ ЗВЕЗД ---
-        const generateStars = () => {
-            const starsContainer = document.getElementById('stars-container');
-            if (!starsContainer) return;
-
-            starsContainer.innerHTML = '';
-            const starCount = 150;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-
-                // Случайный размер
-                const size = Math.random();
-                if (size < 0.6) {
-                    star.classList.add('small');
-                } else if (size < 0.9) {
-                    star.classList.add('medium');
-                } else {
-                    star.classList.add('large');
-                }
-
-                // Случайная позиция
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-
-                // Случайная задержка анимации
-                star.style.animationDelay = Math.random() * 3 + 's';
-
-                starsContainer.appendChild(star);
-            }
-        };
-
-        // --- ПАРАЛЛАКС ДЛЯ ПЛАНЕТ ---
-        const planets = document.querySelectorAll('.planet');
-        const handlePlanetsParallax = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const parallaxSpeed = 0.2; // Планеты двигаются еще медленнее
-
-            planets.forEach((planet, index) => {
-                const offset = scrollY * parallaxSpeed * (1 + index * 0.1);
-                planet.style.transform = `translateY(${offset}px)`;
-            });
-        };
-
-        // Обновляем функцию onScroll для включения планет
-        const onScrollExtended = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    handleParallax();
-                    handlePlanetsParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
-
-        // Заменяем старый обработчик
-        window.removeEventListener('scroll', onScroll);
-        window.addEventListener('scroll', onScrollExtended, { passive: true });
-
-        // --- ПРОВЕРКА НАЛИЧИЯ ТОВАРОВ И УПРАВЛЕНИЕ ЛУНОЙ ---
-        const checkProductsAvailability = () => {
-            const parallaxMoon = document.querySelector('.parallax-moon');
-            if (!parallaxMoon) return;
-
-            // Проверяем, есть ли товары в наличии (не outOfStock)
-            const hasInStockProducts = products.some(p => !p.outOfStock);
-
-            if (!hasInStockProducts) {
-                // Все товары закончились - луна исчезает
-                parallaxMoon.classList.add('all-out-of-stock');
-            } else {
-                // Есть товары в наличии - луна видна (если темная тема)
-                parallaxMoon.classList.remove('all-out-of-stock');
-            }
-        };
-
-        // Проверяем при загрузке и после рендеринга товаров
-        checkProductsAvailability();
-
-        // Генерируем звезды при загрузке
-        generateStars();
-
-        // --- ПРЕДОТВРАЩЕНИЕ ПРОКРУТКИ ВЫШЕ HEADER ---
-        let lastScrollTop = 0;
-        const preventScrollAboveHeader = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-            // Если пытаемся прокрутить выше начала страницы
-            if (scrollTop < 0) {
-                window.scrollTo(0, 0);
-                return;
-            }
-
-            // Если прокрутка меньше 0 (не должно быть, но на всякий случай)
-            if (scrollTop < lastScrollTop && scrollTop < 10) {
-                window.scrollTo(0, 0);
-            }
-
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        };
-
-        // Добавляем обработчик для предотвращения прокрутки выше header
-        window.addEventListener('scroll', preventScrollAboveHeader, { passive: true });
-        window.addEventListener('touchmove', (e) => {
-            if (window.scrollY <= 0 && e.touches[0].clientY > e.touches[0].clientY) {
-                e.preventDefault();
-            }
-        }, { passive: false });
 
         init();
     </script>
