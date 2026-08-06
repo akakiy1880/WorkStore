@@ -234,33 +234,74 @@
         }
 
         .categories-wrapper {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
             overflow-x: auto;
-            white-space: nowrap;
-            padding-bottom: 5px;
-            scrollbar-width: none
+            overflow-y: hidden;
+            padding: 10px 0;
+            gap: 10px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            scroll-behavior: smooth;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            position: relative;
+            z-index: 1;
+            scroll-snap-type: x proximity;
+            scroll-padding-left: 16px;
         }
 
         .categories-wrapper::-webkit-scrollbar {
-            display: none
+            display: none;
+        }
+
+        .categories-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .categories-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            opacity: 0.85;
+            padding: 0 10px;
         }
 
         .cat-pill {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-right: 8px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            white-space: nowrap;
+            min-width: max-content;
+            padding: 12px 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.42);
             border: 1px solid rgba(255, 255, 255, 0.5);
             font-size: 13px;
             font-weight: 600;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: 0.3s
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            scroll-snap-align: center;
+        }
+
+        .cat-pill:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
         }
 
         .dark-mode .cat-pill {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1)
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .cat-pill.active {
@@ -1081,7 +1122,10 @@
                 <option value="expensive">Дороже</option>
             </select>
         </div>
-        <div class="categories-wrapper" id="categories-container"></div>
+        <div class="categories-panel">
+            
+            <div class="categories-wrapper" id="categories-container" aria-label="Категории товаров"></div>
+        </div>
     </div>
 
     <div class="container" id="products-list"></div>
@@ -1321,13 +1365,56 @@
         let searchQuery = '';
         let currentSort = 'default';
 
-        const init = () => { renderCategories(); renderProducts(); loadTheme(); calcTotal(); };
+        const init = () => {
+            renderCategories();
+            renderProducts();
+            loadTheme();
+            calcTotal();
+
+            const categoriesWrapper = document.getElementById('categories-container');
+            if (categoriesWrapper) {
+                categoriesWrapper.addEventListener('wheel', (event) => {
+                    if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
+                        event.preventDefault();
+                        categoriesWrapper.scrollLeft += event.deltaY;
+                    }
+                }, { passive: false });
+
+                let isDragging = false;
+                let dragStartX = 0;
+                let initialScrollLeft = 0;
+
+                categoriesWrapper.addEventListener('pointerdown', (event) => {
+                    isDragging = true;
+                    dragStartX = event.pageX;
+                    initialScrollLeft = categoriesWrapper.scrollLeft;
+                    categoriesWrapper.setPointerCapture(event.pointerId);
+                });
+
+                categoriesWrapper.addEventListener('pointermove', (event) => {
+                    if (!isDragging) return;
+                    const delta = event.pageX - dragStartX;
+                    categoriesWrapper.scrollLeft = initialScrollLeft - delta;
+                });
+
+                const stopDrag = () => { isDragging = false; };
+                categoriesWrapper.addEventListener('pointerup', stopDrag);
+                categoriesWrapper.addEventListener('pointercancel', stopDrag);
+                categoriesWrapper.addEventListener('pointerleave', stopDrag);
+            }
+        };
         const formatPrice = (p) => p.toLocaleString('ru-RU');
 
         const renderCategories = () => {
-            document.getElementById('categories-container').innerHTML = categories.map(cat =>
-                `<div class="cat-pill ${cat.id === activeCategory ? 'active' : ''}" onclick="setCategory('${cat.id}')">${cat.name}</div>`
+            const container = document.getElementById('categories-container');
+            if (!container) return;
+            container.innerHTML = categories.map(cat =>
+                `<button type="button" class="cat-pill ${cat.id === activeCategory ? 'active' : ''}" onclick="setCategory('${cat.id}')">${cat.name}</button>`
             ).join('');
+            const activePill = container.querySelector('.cat-pill.active');
+            if (activePill) {
+                activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
         };
         const setCategory = (id) => { activeCategory = (activeCategory === id) ? 'all' : id; renderCategories(); renderProducts(); };
         const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
