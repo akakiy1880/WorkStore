@@ -1152,6 +1152,8 @@
             </div>
         </div>
         <button class="btn-pay-click" onclick="goToClickPayment()">Оплатить через CLICK</button>
+
+        <button class="btn-pay-click" onclick="goToPaynetPayment()" style="background: #10b14d; --btn-glow: rgba(30, 218, 92, 0.4); margin-top: 12px;">Оплатить через QR</button>
     </div>
 
     <div class="toast" id="toast">✅ Скопировано!</div>
@@ -1209,7 +1211,7 @@
             //{ outOfStock: true, name: "Chortoq", desc: "0.5л", fullDesc: "CHORTOQ", price: 17000, category: "drinks", img: "https://shop.tegen.uz/wp-content/uploads/2021/05/imgonline-com-ua-Resize-s5y9EDBt83.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0} },
             //{ outOfStock: true, name: "Santal", desc: "Газированная вода, 1.5л", fullDesc: "Santal — освежающая газированная вода, идеальна для утоления жажды. Без добавленных ароматизаторов.", price: 5000, category: "drinks", img: "https://images.uzum.uz/cupd0qmi4n324lral8ig/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             //{ outOfStock: true, name: "Bonaqua", desc: "Газированная вода, 1.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 6500, category: "drinks", img: "https://images.uzum.uz/ciaiv2r6edfostihitb0/original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
-            //{ name: "Bonaqua", desc: "Газированная вода (темно-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://www.coca-cola.com/content/dam/onexp/ua/uk/products/bonaqua-carbonated.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
+            { name: "Bonaqua", desc: "Газированная вода (темно-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 5000, category: "drinks", img: "https://www.coca-cola.com/content/dam/onexp/ua/uk/products/bonaqua-carbonated.png", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             //{ outOfStock: true, name: "Bonaqua", desc: "Не газированная вода (светло-синяя крышка), 0.5л", fullDesc: "Bonaqua — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 4000, category: "drinks", img: "https://img.postershop.me/10936/Products/4211201_1692722144.619_original.jpg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             { name: "Hydrolife", desc: "Негазированная вода, 0.5л", fullDesc: "Hydrolife — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 5000, category: "drinks", img: "https://www.prom.uz/_ipx/f_webp/https://devel.prom.uz/upload/product_logos/59/1a/591af7814c983262545fc5266f24d224.jpeg", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
             //{ name: "Hydrolife", desc: "Газированная вода, 0.5л", fullDesc: "Hydrolife — чистая питьевая вода с легкой газированностью. Подходит для ежедневного потребления.", price: 5000, category: "drinks", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLdVeKRpa5T5JuacxnX6vjub5L_hI2pugGkXOC5xJDfA&s", kbju: { kcal: 0, protein: 0, fat: 0, carbs: 0 } },
@@ -1354,7 +1356,6 @@
             { id: 'coffee', name: 'Кофе ☕' },
             { id: 'energy_drinks', name: 'Энергетики ⚡️' },
             { id: 'sport', name: 'Спорт 💪' },
-            { id: 'tobacco', name: 'Табак 🚬' },
             { id: 'other', name: 'Разное 🧴' }
         ];
 
@@ -1383,9 +1384,17 @@
                 let isDragging = false;
                 let dragStartX = 0;
                 let initialScrollLeft = 0;
+                let hasDragged = false;
 
                 categoriesWrapper.addEventListener('pointerdown', (event) => {
+                    if (event.target.closest('.cat-pill')) {
+                        isDragging = false;
+                        hasDragged = false;
+                        return;
+                    }
+
                     isDragging = true;
+                    hasDragged = false;
                     dragStartX = event.pageX;
                     initialScrollLeft = categoriesWrapper.scrollLeft;
                     categoriesWrapper.setPointerCapture(event.pointerId);
@@ -1394,10 +1403,15 @@
                 categoriesWrapper.addEventListener('pointermove', (event) => {
                     if (!isDragging) return;
                     const delta = event.pageX - dragStartX;
-                    categoriesWrapper.scrollLeft = initialScrollLeft - delta;
+                    if (Math.abs(delta) > 4) {
+                        hasDragged = true;
+                    }
+                    if (hasDragged) {
+                        categoriesWrapper.scrollLeft = initialScrollLeft - delta;
+                    }
                 });
 
-                const stopDrag = () => { isDragging = false; };
+                const stopDrag = () => { isDragging = false; hasDragged = false; };
                 categoriesWrapper.addEventListener('pointerup', stopDrag);
                 categoriesWrapper.addEventListener('pointercancel', stopDrag);
                 categoriesWrapper.addEventListener('pointerleave', stopDrag);
@@ -1738,6 +1752,8 @@
         };
 
         const goToClickPayment = () => window.location.href = "https://my.click.uz/clickp2p/B3631576DEADC7D71F0A8FF521024D64C70852638D953480E35DB4EAE0DF5F5E";
+
+        const goToPaynetPayment = () => window.location.href = "https://app.paynet.uz/qr-online/00020101021140440012qr-online.uz01186r0zDpXhgHhwzwz2oj0202115204531153038605802UZ5910AO'PAYNET'6008Tashkent610610002164280002uz0106PAYNET0208Toshkent80520012qr-online.uz03097120207070419marketing@paynet.uz6304D60E";
 
         const toggleTheme = () => {
             document.body.classList.toggle('dark-mode');
