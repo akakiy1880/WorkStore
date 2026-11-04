@@ -1,0 +1,13 @@
+{
+  "name": "Офис Маркет",
+  "short_name": "Офис Маркет",
+  "description": "Самообслуживание: напитки, снеки и сладости в офисе",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#bfdbfe",
+  "theme_color": "#087bff",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

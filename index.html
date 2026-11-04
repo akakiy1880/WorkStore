@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/cart.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/cart.png">
+    <meta name="theme-color" content="#087bff">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
     <title>Офис Маркет 🛒</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +17,21 @@
     <style>
         /* CSS в одну строку (сжатый) для основных элементов */
         :root {
+            /* токены оформления */
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --space-1: 8px;
+            --space-2: 12px;
+            --space-3: 16px;
+            --header-h: 65px;
+            --sidebar-w: 360px;
+            --price: #0560d6;
             --text-main: #1e293b;
-            --text-secondary: #64748b;
+            --text-secondary: #475569;
             --primary: #087bff;
             --primary-glow: #3794ff66;
-            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-bg: rgba(255, 255, 255, 0.72);
             --glass-bg-not_transarent: rgba(50, 50, 50, 1);
             --glass-border: rgba(255, 255, 255, 0.6);
             --bg-day: radial-gradient(circle at 50% 10%, #fbbf24 0%, rgba(255, 255, 255, 0) 20%), linear-gradient(180deg, #60a5fa 0%, #bfdbfe 50%, #fef3c7 100%);
@@ -47,6 +59,7 @@
         .dark-mode {
             --text-main: #e2e8f0;
             --text-secondary: #94a3b8;
+            --price: #5eb0ff;
             --primary: #087bff;
             --glass-bg: rgba(30, 41, 59, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1)
@@ -57,7 +70,7 @@
             padding: 0;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            padding-bottom: 240px;
+            padding-bottom: calc(250px + env(safe-area-inset-bottom));
             background: var(--bg-day);
             background-attachment: fixed;
             background-size: cover;
@@ -96,8 +109,20 @@
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
-            max-width: 800px;
+            min-height: 40px;
+            max-width: 640px;
             margin: 0 auto
+        }
+
+        .icon {
+            width: 1.15em;
+            height: 1.15em;
+            flex-shrink: 0;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
         }
 
         .btn-request {
@@ -112,7 +137,17 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            gap: 6px;
             transition: 0.2s
+        }
+
+        .btn-request:hover {
+            background: rgba(255, 255, 255, 0.4)
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px
         }
 
         .btn-request:active {
@@ -169,20 +204,24 @@
             left: 3px;
             border-radius: 50%;
             transition: transform 0.3s ease, background 0.3s ease;
-            background: url('https://png.klev.club/uploads/posts/2024-04/png-klev-club-rfb6-p-solntse-png-9.png') center/cover no-repeat
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23fbbf24'/%3E%3Cg stroke='%23fbbf24' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat
         }
 
         /* Убрали content и фоновый цвет, добавили фоновое изображение луны при темной теме */
         .dark-mode .theme-toggle-btn::before {
             transform: translateX(22px);
-            background: url('https://st4.depositphotos.com/12328584/28866/i/450/depositphotos_288668274-stock-illustration-moon-isolated-on-white-background.jpg') center/cover no-repeat
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z' fill='%23e2e8f0'/%3E%3C/svg%3E") center/cover no-repeat
         }
 
         /* КОНЕЦ ИЗМЕНЕНИЙ */
 
+        .page {
+            max-width: 640px;
+            margin: 0 auto
+        }
+
         .controls-container {
-            max-width: 600px;
-            margin: 0 auto 20px;
+            margin: 0 0 12px;
             padding: 0 16px;
             display: flex;
             flex-direction: column;
@@ -232,7 +271,10 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 16px;
+            font-size: 18px;
+            display: flex;
+            z-index: 2;
+            pointer-events: none;
             color: var(--text-secondary)
         }
 
@@ -316,21 +358,28 @@
 
         .container {
             padding: 0 16px;
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 14px
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
         }
 
         .card {
-            border-radius: 24px;
+            border-radius: var(--radius-lg);
             padding: 12px;
             display: flex;
             gap: 14px;
             position: relative;
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: cardIn 0.35s ease both;
+            animation-delay: calc(var(--i, 0) * 30ms);
             /* blur на десятках карточек сильно тормозит прокрутку; пропускаем рендер карточек вне экрана */
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
@@ -344,37 +393,44 @@
             box-shadow: 0 8px 24px rgba(8, 123, 255, 0.12);
         }
 
-        .new-badge {
+        /* бейджи лежат в углу фото */
+        .badges {
             position: absolute;
-            top: 10px;
-            left: 12px;
-            background: var(--primary);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 12px;
+            top: 4px;
+            left: 4px;
             z-index: 5;
-            box-shadow: 0 4px 10px rgba(8, 123, 255, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            pointer-events: none
+        }
+
+        .badge {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            line-height: 1;
+            padding: 4px 6px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18)
+        }
+
+        .badge-sale {
+            background: linear-gradient(135deg, #ff3b30 0%, #ff7a7a 100%)
+        }
+
+        .badge-new {
+            background: var(--primary)
         }
 
         /* OUT OF STOCK */
-        .out-badge {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            background: #ef4444;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 12px;
-            z-index: 6;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.18);
-        }
-
         .card.out-of-stock {
             opacity: 0.6;
+        }
+
+        .card.out-of-stock .card-img {
+            filter: grayscale(1)
         }
 
         .out-label {
@@ -388,25 +444,7 @@
 
         /* END OUT OF STOCK */
 
-        /* DISCOUNT: красный бейдж и декоративная рамка */
-        .discount-badge {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            z-index: 7;
-            display: inline-block;
-            padding: 6px 10px;
-            color: #fff;
-            font-weight: 800;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            transform: skew(-12deg) rotate(-6deg);
-            background: linear-gradient(135deg, #ff3b30 0%, #ff7a7a 100%);
-            box-shadow: 0 8px 20px rgba(255, 59, 48, 0.22), inset 0 -4px 0 rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-        }
-
+        /* DISCOUNT: декоративная рамка */
         .discount-card {
             /* glass background, но с красной обводкой */
             background: var(--glass-bg) !important;
@@ -436,7 +474,7 @@
         }
 
         .discount-card .price {
-            color: var(--primary);
+            color: var(--price);
         }
 
         .old-price {
@@ -447,22 +485,44 @@
             display: block;
         }
 
+        @keyframes shimmer {
+            to {
+                background-position: -200% 0
+            }
+        }
+
         .card-img-container {
             width: 85px;
             height: 85px;
-            border-radius: 18px;
-            background: #fff;
+            border-radius: var(--radius-md);
+            background: linear-gradient(100deg, #fff 30%, #eef2f7 50%, #fff 70%) 100% 0 / 200% 100%;
+            animation: shimmer 1.4s linear infinite;
             padding: 5px;
             flex-shrink: 0;
+            position: relative;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center
         }
 
+        /* когда фото загрузилось или не загрузилось — останавливаем «скелетон» */
+        .card-img-container.img-ready,
+        .card-img-container.img-failed {
+            animation: none;
+            background: #fff
+        }
+
         .card-img {
             width: 100%;
             height: 100%;
-            object-fit: contain
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.25s
+        }
+
+        .card-img.loaded {
+            opacity: 1
         }
 
         .card-info {
@@ -474,33 +534,23 @@
             /* важно для корректного переноса в flex-контейнере */
         }
 
+        .card-info {
+            cursor: pointer
+        }
+
         .card-title {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 2px;
-            padding-right: 88px;
-            /* резерв слева для правых бейджей */
             word-break: break-word;
         }
 
         .card-desc {
             font-size: 12px;
             color: var(--text-secondary);
-            padding-right: 88px;
-            /* резерв места, чтобы текст не уходил под бейдж */
             white-space: normal;
-            /* разрешаем перенос строк */
             word-break: break-word;
             overflow-wrap: anywhere;
-        }
-
-        /* Доп. запас для очень маленьких экранов */
-        @media (max-width: 420px) {
-
-            .card-title,
-            .card-desc {
-                padding-right: 110px;
-            }
         }
 
         .card-bottom {
@@ -515,7 +565,7 @@
         .price {
             font-size: 16px;
             font-weight: 800;
-            color: var(--primary)
+            color: var(--price)
         }
 
         /* Стили для кнопки "Добавить" */
@@ -552,7 +602,14 @@
             border-radius: 12px;
             padding: 4px;
             gap: 6px;
+            animation: pop 0.18s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05)
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.92)
+            }
         }
 
         .btn-qty {
@@ -591,17 +648,147 @@
             color: #fff
         }
 
-        /* Нижняя панель */
-        .bottom-sheet {
+        /* Компактная плашка корзины (телефон и планшет) */
+        .bottom-panel {
             position: fixed;
-            bottom: 5px;
+            bottom: calc(5px + env(safe-area-inset-bottom));
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 500px;
+            width: calc(100% - 24px);
+            max-width: 520px;
             border-radius: 28px;
-            padding: 20px;
+            padding: 14px;
             z-index: 200
+        }
+
+        .bottom-panel .pay-card {
+            padding: 12px 16px;
+            margin-bottom: 10px
+        }
+
+        .bottom-panel .btn-pay-click {
+            padding: 14px
+        }
+
+        .cart-bar {
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: var(--radius-lg);
+            background: var(--primary);
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px -6px var(--primary-glow)
+        }
+
+        .cart-pay-extra {
+            display: none
+        }
+
+        .cart-bar:active {
+            filter: brightness(0.95)
+        }
+
+        .cart-bar .icon {
+            font-size: 22px
+        }
+
+        .cart-bar-label {
+            flex: 1;
+            text-align: left;
+            font-size: 15px
+        }
+
+        .cart-bar-count {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 2px 9px;
+            margin-left: 6px;
+            font-size: 13px
+        }
+
+        .cart-bar .total-amount {
+            background: none;
+            padding: 0;
+            font-size: 17px;
+            cursor: inherit
+        }
+
+        /* Корзина: на телефоне — выезжающая панель, на desktop — боковая колонка */
+        .cart-pay {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 12px;
+            padding-top: 12px
+        }
+
+        .dark-mode .cart-pay {
+            border-top-color: rgba(255, 255, 255, 0.1)
+        }
+
+        .cart-pay .total-row {
+            margin-bottom: 12px
+        }
+
+        .cart-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px
+        }
+
+        .cart-buttons .btn-pay-click {
+            padding: 12px;
+            font-size: 14px
+        }
+
+        #cart-modal {
+            z-index: 1100
+        }
+
+        .cart-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px
+        }
+
+        .cart-head h2 {
+            margin: 0;
+            font-size: 20px
+        }
+
+        .cart-head .modal-close {
+            position: static;
+            box-shadow: none
+        }
+
+        #cart-list {
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            padding-right: 4px
+        }
+
+        /* ручка шторки */
+        .sheet-handle {
+            width: 44px;
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(100, 116, 139, 0.45);
+            margin: -6px auto 12px;
+            flex-shrink: 0;
+            touch-action: none;
+            cursor: grab;
+            padding: 0;
+            background-clip: content-box;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            box-sizing: content-box
         }
 
         .total-row {
@@ -769,6 +956,98 @@
             flex-direction: column;
         }
 
+        @keyframes sheetUp {
+            from {
+                transform: translateY(100%)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+        }
+
+        .modal-overlay.visible {
+            animation: fadeIn 0.2s ease
+        }
+
+        /* Телефон: товар и корзина выезжают снизу как шторка */
+        .modal-overlay.sheet {
+            align-items: flex-end;
+            padding: 0
+        }
+
+        .modal-overlay.sheet .modal {
+            max-width: 600px;
+            max-height: 92vh;
+            margin: 0 auto;
+            overflow-y: auto;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding-bottom: calc(18px + env(safe-area-inset-bottom));
+            animation: sheetUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)
+        }
+
+        .modal-overlay.sheet .modal.dragging {
+            animation: none;
+            transition: none
+        }
+
+        .modal-gallery {
+            position: relative
+        }
+
+        .gal-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.45);
+            color: #fff;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            display: none
+        }
+
+        .gal-btn.prev {
+            left: 6px
+        }
+
+        .gal-btn.next {
+            right: 6px
+        }
+
+        .modal-gallery.multi .gal-btn {
+            display: block
+        }
+
+        .gal-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+            min-height: 8px
+        }
+
+        .gal-dot {
+            width: 8px;
+            height: 8px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: rgba(100, 116, 139, 0.4);
+            cursor: pointer
+        }
+
+        .gal-dot.active {
+            background: var(--primary);
+            transform: scale(1.25)
+        }
+
         .dark-mode .modal {
             background: #1e293b;
         }
@@ -821,8 +1100,9 @@
         }
 
         .modal-img {
+            display: block;
             width: 100%;
-            height: 260px;
+            height: clamp(200px, 36vh, 300px);
             object-fit: contain;
             border-radius: 12px;
             background: #fff;
@@ -846,7 +1126,7 @@
         .modal-price {
             font-size: 16px;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--price);
             text-align: right;
         }
 
@@ -1019,7 +1299,7 @@
         .cart-item-total {
             font-weight: 700;
             font-size: 14px;
-            color: var(--primary);
+            color: var(--price);
             min-width: 60px;
             text-align: right;
         }
@@ -1100,6 +1380,220 @@
         body.iphone-safari.dark-mode {
             background: #001a33 !important;
         }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 16px;
+            color: var(--text-secondary)
+        }
+
+        .empty-state button {
+            margin-top: 12px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--primary);
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        /* ===== Планшет: две колонки ===== */
+        @media (min-width: 700px) {
+            .page {
+                max-width: 960px
+            }
+
+            .header-grid {
+                max-width: 960px
+            }
+
+            .container {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            /* товар по центру, а не шторкой */
+            .modal-overlay.sheet {
+                align-items: center;
+                padding: 16px
+            }
+
+            .modal-overlay.sheet .modal {
+                border-radius: var(--radius-lg);
+                max-height: 90vh;
+                animation: pop 0.2s ease
+            }
+
+            .sheet-handle {
+                display: none
+            }
+
+            .product-modal {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                column-gap: 24px;
+                align-content: start;
+                max-width: 860px !important;
+                padding: 24px
+            }
+
+            .product-modal .modal-img {
+                height: clamp(260px, 50vh, 420px)
+            }
+
+            .product-modal .modal-row {
+                margin-top: 0
+            }
+        }
+
+        /* ===== Desktop: сетка карточек + боковая корзина ===== */
+        @media (min-width: 1024px) {
+            body {
+                padding-bottom: 40px !important
+            }
+
+            .page {
+                max-width: 1320px;
+                padding: 0 24px;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) var(--sidebar-w);
+                gap: 24px;
+                align-items: start
+            }
+
+            .header-grid {
+                max-width: 1272px
+            }
+
+            .controls-container {
+                position: sticky;
+                top: var(--header-h);
+                z-index: 90;
+                padding: 12px;
+                margin-bottom: 16px;
+                border-radius: var(--radius-lg);
+                background: var(--glass-bg);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid var(--glass-border)
+            }
+
+            /* категории на desktop переносятся на несколько строк, без горизонтального скролла */
+            .categories-wrapper {
+                flex-wrap: wrap;
+                overflow: visible;
+                padding: 2px 0
+            }
+
+            .container {
+                padding: 0;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 18px
+            }
+
+            /* вертикальная карточка */
+            .card {
+                flex-direction: column;
+                gap: 10px;
+                contain-intrinsic-size: auto 330px
+            }
+
+            .card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 14px 36px rgba(31, 38, 135, 0.22)
+            }
+
+            .card-img-container {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                padding: 0
+            }
+
+            .card-img {
+                position: absolute;
+                inset: 8px;
+                width: calc(100% - 16px);
+                height: calc(100% - 16px)
+            }
+
+            .badges {
+                top: 8px;
+                left: 8px
+            }
+
+            .badge {
+                font-size: 12px;
+                padding: 5px 8px
+            }
+
+            .card-title {
+                font-size: 16px
+            }
+
+            .card-bottom {
+                height: auto;
+                min-height: 44px;
+                gap: 8px;
+                flex-wrap: wrap;
+                align-items: center
+            }
+
+            /* нижняя панель не нужна — корзина, карта и CLICK всегда справа */
+            .bottom-panel {
+                display: none
+            }
+
+            .cart-pay-extra {
+                display: block
+            }
+
+            #cart-modal {
+                display: flex !important;
+                position: sticky;
+                inset: auto;
+                top: calc(var(--header-h) + 12px);
+                z-index: 90;
+                padding: 0;
+                background: none;
+                overflow: visible;
+                animation: none;
+                align-items: stretch
+            }
+
+            #cart-modal .modal {
+                max-width: none;
+                max-height: calc(100vh - var(--header-h) - 36px);
+                margin: 0;
+                padding: 18px;
+                background: var(--glass-bg);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-lg);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                animation: none
+            }
+
+            #cart-modal .sheet-handle,
+            #cart-modal .modal-close,
+            #cart-modal .cart-done {
+                display: none
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-delay: 0ms !important;
+                transition-duration: 0.01ms !important
+            }
+        }
     </style>
 </head>
 
@@ -1107,23 +1601,25 @@
 
     <header class="glass-panel">
         <div class="header-grid">
-            <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" class="btn-request">📋 Заказ</a>
+            <a href="https://forms.gle/PtGTZbj7RKDz5hT48" target="_blank" rel="noopener" class="btn-request"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h4"/></svg>Заказ</a>
             <div class="brand">
                 <h1>Офис Маркет</h1>
                 <span>Самообслуживание</span>
             </div>
             <div class="theme-toggle">
-                <button class="theme-toggle-btn" onclick="toggleTheme()"></button>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Переключить тему"></button>
             </div>
         </div>
     </header>
 
+    <div class="page">
+    <main>
     <div class="controls-container">
         <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="search-input" placeholder="Поиск товаров..."
+            <span class="search-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+            <input type="search" class="search-input" id="search-input" placeholder="Поиск товаров..." aria-label="Поиск товаров"
                 oninput="handleSearch()">
-            <select id="sort-select" class="sort-select" onchange="setSort(this.value)">
+            <select id="sort-select" class="sort-select" aria-label="Сортировка" onchange="setSort(this.value)">
                 <option value="default">По умолчанию</option>
                 <option value="new">Новые товары</option>
                 <option value="cheaper">Дешевле</option>
@@ -1137,19 +1633,58 @@
     </div>
 
     <div class="container" id="products-list"></div>
+    </main>
 
-    <div class="bottom-sheet glass-panel">
-        <div class="total-row">
-            <div>
-                <span class="total-label">К оплате:</span>
+    <!-- Корзина: на телефоне и планшете открывается шторкой, на desktop — постоянная колонка справа -->
+    <div id="cart-modal" class="modal-overlay sheet" aria-hidden="true"
+        onclick="if(event.target===this) closeCartModal()">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+            <div class="sheet-handle" id="cart-handle"></div>
+            <div class="cart-head">
+                <h2 id="cart-title">Ваш заказ</h2>
+                <button class="modal-close" aria-label="Закрыть" onclick="closeCartModal()">✕</button>
             </div>
 
-            <div class="total-amount" id="total-price-container" onclick="openCartModal()">
-                <span id="total-price">0 сум</span>
+            <div id="cart-list"></div>
 
+            <div class="cart-pay" id="cart-pay">
+                <div class="total-row" id="cart-total-row">
+                    <span style="font-weight:600;">К оплате:</span>
+                    <span id="cart-total-display" style="font-size:18px; font-weight:800; color:var(--price);">0 сум</span>
+                    <button class="btn-copy-total" onclick="copyTotal()" aria-label="Скопировать сумму"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button>
+                </div>
+                <!-- карта и CLICK в шторке нужны только на desktop: на телефоне они в нижней панели -->
+                <div class="cart-pay-extra">
+                <div class="pay-card" onclick="copyCard()">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:10px; opacity:0.7;">
+                        <span>КАРТА</span><span>НАЖМИТЕ ЧТОБЫ СКОПИРОВАТЬ</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="card-num" style="white-space: nowrap;">9860 2466 0280 6837</span>
+                        <span class="copy-tag">COPY</span>
+                    </div>
+                </div>
+                <button class="btn-pay-click" onclick="goToClickPayment()">Оплатить через CLICK</button>
+                <!-- <button class="btn-pay-click" onclick="goToPaynetPayment()" style="background: #10b14d; --btn-glow: rgba(30, 218, 92, 0.4); margin-top: 12px;">Оплатить через QR</button> -->
+                </div>
+                <div class="cart-buttons" id="cart-buttons">
+                    <button id="btn-clear-cart" class="btn-pay-click" style="flex: 1; background: #ef4444;"
+                        onclick="clearCart()">Очистить</button>
+                    <button class="btn-pay-click cart-done" style="flex: 1;"
+                        onclick="closeCartModal()">Готово</button>
+                </div>
             </div>
-            <button class="btn-copy-total" onclick="copyTotal()">📋</button>
         </div>
+    </div>
+    </div>
+
+    <!-- Нижняя панель (телефон / планшет): сумма, карта и CLICK всегда на виду -->
+    <div class="bottom-panel glass-panel">
+        <button type="button" class="cart-bar" id="cart-bar" onclick="openCartModal()" aria-label="Открыть корзину">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.5l2.3 11h10.4l2-8H6.5"/><circle cx="9.5" cy="19.5" r="1.2"/><circle cx="17" cy="19.5" r="1.2"/></svg>
+            <span class="cart-bar-label">Корзина<span class="cart-bar-count" id="cart-count">0</span></span>
+            <span class="total-amount" id="total-price-container"><span id="total-price">0 сум</span></span>
+        </button>
         <div class="pay-card" onclick="copyCard()">
             <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:10px; opacity:0.7;">
                 <span>КАРТА</span><span>НАЖМИТЕ ЧТОБЫ СКОПИРОВАТЬ</span>
@@ -1160,40 +1695,9 @@
             </div>
         </div>
         <button class="btn-pay-click" onclick="goToClickPayment()">Оплатить через CLICK</button>
-
-        <!-- <button class="btn-pay-click" onclick="goToPaynetPayment()" style="background: #10b14d; --btn-glow: rgba(30, 218, 92, 0.4); margin-top: 12px;">Оплатить через QR</button> -->
     </div>
 
-    <div class="toast" id="toast">✅ Скопировано!</div>
-    <div id="cart-modal" class="modal-overlay" style="z-index: 1100;" aria-hidden="true"
-        onclick="if(event.target===this) closeCartModal()">
-        <div class="modal" role="dialog" aria-modal="true"
-            style="max-height: 80vh; display: flex; flex-direction: column;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                <h2 style="margin:0; font-size: 20px;">Ваш заказ 🛒</h2>
-                <button class="modal-close" style="position:static; box-shadow:none; padding: 6px 10px;"
-                    onclick="closeCartModal()">✕</button>
-            </div>
-
-            <div id="cart-list" style="overflow-y: auto; flex: 1; padding-right: 4px;">
-            </div>
-
-            <div style="border-top: 1px solid rgba(0,0,0,0.1); margin-top: 12px; padding-top: 12px;">
-                <div class="total-row" style="margin-bottom: 12px;">
-                    <span style="font-weight:600;">Итого:</span>
-                    <span id="cart-total-display" style="font-size:18px; font-weight:800; color:var(--primary);">0
-                        сум</span>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button id="btn-clear-cart" class="btn-pay-click"
-                        style="flex: 1; background: #ef4444; padding: 12px; font-size: 14px;"
-                        onclick="clearCart()">Очистить</button>
-                    <button class="btn-pay-click" style="flex: 2; padding: 12px;"
-                        onclick="closeCartModal()">Готово</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="toast" id="toast" role="status">Скопировано!</div>
     <div id="confirm-modal" class="modal-overlay" style="z-index: 1200;"
         onclick="if(event.target===this) closeConfirmModal()">
         <div class="modal" style="max-width: 300px; text-align: center; padding: 25px;">
@@ -1397,10 +1901,14 @@
             renderProducts();
             loadTheme();
             calcTotal();
+            renderCartItems();
+            enableSheetSwipe('cart-handle', closeCartModal);
 
             const categoriesWrapper = document.getElementById('categories-container');
             if (categoriesWrapper) {
                 categoriesWrapper.addEventListener('wheel', (event) => {
+                    // если категории не скроллятся (desktop), не перехватываем колесо у страницы
+                    if (categoriesWrapper.scrollWidth <= categoriesWrapper.clientWidth) return;
                     if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
                         event.preventDefault();
                         categoriesWrapper.scrollLeft += event.deltaY;
@@ -1452,11 +1960,20 @@
                 `<button type="button" class="cat-pill ${cat.id === activeCategory ? 'active' : ''}" onclick="setCategory('${cat.id}')">${cat.name}</button>`
             ).join('');
             const activePill = container.querySelector('.cat-pill.active');
-            if (activePill) {
+            // на desktop категории переносятся на строки — прокручивать нечего
+            if (activePill && container.scrollWidth > container.clientWidth) {
                 activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }
         };
         const setCategory = (id) => { activeCategory = (activeCategory === id) ? 'all' : id; renderCategories(); renderProducts(); };
+        const resetFilters = () => {
+            searchQuery = '';
+            activeCategory = 'all';
+            document.getElementById('search-input').value = '';
+            renderCategories();
+            renderProducts();
+        };
+
         let searchTimer;
         const handleSearch = () => {
             clearTimeout(searchTimer);
@@ -1482,7 +1999,7 @@
             const filtered = products.filter(p => (activeCategory === 'all' || p.category === activeCategory) && matchesSearch(p));
 
             if (filtered.length === 0) {
-                return container.innerHTML = '<div style="text-align:center;padding:40px;opacity:0.6;">Ничего не найдено 🤷‍♂️</div>';
+                return container.innerHTML = '<div class="empty-state">Ничего не найдено 🤷‍♂️<br><button type="button" onclick="resetFilters()">Сбросить поиск</button></div>';
             }
 
             // применяем сортировку поверх отфильтрованного массива
@@ -1507,9 +2024,14 @@
                 const newClass = item.isNew ? ' new-product' : '';
                 const stockClass = item.outOfStock ? ' out-of-stock' : '';
                 const discountClass = (item.oldprice && !item.outOfStock) ? ' discount-card' : '';
-                const newBadge = item.isNew ? '<div class="new-badge">Новинка</div>' : '';
-                const outBadge = item.outOfStock ? '<div class="out-badge">Нет в наличии</div>' : '';
-                const discountBadge = (item.oldprice && !item.outOfStock) ? `<div class="discount-badge">СКИДКА</div>` : '';
+                // бейджи в углу фото: скидка в процентах и «Новинка»
+                let badgesHtml = '';
+                if (item.oldprice && !item.outOfStock) {
+                    const pct = Math.round((1 - item.price / item.oldprice) * 100);
+                    badgesHtml += `<span class="badge badge-sale">${pct > 0 ? '−' + pct + '%' : 'Скидка'}</span>`;
+                }
+                if (item.isNew && !item.outOfStock) badgesHtml += '<span class="badge badge-new">Новинка</span>';
+                if (badgesHtml) badgesHtml = `<div class="badges">${badgesHtml}</div>`;
 
                 // short description для списка (поддерживаем backward-compat с desc)
                 const shortText = item.shortDesc || item.short_desc || item.desc || '';
@@ -1540,11 +2062,8 @@
 
                 // добавляем onclick только на картинку и текст, не на кнопку/счетчик
                 cardsHtml += `
-                <div class="glass-panel card${newClass}${stockClass}${discountClass}" id="product-${item.id}">
-                    ${newBadge}
-                    ${outBadge}
-                    ${discountBadge}
-                    <div class="card-img-container" onclick="openProductModal(${item.id})"><img src="${item.img}" class="card-img" width="75" height="75" decoding="async" ${idx < 6 ? 'fetchpriority="high"' : 'loading="lazy"'} data-product-id="${item.id}" onerror="handleCardImgError(this)"></div>
+                <div class="glass-panel card${newClass}${stockClass}${discountClass}" id="product-${item.id}" style="--i:${Math.min(idx, 12)}">
+                    <div class="card-img-container" onclick="openProductModal(${item.id})">${badgesHtml}<img src="${item.img}" alt="${item.name.replace(/"/g, '&quot;')}" class="card-img" width="75" height="75" decoding="async" ${idx < 6 ? 'fetchpriority="high"' : 'loading="lazy"'} data-product-id="${item.id}" onload="imgLoaded(this)" onerror="handleCardImgError(this)"></div>
                     <div class="card-info" onclick="openProductModal(${item.id})">
                         <div><div class="card-title">${item.name}</div><div class="card-desc">${shortText}</div></div>
                         <div class="card-bottom">
@@ -1559,27 +2078,117 @@
             // Добавляем модальное окно в DOM (вставляем один раз)
             if (!document.getElementById('product-modal')) {
                 const modalHtml = `
-                <div id="product-modal" class="modal-overlay" aria-hidden="true" onclick="if(event.target===this) closeProductModal()">
-                    <div class="modal" role="dialog" aria-modal="true">
+                <div id="product-modal" class="modal-overlay sheet" aria-hidden="true" onclick="if(event.target===this) closeProductModal()">
+                    <div class="modal product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+                        <div class="sheet-handle" id="product-handle"></div>
                         <div id="modal-badge" class="modal-badge" style="display:none"></div>
-                        <button class="modal-close" onclick="closeProductModal()">✕</button>
-                        <img id="modal-img" class="modal-img" src="" alt="">
-                        <div class="modal-row">
-                            <div>
-                                <div id="modal-title" class="modal-title"></div>
-                                <div id="modal-weight" class="modal-weight"></div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div id="modal-oldprice" class="modal-oldprice"></div>
-                                <div id="modal-price" class="modal-price"></div>
-                            </div>
+                        <button class="modal-close" aria-label="Закрыть" onclick="closeProductModal()">✕</button>
+                        <div class="modal-gallery" id="modal-gallery">
+                            <img id="modal-img" class="modal-img" src="" alt="" onerror="modalImgError()">
+                            <button type="button" class="gal-btn prev" aria-label="Предыдущее фото" onclick="stepModalImg(-1)">‹</button>
+                            <button type="button" class="gal-btn next" aria-label="Следующее фото" onclick="stepModalImg(1)">›</button>
+                            <div class="gal-dots" id="gal-dots"></div>
                         </div>
-                        <div id="modal-full" class="modal-full"></div>
+                        <div class="modal-body">
+                            <div class="modal-row">
+                                <div>
+                                    <div id="modal-title" class="modal-title"></div>
+                                    <div id="modal-weight" class="modal-weight"></div>
+                                </div>
+                                <div style="text-align:right;">
+                                    <div id="modal-oldprice" class="modal-oldprice"></div>
+                                    <div id="modal-price" class="modal-price"></div>
+                                </div>
+                            </div>
+                            <div id="modal-full" class="modal-full"></div>
+                        </div>
                     </div>
                 </div>`;
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
+                setupProductModalGestures();
             }
         };
+
+        // карточка: фото загрузилось — убираем «скелетон» и плавно показываем
+        const imgLoaded = (image) => {
+            image.classList.add('loaded');
+            image.parentElement.classList.add('img-ready');
+        };
+
+        // --- галерея в модальном окне товара ---
+        let modalImages = [];
+        let modalImgIdx = 0;
+
+        const renderModalImg = () => {
+            const img = document.getElementById('modal-img');
+            const src = modalImages[modalImgIdx] || '';
+            if (img.getAttribute('src') !== src) img.src = src;
+            document.getElementById('modal-gallery').classList.toggle('multi', modalImages.length > 1);
+            document.getElementById('gal-dots').innerHTML = modalImages.length > 1
+                ? modalImages.map((_, i) => `<button type="button" class="gal-dot${i === modalImgIdx ? ' active' : ''}" aria-label="Фото ${i + 1}" onclick="setModalImg(${i})"></button>`).join('')
+                : '';
+        };
+        const setModalImg = (i) => { modalImgIdx = i; renderModalImg(); };
+        const stepModalImg = (d) => {
+            if (modalImages.length < 2) return;
+            setModalImg((modalImgIdx + d + modalImages.length) % modalImages.length);
+        };
+        // нерабочее фото убираем из галереи
+        const modalImgError = () => {
+            if (modalImages.length < 2) return;
+            modalImages.splice(modalImgIdx, 1);
+            modalImgIdx = Math.min(modalImgIdx, modalImages.length - 1);
+            renderModalImg();
+        };
+
+        // свайп влево/вправо по фото и свайп вниз за «ручку» закрывают/листают
+        const enableSheetSwipe = (handleId, closeFn) => {
+            const handle = document.getElementById(handleId);
+            if (!handle) return;
+            const sheet = handle.closest('.modal');
+            let startY = null;
+            handle.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; sheet.classList.add('dragging'); }, { passive: true });
+            handle.addEventListener('touchmove', (e) => {
+                if (startY === null) return;
+                const dy = Math.max(0, e.touches[0].clientY - startY);
+                sheet.style.transform = `translateY(${dy}px)`;
+            }, { passive: true });
+            const end = (e) => {
+                if (startY === null) return;
+                const dy = (e.changedTouches?.[0]?.clientY ?? startY) - startY;
+                startY = null;
+                sheet.classList.remove('dragging');
+                sheet.style.transform = '';
+                if (dy > 80) closeFn();
+            };
+            handle.addEventListener('touchend', end);
+            handle.addEventListener('touchcancel', end);
+        };
+
+        const setupProductModalGestures = () => {
+            const gallery = document.getElementById('modal-gallery');
+            let startX = null;
+            gallery.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+            gallery.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                startX = null;
+                if (Math.abs(dx) > 40) stepModalImg(dx < 0 ? 1 : -1);
+            });
+            enableSheetSwipe('product-handle', closeProductModal);
+        };
+
+        // блокируем прокрутку страницы под открытыми окнами
+        const syncScrollLock = () => {
+            document.body.style.overflow = document.querySelector('.modal-overlay.visible') ? 'hidden' : '';
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (document.getElementById('confirm-modal').classList.contains('visible')) closeConfirmModal();
+            else if (document.getElementById('product-modal')?.classList.contains('visible')) closeProductModal();
+            else if (document.getElementById('cart-modal').classList.contains('visible')) closeCartModal();
+        });
 
 
 
@@ -1593,6 +2202,7 @@
                 image.src = urls[next];
             } else {
                 image.onerror = null;
+                image.parentElement.classList.add('img-failed');
             }
         };
 
@@ -1663,11 +2273,8 @@
                 openProductModal(id, true);
             }
 
-            // 3. Если открыта корзина — перерисовываем список внутри корзины
-            const cartModal = document.getElementById('cart-modal');
-            if (cartModal && cartModal.classList.contains('visible')) {
-                renderCartItems();
-            }
+            // 3. Корзина (шторка или боковая колонка) всегда перерисовывается
+            renderCartItems();
 
             // 4. Пересчитываем общую сумму
             calcTotal();
@@ -1710,7 +2317,11 @@
             if (!p) return;
             const modal = document.getElementById('product-modal');
             if (!modal) return;
-            document.getElementById('modal-img').src = p.img || '';
+            if (!updateOnly) {
+                modalImages = (p.images?.length ? [...p.images] : [p.img]).filter(Boolean);
+                modalImgIdx = 0;
+            }
+            renderModalImg();
             document.getElementById('modal-title').innerText = p.name || '';
             document.getElementById('modal-weight').innerText = p.shortDesc || p.short_desc || p.desc || '';
             document.getElementById('modal-price').innerText = formatPrice(p.price) + ' сум';
@@ -1779,6 +2390,7 @@
             if (!updateOnly) {
                 modal.classList.add('visible');
                 modal.setAttribute('aria-hidden', 'false');
+                syncScrollLock();
             }
         };
 
@@ -1787,6 +2399,7 @@
             if (!modal) return;
             modal.classList.remove('visible');
             modal.setAttribute('aria-hidden', 'true');
+            syncScrollLock();
         };
 
         // НОВАЯ ФУНКЦИЯ ДЛЯ АНИМАЦИИ
@@ -1823,6 +2436,10 @@
             }
 
             document.getElementById('total-price').innerText = formatPrice(total) + " сум";
+
+            // плашка корзины: количество штук и видимость
+            const count = Object.values(cart).reduce((sum, n) => sum + n, 0);
+            document.getElementById('cart-count').innerText = count;
         };
 
         const showToast = (msg) => {
@@ -1871,12 +2488,14 @@
             const modal = document.getElementById('cart-modal');
             modal.classList.add('visible');
             modal.setAttribute('aria-hidden', 'false');
+            syncScrollLock();
         };
 
         const closeCartModal = () => {
             const modal = document.getElementById('cart-modal');
             modal.classList.remove('visible');
             modal.setAttribute('aria-hidden', 'true');
+            syncScrollLock();
         };
 
         // Добавьте эту функцию в ваш <script>
@@ -1884,11 +2503,13 @@
         const clearCart = () => {
             if (Object.keys(cart).length === 0) return;
             document.getElementById('confirm-modal').classList.add('visible');
+            syncScrollLock();
         };
 
         // Закрыть окно подтверждения
         const closeConfirmModal = () => {
             document.getElementById('confirm-modal').classList.remove('visible');
+            syncScrollLock();
         };
 
         // Сама очистка (выполняется при нажатии "Очистить" в модалке)
@@ -1907,6 +2528,7 @@
 
             // Закрываем окно подтверждения и корзину
             closeConfirmModal();
+            closeCartModal();
 
             showToast("🧹 Корзина очищена");
         };
@@ -1915,16 +2537,20 @@
         const renderCartItems = () => {
             const container = document.getElementById('cart-list');
             const cartIds = Object.keys(cart).map(Number);
-            const clearBtn = document.getElementById('btn-clear-cart');
+            const totalRow = document.getElementById('cart-total-row');
+            const cartButtons = document.getElementById('cart-buttons');
 
             if (cartIds.length === 0) {
                 container.innerHTML = '<div class="empty-cart-msg">Корзина пуста 😔<br>Добавьте что-нибудь вкусненькое!</div>';
                 document.getElementById('cart-total-display').innerText = '0 сум';
-                if (clearBtn) clearBtn.style.display = 'none'; // Скрываем кнопку, если пусто
+                // сумма и кнопки очистки не нужны, карта и CLICK (desktop) остаются
+                totalRow.style.display = 'none';
+                cartButtons.style.display = 'none';
                 return;
             }
 
-            if (clearBtn) clearBtn.style.display = 'block'; // Показываем кнопку
+            totalRow.style.display = '';
+            cartButtons.style.display = '';
 
             let html = '';
             let total = 0;
@@ -1937,7 +2563,7 @@
 
                 html += `
                 <div class="cart-item">
-                    <img src="${p.img}" class="cart-img">
+                    <img src="${p.img}" alt="" class="cart-img" width="50" height="50" loading="lazy" decoding="async">
                     <div class="cart-details">
                         <div class="cart-name">${p.name}</div>
                         <div class="cart-price-calc">${qty} x ${formatPrice(p.price)} = <strong>${formatPrice(lineTotal)}</strong></div>
