@@ -8,7 +8,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="img/cart.png">
     <link rel="icon" type="image/png" sizes="16x16" href="img/cart.png">
     <title>Офис Маркет 🛒</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.uzum.uz" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         /* CSS в одну строку (сжатый) для основных элементов */
         :root {
@@ -327,7 +330,12 @@
             gap: 14px;
             position: relative;
             overflow: hidden;
-            transition: transform 0.2s
+            transition: transform 0.2s;
+            /* blur на десятках карточек сильно тормозит прокрутку; пропускаем рендер карточек вне экрана */
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 115px
         }
 
         /* Обводка и бейджи для новых продуктов */
@@ -1449,7 +1457,14 @@
             }
         };
         const setCategory = (id) => { activeCategory = (activeCategory === id) ? 'all' : id; renderCategories(); renderProducts(); };
-        const handleSearch = () => { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderProducts(); };
+        let searchTimer;
+        const handleSearch = () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                searchQuery = document.getElementById('search-input').value.toLowerCase();
+                renderProducts();
+            }, 150);
+        };
         const setSort = (val) => { currentSort = val; document.getElementById('sort-select').value = val; renderProducts(); };
 
         // helper: поиск по имени, описанию и цене (включая oldprice)
@@ -1485,7 +1500,9 @@
             const outStock = result.filter(r => r.outOfStock);
             result = [...inStock, ...outStock];
 
-            result.forEach(item => {
+            // собираем HTML одной строкой и вставляем за один раз (раньше innerHTML += перепарсивал весь список на каждом товаре)
+            let cardsHtml = '';
+            result.forEach((item, idx) => {
                 const qty = cart[item.id] || 0;
                 const newClass = item.isNew ? ' new-product' : '';
                 const stockClass = item.outOfStock ? ' out-of-stock' : '';
@@ -1522,12 +1539,12 @@
                 }
 
                 // добавляем onclick только на картинку и текст, не на кнопку/счетчик
-                container.innerHTML += `
+                cardsHtml += `
                 <div class="glass-panel card${newClass}${stockClass}${discountClass}" id="product-${item.id}">
                     ${newBadge}
                     ${outBadge}
                     ${discountBadge}
-                    <div class="card-img-container" onclick="openProductModal(${item.id})"><img src="${item.img}" class="card-img" data-product-id="${item.id}" onerror="handleCardImgError(this)"></div>
+                    <div class="card-img-container" onclick="openProductModal(${item.id})"><img src="${item.img}" class="card-img" width="75" height="75" decoding="async" ${idx < 6 ? 'fetchpriority="high"' : 'loading="lazy"'} data-product-id="${item.id}" onerror="handleCardImgError(this)"></div>
                     <div class="card-info" onclick="openProductModal(${item.id})">
                         <div><div class="card-title">${item.name}</div><div class="card-desc">${shortText}</div></div>
                         <div class="card-bottom">
@@ -1537,6 +1554,7 @@
                     </div>
                 </div>`;
             });
+            container.innerHTML = cardsHtml;
 
             // Добавляем модальное окно в DOM (вставляем один раз)
             if (!document.getElementById('product-modal')) {
@@ -1579,7 +1597,12 @@
         };
 
         const rotateProductImages = () => {
+            // не крутим фото, пока вкладка скрыта
+            if (document.hidden) return;
             document.querySelectorAll('.card-img[data-product-id]').forEach(image => {
+                // и только для карточек, которые сейчас на экране
+                const rect = image.getBoundingClientRect();
+                if (rect.bottom < 0 || rect.top > window.innerHeight) return;
                 const product = products.find(item => item.id === Number(image.dataset.productId));
                 const imageUrls = product?.images?.length >= 2
                     ? product.images
