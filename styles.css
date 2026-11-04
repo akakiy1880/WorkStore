@@ -4,7 +4,7 @@
   --ground: #EEF1F5; --paper: #FFFFFF; --paper-2: #F3F5F8; --tile: #F4F6F9;
   --ink: #10151C; --muted: #566070; --line: #C9D0DA;
   --accent: #0A63DB; --on-accent: #FFFFFF; --accent-soft: #E1EDFF; --accent-ink: #0A52B8;
-  --sale: #C2410C; --on-sale: #FFFFFF;
+  --sale: #C2410C; --on-sale: #FFFFFF; --sale-soft: #FFF1E8; --new-tile: #DCE9FF; --stamp: #A63409;
   --shadow: 0 -8px 24px rgba(16, 21, 28, .10);
   --scrim: rgba(16, 21, 28, .45);
   --photo-filter: brightness(1.08);
@@ -14,7 +14,7 @@
   --ground: #0C0F14; --paper: #181D25; --paper-2: #2A3240; --tile: #CBD2DC;
   --ink: #EDF1F6; --muted: #A0ABBA; --line: #434F5E;
   --accent: #5AA5FF; --on-accent: #04162C; --accent-soft: #16294A; --accent-ink: #A6CDFF;
-  --sale: #FF9E66; --on-sale: #2A1203;
+  --sale: #FF9E66; --on-sale: #2A1203; --sale-soft: #2A1C14; --new-tile: #B9CDF0; --stamp: #A63409;
   --shadow: 0 -8px 24px rgba(0, 0, 0, .5);
   --scrim: rgba(0, 0, 0, .6);
   --photo-filter: brightness(1.08);
@@ -104,8 +104,31 @@ body.is-locked { overflow: hidden; }
 .is-sale .price { color: var(--sale); }
 .badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 4px; pointer-events: none; }
 .badge { height: 22px; padding: 0 7px; border-radius: 7px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
-.badge-sale { background: var(--sale); color: var(--on-sale); }
-.badge-new { background: var(--accent); color: var(--on-accent); }
+.badge-new { position: relative; overflow: hidden; gap: 4px; background: var(--accent); color: var(--on-accent); }
+.badge-new .ico { width: 12px; height: 12px; fill: currentColor; stroke: none; }
+.badge-new::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: 0; width: 18px; background: rgba(255, 255, 255, .6); transform: translateX(-30px) skewX(-20deg); animation: glint 4.5s var(--ease) infinite; }
+@keyframes glint { 0% { transform: translateX(-30px) skewX(-20deg); } 22%, 100% { transform: translateX(110px) skewX(-20deg); } }
+
+/* скидка: купон с перфорацией и чернильным штампом */
+.card.is-sale { background: var(--sale-soft); --cut: calc(var(--photo) + 13px);
+  -webkit-mask: radial-gradient(circle 8px at 0 var(--cut), #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 8px at 100% var(--cut), #0000 97%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 8px at 0 var(--cut), #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 8px at 100% var(--cut), #0000 97%, #000) right / 51% 100% no-repeat; }
+.card.is-sale::after { content: ""; position: absolute; left: 14px; right: 14px; top: var(--cut); border-top: 2px dashed var(--sale); opacity: .5; pointer-events: none; }
+.is-sale .card-name { margin-top: 16px; }
+.stamp { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; padding: 3px 6px 2px; margin: -4px 0 0 -4px; transform-origin: top left; border: 2px solid var(--stamp); border-radius: 8px; color: var(--stamp); line-height: 1; transform: rotate(-8deg) scale(.92); animation: stamp .42s var(--spring) both; animation-delay: calc(var(--i, 0) * 35ms + 280ms); }
+.stamp small { font-size: 9px; font-weight: 800; letter-spacing: .06em; }
+.stamp b { font-size: 15px; font-weight: 800; }
+@keyframes stamp { from { opacity: 0; transform: rotate(-16deg) scale(1.9); } 60% { opacity: 1; } }
+.card-old { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.save { font-size: 12px; font-weight: 700; color: var(--sale); white-space: nowrap; }
+
+/* новинка: синяя витрина с искрами */
+.card.is-new { box-shadow: inset 0 0 0 2px var(--accent); }
+.is-new .photo, .product.is-new .product-photo { position: relative; background-color: var(--new-tile); }
+.is-new .photo:not(.is-failed)::before, .is-new .photo:not(.is-failed)::after { content: ""; position: absolute; width: 16px; height: 16px; background: var(--accent); clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); animation: twinkle 2.6s ease-in-out infinite; }
+.is-new .photo::before { right: 16px; top: 18px; }
+.is-new .photo::after { left: 18px; bottom: 26px; width: 11px; height: 11px; animation-delay: 1.3s; }
+@keyframes twinkle { 0%, 100% { opacity: .15; transform: scale(.5) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
 .is-out .photo img { filter: grayscale(1) var(--photo-filter); opacity: .5; }
 .is-out .card-name, .is-out .price { color: var(--muted); }
 .out-tag { position: absolute; left: 12px; right: 12px; top: calc(var(--photo) - 30px); height: 26px; border-radius: 8px; background: #10151C; color: #FFFFFF; font-size: 12px; font-weight: 600; display: grid; place-items: center; }
@@ -245,6 +268,7 @@ body.is-locked { overflow: hidden; }
 @media (max-width: 359px) {
   .copy-sum { width: 124px; padding: 0 8px; gap: 4px; font-size: 12px; }
   .card-price { margin-right: 46px; }
+  .card-old .save { display: none; }
   .line { grid-template-columns: minmax(0, 1fr) 72px; }
   .line-main { grid-column: 1 / -1; }
   .pay-sum { font-size: 21px; }
