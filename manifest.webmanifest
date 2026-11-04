@@ -5,8 +5,8 @@
   "lang": "ru",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#bfdbfe",
-  "theme_color": "#087bff",
+  "background_color": "#EEF1F5",
+  "theme_color": "#EEF1F5",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
