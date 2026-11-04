@@ -10,7 +10,8 @@ const EASE = 'cubic-bezier(.2,.7,.2,1)';
 
 const ICONS = {
     plus: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
-    minus: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>'
+    minus: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>',
+    star: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.8 8.2L23 12l-8.2 2.8L12 23l-2.8-8.2L1 12l8.2-2.8z"/></svg>'
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -29,6 +30,7 @@ const plural = (n) => {
 // --- данные ---
 
 const hasDiscount = (p) => !!p.oldprice && !p.outOfStock;
+const isFresh = (p) => !!p.isNew && !p.outOfStock;
 
 // Порядок витрины: скидки, новинки, остальное, в конце то, чего нет в наличии
 const rank = (p) => {
@@ -81,14 +83,18 @@ const cardControlHtml = (p) => {
     return stepperHtml(p, 'on-card', `<span class="step-mid mono"><span class="qty">${qty}</span><small>${formatPrice(p.price)}</small></span>`);
 };
 
+const badgesHtml = (p) => {
+    const percent = hasDiscount(p) ? Math.round((1 - p.price / p.oldprice) * 100) : 0;
+    return [
+        hasDiscount(p) ? `<span class="stamp"><small>СКИДКА</small>${percent > 0 ? `<b class="mono">−${percent}%</b>` : ''}</span>` : '',
+        isFresh(p) ? `<span class="badge badge-new">${ICONS.star}Новинка</span>` : ''
+    ].join('');
+};
+
 const cardHtml = (p, index) => {
     const discount = hasDiscount(p);
-    const percent = discount ? Math.round((1 - p.price / p.oldprice) * 100) : 0;
-    const badges = [
-        discount ? `<span class="badge badge-sale">${percent > 0 ? `−${percent}%` : 'Скидка'}</span>` : '',
-        p.isNew && !p.outOfStock ? '<span class="badge badge-new">Новинка</span>' : ''
-    ].join('');
-    const classes = ['card', discount && 'is-sale', p.outOfStock && 'is-out'].filter(Boolean).join(' ');
+    const badges = badgesHtml(p);
+    const classes = ['card', discount && 'is-sale', isFresh(p) && 'is-new', p.outOfStock && 'is-out'].filter(Boolean).join(' ');
     const loading = index < 6 ? 'fetchpriority="high"' : 'loading="lazy"';
 
     return `
@@ -98,7 +104,7 @@ const cardHtml = (p, index) => {
             <span class="card-name">${esc(p.name)}</span>
             <span class="card-desc">${esc(p.desc)}</span>
             <span class="card-price">
-                ${discount ? `<s class="old mono">${formatPrice(p.oldprice)}</s>` : ''}
+                ${discount ? `<span class="card-old"><s class="old mono">${formatPrice(p.oldprice)}</s><span class="save mono">−${formatPrice(p.oldprice - p.price)}</span></span>` : ''}
                 <span class="card-price-now"><span class="price mono">${formatPrice(p.price)}</span> <span class="unit">сум</span></span>
             </span>
         </button>
@@ -479,10 +485,13 @@ const openProduct = (id) => {
     $('#product-size').textContent = p.desc;
     $('#product-price').textContent = formatPrice(p.price);
     $('#product-old').textContent = discount ? formatPrice(p.oldprice) : '';
+    $('#product-save').textContent = discount ? `Выгода ${formatPrice(p.oldprice - p.price)} сум` : '';
+    $('#product-badges').innerHTML = badgesHtml(p);
     $('#product-text').textContent = p.fullDesc || p.desc;
     $('#product-facts').innerHTML = factsHtml(p);
     $('#product').dataset.id = id;
     $('#product').classList.toggle('is-sale', discount);
+    $('#product').classList.toggle('is-new', isFresh(p));
     $('#product').scrollTop = 0;
     renderProductControl();
     openOverlay('product', $('#product-close'));
